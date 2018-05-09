@@ -27,10 +27,21 @@ public class Step1_2_2 {
 		}
 		
 		Step1_2_2 step = new Step1_2_2();
+		step.testBoolean();
 		step.charTest();
 		step.stringTest();
 	}
 
+	public void testBoolean() {
+		char a = 'a';
+		char b = 'b';
+
+		System.out.println("'a' = 'a' = " + ('a' == a ));
+		System.out.println("'a' = 'b' = " + ('a' == b ));
+		System.out.println("\"文字\".equals(\"文字\")" + "文字".equals("文字"));
+		String ttt = "ttt";
+		System.out.println("ttt.equals(\"ttt\")" + "ttt".equals(ttt));
+	}
 	/**
 	 * char型のテストです。
 	 */
