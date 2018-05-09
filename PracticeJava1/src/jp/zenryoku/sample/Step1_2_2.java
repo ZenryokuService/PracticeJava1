@@ -8,10 +8,24 @@ public class Step1_2_2 {
 	public static void main(String[] args) throws Exception{
 		// プログラム引数を取得する
 		System.out.println("プログラム引数１番目" + args[0]);
-		int input = System.in.read();
+		byte[] input = new byte[5]; // ５文字
 		// 入力するタイミングがちょっとわかりづらい
 		// コンソールをクリックして何か入力してください
-		System.out.println(input);
+		System.in.read(input);
+		System.out.println("入力: " + input);
+		int count = 0;
+//		while ((c =  != -1) {
+//			System.out.print(c);
+//			count++;
+//		}
+		String in = new String(input);
+		System.out.println("入力した文字は: " + in + " です");
+		if ("tiger".equals(in)) {
+			System.out.println("タイガー！アカパ");
+		} else {
+			System.out.println("トラじゃねーな...");
+		}
+		
 		Step1_2_2 step = new Step1_2_2();
 		step.charTest();
 		step.stringTest();
