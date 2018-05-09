@@ -5,7 +5,13 @@ package jp.zenryoku.sample;
  * @author takunoji
  */
 public class Step1_2_2 {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
+		// プログラム引数を取得する
+		System.out.println("プログラム引数１番目" + args[0]);
+		int input = System.in.read();
+		// 入力するタイミングがちょっとわかりづらい
+		// コンソールをクリックして何か入力してください
+		System.out.println(input);
 		Step1_2_2 step = new Step1_2_2();
 		step.charTest();
 		step.stringTest();
