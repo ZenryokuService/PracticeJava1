@@ -15,13 +15,21 @@ public class JavaDocList {
 	List<String> linkedList = null;
 	List<String> vector = null;
 
-	public static void main(String[] argd) {
+	/**
+	 * メインメソッド
+	 * @param args プログラム引数
+	 */
+	public static void main(String[] args) {
 		JavaDocList test = new JavaDocList();
 		test.test01();
 		test.test02();
 		test.test03();
 	}
 
+	/**
+	 * コンストラクタ<BR>
+	 * テスト実行時に使用するリストに値を設定する
+	 */
 	public JavaDocList() {
 		arrayList = new ArrayList<>();
 		linkedList = new LinkedList<>();
@@ -49,7 +57,7 @@ public class JavaDocList {
 	}
 
 	/**
-	 * 追加機能
+	 * Listの追加機能
 	 */
 	public void test02() {
 		System.out.println("*** Test02 ***");
@@ -57,11 +65,12 @@ public class JavaDocList {
 		arrayList.add("test");
 		// リストインターフェースを実装しているもの全てを丸のまま追加する
 		arrayList.addAll(vector);
+		// forEach(Listの中身を引数「str」とし、コンソールに表示
 		arrayList.stream().forEach(str -> System.out.println(str)); // 配列
 	}
 
 	/**
-	 * チェック機能
+	 * Listのチェック機能
 	 */
 	public void test03() {
 		System.out.println("*** Test03 ***");
