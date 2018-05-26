@@ -3,6 +3,8 @@ package jp.zenryoku.javadoc.util;
 import java.io.IOException;
 
 /**
+ * コミットの手違いがあり「javadoc.util」の中にありますが<BR>
+ * このクラスは「java.lang.System」です。<BR>
  * JavaDocの読解用のクラス<BR>
  * 記載内容を理解するためのソースを記載する
  * @author takunoji
