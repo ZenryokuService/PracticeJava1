@@ -5,6 +5,10 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * コマンドラインRPGのメインクラス</br>
@@ -24,8 +28,6 @@ public class RpgMain {
 	public static final String TERMINATE_GAME = "bye";
 	/** 入力を受付るオブジェクト */
 	private BufferedReader read;
-	/** 出力用オブジェクト */
-	private BufferedWriter write;
 
 	//////////////////////////////////////
 	// staticメソッドの定義
@@ -55,16 +57,14 @@ public class RpgMain {
 	 * ※JVM => Java Virtual Machine
 	 */
 	private static void init() {
-		System.out.println("Well come to Command RPG. Let's go adventure!");
-		System.out.println("<Command Reference> \n'bye' -> exit game");
+		// mainメソッドと同様にクラスをnewする必要あり
+		game = new RpgMain();
 	}
 
 	/**
 	 * この処理もinit()と同様に必ず1回なのでstaticをつける</br>
 	 */
 	private static void gameLoop() throws IOException{
-		// mainメソッドと同様にクラスをnewする必要あり
-		game = new RpgMain();
 		
 		/*
 		 *  <ゲームループ> 
@@ -79,7 +79,7 @@ public class RpgMain {
 			if(TERMINATE_GAME.equals(command)) {
 				break;
 			}
-			System.out.println("コマンド入力値: " + command);
+			
 		}
 		
 	}
@@ -111,8 +111,17 @@ public class RpgMain {
 	 * このメソッドはメンバメソッドにしてある</br>
 	 */
 	public void initialize() {
+		// 入力受付クラス
 		read = new BufferedReader(new InputStreamReader(System.in));
-		write = new BufferedWriter(new OutputStreamWriter(System.out));
+		// *** titleの表示 *** //
+		Path filePath = Paths.get("resources/title.txt");
+		List<String> lines = null;
+		try {
+			lines = Files.readAllLines(filePath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		lines.stream().forEach(line -> System.out.println(line));
 	}
 
 	/**

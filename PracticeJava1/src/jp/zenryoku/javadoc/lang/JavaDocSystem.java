@@ -1,4 +1,4 @@
-package jp.zenryoku.javadoc.util;
+package jp.zenryoku.javadoc.lang;
 
 import java.io.IOException;
 
