@@ -8,7 +8,12 @@ import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import jp.zenryoku.sample.rpg.ViewStatus.ViewCommand;
+import jp.zenryoku.sample.rpg.status.TitleView;
 
 /**
  * コマンドラインRPGのメインクラス</br>
@@ -28,6 +33,8 @@ public class RpgMain {
 	public static final String TERMINATE_GAME = "bye";
 	/** 入力を受付るオブジェクト */
 	private BufferedReader read;
+	/** 画面状態管理オブジェクト */
+	private ViewStatus status;
 
 	//////////////////////////////////////
 	// staticメソッドの定義
@@ -79,9 +86,7 @@ public class RpgMain {
 			if(TERMINATE_GAME.equals(command)) {
 				break;
 			}
-			
 		}
-		
 	}
 
 	/**
@@ -122,7 +127,10 @@ public class RpgMain {
 			e.printStackTrace();
 		}
 		lines.stream().forEach(line -> System.out.println(line));
+		// ViewStats生成
+		status = new ViewStatus();
 	}
+
 
 	/**
 	 * 入力受付を開始、入力結果を取得する</br>
