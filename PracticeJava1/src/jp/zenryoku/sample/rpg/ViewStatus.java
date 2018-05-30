@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import jp.zenryoku.sample.rpg.ViewStatus.ViewCommand;
+
 /**
  * 画面のステータスクラスを示す。<BR>
  * コマンドの実行は内部インターフェースViewCommand<BR>
@@ -31,11 +33,14 @@ public abstract class ViewStatus {
 	 */
 	public ViewStatus() {
 		System.out.println("*** Set Command ***");
-		commands = createCommands();
+		Optional<Map<String, ViewCommand>> optCommands = createCommands();
+		// 取得した結果がNullの場合はからのMapを返す
+		commands =  optCommands.isPresent() ? optCommands.get() : new HashMap<String, ViewCommand>();
 	}
 
 	public ViewStatus execute(String input) {
 		Optional<ViewCommand> command = Optional.ofNullable(commands.get(input));
+		// commandがからの場合は何もしない
 		command.ifPresent(cmd -> cmd.executePrint(input));
 		return this;
 	}
@@ -43,5 +48,5 @@ public abstract class ViewStatus {
 	/** 画面の表示処理 */
 	public abstract void views();
 	/** 使用するコマンド */
-	public abstract Map<String, ViewCommand> createCommands();
+	public abstract Optional<Map<String, ViewCommand>> createCommands();
 }

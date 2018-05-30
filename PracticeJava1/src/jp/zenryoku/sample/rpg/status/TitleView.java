@@ -1,6 +1,8 @@
 package jp.zenryoku.sample.rpg.status;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import jp.zenryoku.sample.rpg.ViewStatus;
 import jp.zenryoku.sample.rpg.ViewStatus.ViewCommand;
@@ -19,8 +21,8 @@ public class TitleView extends ViewStatus {
 		
 	}
 	@Override
-	public Map<String, ViewCommand> createCommands() {
-		return null;
+	public Optional<Map<String, ViewCommand>> createCommands() {
+		return Optional.of(new HashMap<String, ViewCommand>());
 	}
 
 }
