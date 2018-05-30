@@ -1,34 +1,25 @@
-package jp.zenryoku.sample.rpg;
+package jp.zenryoku.sample.cls;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import jp.zenryoku.sample.rpg.ViewStatus.ViewCommand;
+import jp.zenryoku.sample.rpg.RpgMain;
+import jp.zenryoku.sample.rpg.ViewStatus;
 import jp.zenryoku.sample.rpg.status.TitleView;
 
 /**
- * コマンドラインRPGのメインクラス</br>
- * <ul>
- * 機能リスト
- * <li>1.必要なリソースを読み込む #init</li>
- * <li>2.ゲーム起動(コマンド入力) #gameLoop</li>
- * <li>3.リソースの解放</li>
- * <li>ゲーム終了(このメインメソッドの終了)</li>
- * </ul>
+ * テキストRPGのタイトル表示までの実装
+ * 
  * @author takunoji
  */
-public class RpgMain {
+public class Step3_2 {
 	/** フィールド変数で自信を管理 */
-	private static RpgMain game;
+	private static Step3_2 game;
 	/** 定数:　AP終了コマンド */
 	public static final String TERMINATE_GAME = "bye";
 	/** 入力を受付るオブジェクト */
@@ -65,7 +56,7 @@ public class RpgMain {
 	 */
 	private static void init() {
 		// mainメソッドと同様にクラスをnewする必要あり
-		game = new RpgMain();
+		game = new Step3_2();
 	}
 
 	/**
@@ -110,7 +101,7 @@ public class RpgMain {
 	 * ぶっちゃけてここで初期化(init)処理をやっても良い</br>
 	 * 最終的にプログラムの設計者の判断に委ねられる</br>
 	 */
-	public RpgMain() {
+	public Step3_2() {
 		// メンバメソッドなのでコンストラクタで呼び出す
 		initialize();
 	}
@@ -157,5 +148,4 @@ public class RpgMain {
 
 	private void view() {
 		status.views();
-	}
-}
+	}}
