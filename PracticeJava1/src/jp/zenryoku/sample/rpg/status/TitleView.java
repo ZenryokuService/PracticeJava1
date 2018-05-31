@@ -1,6 +1,7 @@
 package jp.zenryoku.sample.rpg.status;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -14,15 +15,35 @@ import jp.zenryoku.sample.rpg.ViewStatus.ViewCommand;
 public class TitleView extends ViewStatus {
 
 	public TitleView() {
+		createViewStr("resources/title.txt");
 	}
 	@Override
 	public void views() {
-		// TODO Auto-generated method stub
-		
+		Optional<List<String>> out = Optional.ofNullable(this.getViewStr());
+		out.ifPresent(viewStr -> viewStr.stream().forEach(System.out::println));
 	}
 	@Override
 	public Optional<Map<String, ViewCommand>> createCommands() {
-		return Optional.of(new HashMap<String, ViewCommand>());
+		Optional<Map<String, ViewCommand>> commands
+			= Optional.of(new HashMap<String, ViewCommand>());
+		// 「s」が入力されたら次の画面へ遷移する
+		// 「c」の時はまだ未実装....
+		// 上記以外は何もしない
+		commands.get().put("s", new ViewCommand() {
+			@Override
+			public void execute() {
+				
+			}
+		});
+		return commands;
+	}
+	@Override
+	public void setViewStr(List<String> viewStrList) {
+		super.viewStrList = viewStrList;
+	}
+	@Override
+	public List<String> getViewStr() {
+		return super.viewStrList;
 	}
 
 }
