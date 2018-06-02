@@ -33,8 +33,10 @@ public abstract class ViewStatus {
 	 * @author takunoji
 	 */
 	public interface ViewCommand {
-		/** コマンドの実行 */
-		public abstract void execute();
+		/** コマンドの実行
+		 * Nullが返却されるときは画面の遷移なし 
+		 */
+		public abstract ViewStatus execute();
 	}
 
 	/**
@@ -78,12 +80,19 @@ public abstract class ViewStatus {
 		// viewの文字列を保存します
 		this.setViewStr(lines);
 	}
+
+	/** 作成、ファイルから読み込んだView文字を保存する */
+	public void setViewStr(List<String> viewStrList) {
+		this.viewStrList = viewStrList;
+	}
+	/** 作成、ファイルから読み込んだView文字を取得する */
+	public List<String> getViewStr() {
+		return this.viewStrList;
+	}
+
+
 	/** 画面の表示処理 */
 	public abstract void views();
 	/** 使用するコマンド */
 	public abstract Optional<Map<String, ViewCommand>> createCommands();
-	/** 作成、ファイルから読み込んだView文字を保存する */
-	public abstract void setViewStr(List<String> viewStr);
-	/** 作成、ファイルから読み込んだView文字を取得する */
-	public abstract List<String> getViewStr();
 }

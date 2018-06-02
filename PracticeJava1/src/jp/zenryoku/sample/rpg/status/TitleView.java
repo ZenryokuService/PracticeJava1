@@ -9,7 +9,10 @@ import jp.zenryoku.sample.rpg.ViewStatus;
 import jp.zenryoku.sample.rpg.ViewStatus.ViewCommand;
 
 /**
- * ゲーム開始時「タイトル画面」を作成する
+ * ゲーム開始時「タイトル画面」を作成する<BR>
+ * 「s」でスタート
+ * 「c」でコンテニュー
+ * 
  * @author takunoji
  */
 public class TitleView extends ViewStatus {
@@ -31,19 +34,11 @@ public class TitleView extends ViewStatus {
 		// 上記以外は何もしない
 		commands.get().put("s", new ViewCommand() {
 			@Override
-			public void execute() {
-				
+			public ViewStatus execute() {
+				return null;
+				//return new FirstStageView();
 			}
 		});
 		return commands;
 	}
-	@Override
-	public void setViewStr(List<String> viewStrList) {
-		super.viewStrList = viewStrList;
-	}
-	@Override
-	public List<String> getViewStr() {
-		return super.viewStrList;
-	}
-
 }

@@ -34,7 +34,7 @@ public class RpgMain {
 	/** 入力を受付るオブジェクト */
 	private BufferedReader read;
 	/** 画面状態管理オブジェクト */
-	private ViewStatus status;
+	private static ViewStatus status;
 
 	//////////////////////////////////////
 	// staticメソッドの定義
@@ -88,7 +88,7 @@ public class RpgMain {
 				break;
 			}
 			// 2-1.処理を実行する(タイトル、その他初期表示する
-			game.execute(command);
+			status = game.execute(command);
 			// 画面を表示してループする
 			game.view();
 		}
@@ -148,6 +148,8 @@ public class RpgMain {
 	}
 
 	private void view() {
-		status.views();
+		if(status != null) {
+			status.views();
+		}
 	}
 }
