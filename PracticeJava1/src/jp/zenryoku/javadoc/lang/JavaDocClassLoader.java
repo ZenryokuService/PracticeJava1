@@ -9,7 +9,7 @@ import jp.zenryoku.sample.cls.Step2_1;
 
 public class JavaDocClassLoader {
 	public static void main(String[] args) {
-		JavaDocClassLoader tests = new JavaDocClassloader();
+		JavaDocClassLoader tests = new JavaDocClassLoader();
 		ClassLoader loader = JavaDocClassLoader.class.getClassLoader();
 		try {
 			// 取得したリソースを出力する
