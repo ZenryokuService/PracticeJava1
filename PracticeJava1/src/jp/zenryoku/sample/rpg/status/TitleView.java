@@ -35,10 +35,13 @@ public class TitleView extends ViewStatus {
 		commands.get().put("s", new ViewCommand() {
 			@Override
 			public ViewStatus execute() {
-				return null;
-				//return new FirstStageView();
+				return new FirstStageView();
 			}
 		});
 		return commands;
+	}
+	@Override
+	public void setViewStatus(ViewStatus status) {
+		super.status = status;
 	}
 }

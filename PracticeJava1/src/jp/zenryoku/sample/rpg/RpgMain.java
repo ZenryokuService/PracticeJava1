@@ -53,6 +53,7 @@ public class RpgMain {
 			gameLoop();
 		} catch(IOException ie) {
 			ie.printStackTrace();
+			System.exit(-1);
 		}
 		// リソースの解放
 		terminated();
@@ -89,8 +90,6 @@ public class RpgMain {
 			}
 			// 2-1.処理を実行する(タイトル、その他初期表示する
 			status = game.execute(command);
-			// 画面を表示してループする
-			game.view();
 		}
 	}
 
@@ -144,7 +143,8 @@ public class RpgMain {
 	 * @return
 	 */
 	private ViewStatus execute(String input) {
-		return status.execute(input);
+		status = status.execute(input);
+		return status;
 	}
 
 	private void view() {

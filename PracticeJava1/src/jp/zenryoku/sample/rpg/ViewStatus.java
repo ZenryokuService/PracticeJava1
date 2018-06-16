@@ -23,6 +23,8 @@ import jp.zenryoku.sample.rpg.ViewStatus.ViewCommand;
  * @author takunoji
  */
 public abstract class ViewStatus {
+	/** 自クラスを保持する　*/
+	protected ViewStatus status;
 	/** コマンド管理 */
 	protected Map<String, ViewCommand> commands;
 	/** 表示する画面(文字列) */
@@ -60,7 +62,7 @@ public abstract class ViewStatus {
 	public ViewStatus execute(String input) {
 		Optional<ViewCommand> command = Optional.ofNullable(commands.get(input));
 		// commandがからの場合は何もしない
-		command.ifPresent(cmd -> cmd.execute());
+		command.ifPresent(cmd -> setViewStatus(cmd.execute()));
 		return this;
 	}
 
@@ -90,9 +92,10 @@ public abstract class ViewStatus {
 		return this.viewStrList;
 	}
 
-
 	/** 画面の表示処理 */
 	public abstract void views();
 	/** 使用するコマンド */
 	public abstract Optional<Map<String, ViewCommand>> createCommands();
+	/** ViewStatusをセットする */
+	public abstract void setViewStatus(ViewStatus status);
 }

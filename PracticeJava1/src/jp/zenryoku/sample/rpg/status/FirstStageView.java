@@ -10,7 +10,7 @@ import jp.zenryoku.sample.rpg.ViewStatus;
 public class FirstStageView extends ViewStatus{
 
 	public FirstStageView() {
-		createViewStr("resouces/FirstStage.txt");
+		createViewStr("resources/FirstStage.txt");
 	}
 	/** super */
 	@Override
@@ -21,15 +21,18 @@ public class FirstStageView extends ViewStatus{
 
 	@Override
 	public Optional<Map<String, ViewCommand>> createCommands() {
-		Map<String, ViewCommand> commands = new HashMap<String, ViewCommand>();
-		commands.put("", new ViewCommand() {
-
+		Optional<Map<String, ViewCommand>> commands = Optional.ofNullable(new HashMap<String, ViewCommand>());
+		commands.get().put("n", new ViewCommand() {
 			@Override
 			public ViewStatus execute() {
+				System.out.println("未実装です。");
 				return null;
 			}
-			
 		});
-		return null;
+		return commands;
+	}
+	@Override
+	public void setViewStatus(ViewStatus status) {
+		this.status = status;
 	}
 }
