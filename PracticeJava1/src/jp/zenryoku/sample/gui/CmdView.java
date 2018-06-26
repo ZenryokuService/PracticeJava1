@@ -10,6 +10,11 @@ import javafx.scene.control.TextArea;
 
 import java.awt.*;
 
+/**
+ * @see <a href="https://docs.oracle.com/javase/jp/8/javafx/api/javafx/event/EventType.html"/>
+ * @see <a href="https://docs.oracle.com/javase/jp/8/javafx/api/javafx/scene/input/KeyEvent.html"/>
+ * @see <a href="https://docs.oracle.com/javase/jp/8/javafx/api/toc.htm"/>
+ */
 public class CmdView extends Application {
     /** 画面の横サイズ */
     private static final int VIEW_WIDTH = 300;
