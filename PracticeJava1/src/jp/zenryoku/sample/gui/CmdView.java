@@ -3,6 +3,7 @@ package jp.zenryoku.sample.gui;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.scene.Group;
@@ -40,19 +41,24 @@ public class CmdView extends Application {
         // 縦横の幅を設定する
         area.setPrefWidth(VIEW_WIDTH);
         area.setPrefHeight(VIEW_HEIGHT);
-        area.setOnKeyTyped(createInputEvent());
+        area.setOnKeyPressed(createKeyPressEvent());
 
         return area;
     }
 
-    private EventHandler<KeyEvent> createInputEvent() {
-        EventHandler<KeyEvent> evt = new EventHandler<KeyEvent>() {
+    private EventHandler<KeyEvent> createKeyPressEvent() {
+        return new EventHandler<KeyEvent>() {
             public void handle(KeyEvent evt) {
+                if (KeyCode.ENTER.equals(evt.getCode())) {
+                    // Enter キーを謳歌した時の処理、テキストエリアを取得する
+                    TextArea src = (TextArea) evt.getSource();
+                    System.out.println("Press Enter: " + src.getText());
+                }
+                // チェック用のコンソール出力処理
                 System.out.println("EventType: " + evt.getCode());
                 System.out.println("Input: " + evt.getCharacter());
             }
         };
-        return evt;
     }
 
     /** メインメソッド */
