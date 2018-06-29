@@ -24,9 +24,11 @@ public class CmdView extends Application {
     /** 画面のたてサイズ */
     private static final int VIEW_HEIGHT = 300;
     /** コマンドの入力開始文字 */
-    private static final String CMD_START = "Cmd $ ";
+    private static final String CMD_START = "Cmd $ >";
     /** 改行コード */
     private static final String LINE_SEPARETOR = System.getProperty("line.separator");
+    /** 入力前のカーソル位置 */
+    private int cursorPos;
 
     @Override
     public void start(Stage primary) {
@@ -52,6 +54,8 @@ public class CmdView extends Application {
         area.setText("Hello user please input command!" + LINE_SEPARETOR + CMD_START);
         // テキストエリアの文字列数
         int textLen = area.getText().length();
+        // 初期カーソル位置
+        cursorPos = textLen;
         area.positionCaret(textLen);
 
         return area;
@@ -60,24 +64,30 @@ public class CmdView extends Application {
     private EventHandler<KeyEvent> createKeyPressEvent() {
         return new EventHandler<KeyEvent>() {
             public void handle(KeyEvent evt) {
+                // テキストエリアを取得する
+                TextArea src = (TextArea) evt.getSource();
                 // 入力を無効にする
                 if (isDisabledInput(evt)) {
                     System.out.println("*** isDisable ***");
+                    resetCursor(src);
                     return;
                 }
                 if (KeyCode.ENTER.equals(evt.getCode())) {
-                    // Enter キーを謳歌した時の処理、テキストエリアを取得する
-                    TextArea src = (TextArea) evt.getSource();
                     // テキストエリア内の文字列を全て取得
                     String allText = src.getText();
+                    String command = getCommand(allText);
+                    src.setText(allText + CMD_START);
                     // "Cmd $ "の文字列の位置を取得
-                    int startPoint = allText.indexOf(CMD_START);
-
-
+                    System.out.println("Command: " + command);
+                    cursorPos = allText.length() + CMD_START.length();
+                    src.positionCaret(cursorPos);
+                }
+                if (KeyCode.LEFT.equals(evt.getCode())) {
+                    // 左の矢印が押下された時
+                    src.positionCaret(cursorPos);
                 }
                 // チェック用のコンソール出力処理
                 System.out.println("EventType: " + evt.getCode());
-                System.out.println("Input: " + evt.getCharacter());
             }
         };
     }
@@ -104,13 +114,14 @@ public class CmdView extends Application {
      * @param key プロパティのキー
      * @return プロパティの値
      */
+    @Deprecated // 使用しないメソッド
     private String getTargetProperty(String propNane, String key) {
         String propStr = null;
         return propStr;
     }
 
     /**
-     * チェック用のリストを作成して半客します<BR/>
+     * チェック用のリストを作成して返却します<BR/>
      * 入力禁止のKeyCodeを追加
      * @return チェック用のリスト
      */
@@ -120,6 +131,26 @@ public class CmdView extends Application {
         acList.add(KeyCode.DOWN);
 
         return acList;
+    }
+
+    /**
+     * カーソルの移動をしないようにします。
+     * @param src
+     */
+    private void resetCursor(TextArea src) {
+        // 始めのカーソル位置を設定する
+        src.positionCaret(cursorPos);
+    }
+
+    /**
+     * コマンドを取得します<BR/>
+     * @param text テキストエリアにある文字列全部
+     * @return 入力した文字列部分のみ
+     */
+    private String getCommand(String text) {
+        String[] lines = text.split(LINE_SEPARETOR);
+        String target = lines[lines.length - 1];
+        return target.substring(CMD_START.length());
     }
 
     /** メインメソッド */
