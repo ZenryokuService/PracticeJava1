@@ -1,12 +1,11 @@
-package jp.zenryoku.sample.rpg.status;
+package jp.zenryoku.game.rpg.status;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import jp.zenryoku.sample.rpg.ViewStatus;
-import jp.zenryoku.sample.rpg.ViewStatus.ViewCommand;
+import jp.zenryoku.game.rpg.ViewStatus;
 
 /**
  * ゲーム開始時「タイトル画面」を作成する<BR>

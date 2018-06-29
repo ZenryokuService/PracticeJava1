@@ -4,9 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import jp.zenryoku.sample.rpg.RpgMain;
-import jp.zenryoku.sample.rpg.ViewStatus;
-import jp.zenryoku.sample.rpg.status.TitleView;
+import jp.zenryoku.game.rpg.ViewStatus;
+import jp.zenryoku.game.rpg.status.TitleView;
 
 public class Step3_3 {
 	/** フィールド変数で自信を管理 */

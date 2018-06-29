@@ -1,19 +1,10 @@
-package jp.zenryoku.sample.rpg;
+package jp.zenryoku.game.rpg;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import jp.zenryoku.sample.rpg.ViewStatus.ViewCommand;
-import jp.zenryoku.sample.rpg.status.TitleView;
+import jp.zenryoku.game.rpg.status.TitleView;
 
 /**
  * コマンドラインRPGのメインクラス</br>

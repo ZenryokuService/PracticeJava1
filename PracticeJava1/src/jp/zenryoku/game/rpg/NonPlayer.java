@@ -1,4 +1,4 @@
-package jp.zenryoku.sample.rpg;
+package jp.zenryoku.game.rpg;
 
 /**
  * NonPlayerキャラクターを表す</br>

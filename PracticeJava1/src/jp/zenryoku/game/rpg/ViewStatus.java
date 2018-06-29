@@ -1,4 +1,4 @@
-package jp.zenryoku.sample.rpg;
+package jp.zenryoku.game.rpg;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import jp.zenryoku.sample.rpg.ViewStatus.ViewCommand;
 
 /**
  * 画面のステータスクラスを示す。<BR>

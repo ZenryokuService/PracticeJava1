@@ -8,8 +8,6 @@ import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import jp.zenryoku.sample.rpg.RpgMain;
-
 public class Step3_1 {
 	/** フィールド変数で自信を管理 */
 	private static Step3_1 game;

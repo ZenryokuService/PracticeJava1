@@ -8,9 +8,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import jp.zenryoku.sample.rpg.RpgMain;
-import jp.zenryoku.sample.rpg.ViewStatus;
-import jp.zenryoku.sample.rpg.status.TitleView;
+import jp.zenryoku.game.rpg.ViewStatus;
+import jp.zenryoku.game.rpg.status.TitleView;
 
 /**
  * テキストRPGのタイトル表示までの実装
