@@ -9,9 +9,14 @@ import javafx.stage.Stage;
 import javafx.scene.Group;
 import javafx.scene.control.TextArea;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.Key;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Properties;
+import java.util.ResourceBundle;
 
 /**
  * @see <a href="https://docs.oracle.com/javase/jp/8/javafx/api/javafx/event/EventType.html"/>
@@ -27,8 +32,12 @@ public class CmdView extends Application {
     private static final String CMD_START = "Cmd $ >";
     /** 改行コード */
     private static final String LINE_SEPARETOR = System.getProperty("line.separator");
+    /** プロパティファイル名 */
+    private static final String CMD_PROPERTY = "CmdCls";
     /** 入力前のカーソル位置 */
     private int cursorPos;
+    /** リソースバンドル */
+    private ResourceBundle bndle;
 
     @Override
     public void start(Stage primary) {
@@ -38,6 +47,10 @@ public class CmdView extends Application {
         Scene scene = new Scene(root, VIEW_WIDTH, VIEW_HEIGHT);
         primary.setScene(scene);
         primary.show();
+
+        // プロパティファイルのロード
+        bndle = ResourceBundle.getBundle(CMD_PROPERTY);
+        System.out.println("Properties: " + bndle.getString("acc"));
     }
 
     /**
@@ -61,6 +74,11 @@ public class CmdView extends Application {
         return area;
     }
 
+    /**
+     * イベント処理を行うクラスを生成<BR/>
+     * ・入力チェックを行い、禁止入力があった場合はカーソルを元の位置に戻す。
+     * @return キー入力のイベント処理クラス
+     */
     private EventHandler<KeyEvent> createKeyPressEvent() {
         return new EventHandler<KeyEvent>() {
             public void handle(KeyEvent evt) {
@@ -79,6 +97,8 @@ public class CmdView extends Application {
                     src.setText(allText + CMD_START);
                     // "Cmd $ "の文字列の位置を取得
                     System.out.println("Command: " + command);
+                    // コマンドの実行
+                    executeCmd(command);
                     cursorPos = allText.length() + CMD_START.length();
                     src.positionCaret(cursorPos);
                 }
@@ -153,6 +173,20 @@ public class CmdView extends Application {
         return target.substring(CMD_START.length());
     }
 
+    /**
+     * コマンドを実行します<BR/>
+     * 登録したコマンドにない入力の時は<BR/>
+     * エラーメッセージをテキストエリアに出力します。
+     * @param command コマンド文字列
+     */
+    private void executeCmd(String command) {
+        try {
+            String className = bndle.getString(command);
+            System.out.println("ClassName: " + className);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
     /** メインメソッド */
     public static void main(String[] args) {
         launch();
