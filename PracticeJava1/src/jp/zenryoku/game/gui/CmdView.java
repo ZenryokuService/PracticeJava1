@@ -10,6 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.control.TextArea;
 
 import java.io.*;
+import java.lang.reflect.Constructor;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.Key;
@@ -35,7 +36,9 @@ public class CmdView extends Application {
     /** プロパティファイル名 */
     private static final String CMD_PROPERTY = "CmdCls";
     /** 入力前のカーソル位置 */
-    private int cursorPos;
+    private int currentPos;
+    /** 改行した時のカーソル位置 */
+    private int startCursorPos;
     /** リソースバンドル */
     private ResourceBundle bndle;
 
@@ -68,7 +71,8 @@ public class CmdView extends Application {
         // テキストエリアの文字列数
         int textLen = area.getText().length();
         // 初期カーソル位置
-        cursorPos = textLen;
+        currentPos = textLen;
+        startCursorPos = textLen;
         area.positionCaret(textLen);
 
         return area;
@@ -93,19 +97,27 @@ public class CmdView extends Application {
                 if (KeyCode.ENTER.equals(evt.getCode())) {
                     // テキストエリア内の文字列を全て取得
                     String allText = src.getText();
+                    formatText(allText);
                     String command = getCommand(allText);
-                    src.setText(allText + CMD_START);
                     // "Cmd $ "の文字列の位置を取得
                     System.out.println("Command: " + command);
                     // コマンドの実行
-                    executeCmd(command);
-                    cursorPos = allText.length() + CMD_START.length();
-                    src.positionCaret(cursorPos);
+                    allText = allText + executeCmd(command) + LINE_SEPARETOR;
+
+                    // コマンド実行後
+                    src.setText(allText + CMD_START);
+                    currentPos = allText.length() + CMD_START.length();
+                    startCursorPos = currentPos;
+                    src.positionCaret(currentPos);
                 }
                 if (KeyCode.LEFT.equals(evt.getCode())) {
-                    // 左の矢印が押下された時
-                    src.positionCaret(cursorPos);
+                    System.out.println("Sart: " + startCursorPos + " Current: " + currentPos + " getCaret: " + src.getCaretPosition());
+                    if (startCursorPos > src.getCaretPosition()) {
+                        // 左の矢印が押下された時
+                        src.positionCaret(currentPos);
+                    }
                 }
+                currentPos = src.getCaretPosition();
                 // チェック用のコンソール出力処理
                 System.out.println("EventType: " + evt.getCode());
             }
@@ -120,6 +132,10 @@ public class CmdView extends Application {
      */
     private boolean isDisabledInput(KeyEvent evt) {
         boolean isDisable = false;
+        // 削除ボタンが押下されたとき
+        if (KeyCode.DELETE.equals(evt.getCode())) {
+
+        }
         // 入力許可キーのKeyCodeリスト
         List<KeyCode> acList = createAcceptList();
 
@@ -159,7 +175,7 @@ public class CmdView extends Application {
      */
     private void resetCursor(TextArea src) {
         // 始めのカーソル位置を設定する
-        src.positionCaret(cursorPos);
+        src.positionCaret(currentPos);
     }
 
     /**
@@ -170,6 +186,13 @@ public class CmdView extends Application {
     private String getCommand(String text) {
         String[] lines = text.split(LINE_SEPARETOR);
         String target = lines[lines.length - 1];
+        // コマンドが途切れていないかチェック
+        int chkInt = target.indexOf(CMD_PROPERTY);
+        if (chkInt == -1) {
+            System.out.println("line -1: " + lines[lines.length - 2]);
+            System.out.println("line: " + lines[lines.length - 1]);
+
+        }
         return target.substring(CMD_START.length());
     }
 
@@ -179,13 +202,30 @@ public class CmdView extends Application {
      * エラーメッセージをテキストエリアに出力します。
      * @param command コマンド文字列
      */
-    private void executeCmd(String command) {
+    private String executeCmd(String command) {
+        String response = "";
+        // 終了コマンドはすぐに動く
+        if ("exit".equals(command)) {
+            System.exit(0);
+        }
         try {
             String className = bndle.getString(command);
             System.out.println("ClassName: " + className);
+            // 完全クラス名よりクラスのインスタンスを取得する
+            Class<?> cls = Class.forName(className);
+            Constructor<?> cons = cls.getConstructor();
+            CommandIF exe = (CommandIF) cons.newInstance();
+            response = exe.execute();
         } catch(Exception e) {
             e.printStackTrace();
         }
+        return response;
+    }
+
+    private String formatText(String areaTxt) {
+        String shaped = "";
+
+        return shaped;
     }
     /** メインメソッド */
     public static void main(String[] args) {
