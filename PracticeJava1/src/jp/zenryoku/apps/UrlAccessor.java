@@ -10,7 +10,7 @@ import jp.zenryoku.game.gui.CommandIF;
 public class UrlAccessor implements CommandIF {
     @Override
     public String execute() {
-        System.out.println("Hello Command Interface!!");
+        System.out.println("Google検索画面にアクセス");
         return "";
     }
 }
