@@ -1,5 +1,7 @@
 package jp.zenryoku.sample;
 
+import jp.zenryoku.sample.annotation.Sample;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -10,6 +12,7 @@ import java.io.IOException;
  *
  * @author ZenryokuService
  */
+@Sample
 public class Step1_6 {
 	public static void main(String[] args) {
 		// 読込するファイル

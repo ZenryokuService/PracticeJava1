@@ -4,6 +4,9 @@ package jp.zenryoku.sample;
  * クラス、メソッドの説明に記述されます。
  * そして「JavaDoc」を出力する時に記載される内容になります。
  */
+
+import jp.zenryoku.sample.annotation.Sample;
+
 /**
  * Step1-1:Hello World
  * クラスに対する、JavaDocコメント部分
@@ -14,6 +17,7 @@ package jp.zenryoku.sample;
  * @author ZenryokuService → このプログラムの作成者の名前を記述する
  *                           「@」はjavadoc.exeが作成者名を認識するための記述
  */
+@Sample
 public class Step1_1 {
 	/**
 	 * メソッドに対するJavaDocコメント部分
@@ -40,7 +44,8 @@ public class Step1_1 {
 		 * 複数行コメント部分
 		 * 処理の説明など複数行に渡りコメントを記述する
 		 */
-		System.out.println("Step1");
+		System.out.println("Hello World");
+		System.out.println("Tiger! Gaaa!!");
 	}
 
 	/**

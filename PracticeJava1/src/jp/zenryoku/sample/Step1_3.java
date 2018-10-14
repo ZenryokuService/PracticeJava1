@@ -1,5 +1,7 @@
 package jp.zenryoku.sample;
 
+import jp.zenryoku.sample.annotation.Sample;
+
 /**
  * Step1-3:char配列の扱い<br/>
  * 
@@ -8,6 +10,7 @@ package jp.zenryoku.sample;
  * @see http://takunoji.hatenablog.com/entry/2015/11/03/165638
  * @author ZenryokuService
  */
+@Sample
 public class Step1_3 {
 
 	/**

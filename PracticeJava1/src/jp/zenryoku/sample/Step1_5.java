@@ -1,5 +1,7 @@
 package jp.zenryoku.sample;
 
+import jp.zenryoku.sample.annotation.Sample;
+
 /**
  * Step1-5:クラスの配列<br/>
  * String[], Integer[]などの配列の扱い方をれ臭します<br/>
@@ -7,6 +9,7 @@ package jp.zenryoku.sample;
  * @see http://takunoji.hatenablog.com/entry/2015/11/05/184839
  * @author ZenryokuService
  */
+@Sample
 public class Step1_5 {
 	/** フィールド変数 */
 	private String[] HAIRETU = {"第1問", "第2問", "第3問", "第4問", "daigomon"};

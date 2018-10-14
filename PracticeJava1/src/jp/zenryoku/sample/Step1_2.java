@@ -1,5 +1,7 @@
 package jp.zenryoku.sample;
 
+import jp.zenryoku.sample.annotation.Sample;
+
 /**
  * Step1-2:数値の扱い<br/>
  * 変数の扱い方のサンプルソース<br/>
@@ -7,6 +9,7 @@ package jp.zenryoku.sample;
  * @see http://takunoji.hatenablog.com/entry/2015/11/01/141246
  * @author ZenryokuService
  */
+@Sample
 public class Step1_2 {
 	/**
 	 * メインメソッド：変数の扱い方のサンプル<br/>

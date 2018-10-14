@@ -21,6 +21,8 @@ public class PracSwingMain extends JFrame {
         frame.pack();
         // 画面を表示する設定→これをFALSEにすると画面が非表示になる
         frame.setVisible(true);
+        int i = 2147483647;
+        short shor = 32767;
 
 
     }
