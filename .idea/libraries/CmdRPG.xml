@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="CmdRPG">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/PracticeJava1/jars/CmdRPG.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

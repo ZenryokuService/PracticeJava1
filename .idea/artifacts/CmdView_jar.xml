@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="CmdView:jar">
+    <output-path>$PROJECT_DIR$/PracticeJava1/jars</output-path>
+    <root id="archive" name="PracticeJava1.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/PracticeJava1/jars/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="PracticeJava1" />
+      <element id="dir-copy" path="$PROJECT_DIR$/PracticeJava1/resources" />
+    </root>
+  </artifact>
+</component>

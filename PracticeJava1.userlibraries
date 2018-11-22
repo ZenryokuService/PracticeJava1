@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="CmdRPG">
+    <archive path="/Users/takk/IdeaProjects/PracticeJava1/PracticeJava1/jars/CmdRPG.jar" />
+  </library>
+  <library name="Untitled">
+    <archive path="/Users/takk/IdeaProjects/PracticeJava1/Untitled.jar" />
+  </library>
+  <library name="libtensorflow-1.8.0" />
+  <library name="opencv-2.4.1" />
+</eclipse-userlibraries>
+
