@@ -2,6 +2,8 @@ package jp.zenryoku.opencv;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
@@ -15,17 +17,7 @@ import jp.zenryoku.opencv.view.ViewFrame;
  * 2018/11/22
  */
 public class OpenCVTest4 {
-// ＜サンプルソース＞
-// @see http://answers.opencv.org/question/7323/java-code-for-smoothing-image-using-opencv-library-functions/
-//	public Mat blur(Mat input, int numberOfTimes){
-//        Mat sourceImage = new Mat();
-//        Mat destImage = input.clone();
-//        for(int i=0;i<numberOfTimes;i++){
-//            sourceImage = destImage.clone();
-//            Imgproc.blur(sourceImage, destImage, new Size(3.0, 3.0));
-//        }
-//        return destImage;
-//    }
+
 	static {
 		// OpenCVのライブラリをロードする
 		// static {~}はMainメソッドの開始前に起動する、起動するプログラムで１つ定義可能
@@ -41,6 +33,10 @@ public class OpenCVTest4 {
 		// ファイルの読み込み
 		Mat src = Imgcodecs.imread(
 				OpenCVTest4.class.getClass().getResource("/images/likeEye.png").getPath());
+		Point pt1 = new Point(0,0);
+		Point pt2 = new Point(10,10);
+		Imgproc.line(src, pt1, pt2, new Scalar(30, 30, 40));
+		
 		System.out.println(src.dump());
 //		// 出力用変数
 //		Mat dst = new Mat();
@@ -49,6 +45,6 @@ public class OpenCVTest4 {
 //		// 中央値フィルタ
 //		Imgproc.medianBlur(src, dst, 7);
 //		// 自作のJFrame拡張クラス
-//		new ViewFrame(dst);
+		new ViewFrame(src);
 	}
 }
