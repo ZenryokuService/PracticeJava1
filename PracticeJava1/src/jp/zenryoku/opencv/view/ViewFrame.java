@@ -57,15 +57,13 @@ public class ViewFrame extends JFrame {
 		MatOfByte bytes = new MatOfByte();
 		// 上の変数にpngファイルを書き込む
 		Imgcodecs.imencode(".png", image, bytes);
-		// プリミティブ型に変換
-		byte[] b = bytes.toArray();
-		// 入力ストリームを用意する
-		InputStream in = new ByteArrayInputStream(b);
+		
+		// 余計な変数を削除 2018/11/23 
 		
 		BufferedImage buf = null;
 		try {
 			// イメージとして読み込む
-			buf = ImageIO.read(in);
+			buf = ImageIO.read(new ByteArrayInputStream(bytes.toArray()));
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
