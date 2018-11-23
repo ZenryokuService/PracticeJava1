@@ -9,7 +9,7 @@ import org.opencv.imgproc.Imgproc;
 import jp.zenryoku.opencv.view.ViewFrame;
 
 /**
- * OpenCVで平滑化処理を行う。
+ * OpenCVで中央値フィルタ処理を行う。
  * 
  * @author takunoji
  * 2018/11/19

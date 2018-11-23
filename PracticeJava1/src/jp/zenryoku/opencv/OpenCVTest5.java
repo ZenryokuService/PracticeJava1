@@ -1,8 +1,10 @@
 package jp.zenryoku.opencv;
 
 import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
+import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -11,12 +13,12 @@ import org.opencv.imgproc.Imgproc;
 import jp.zenryoku.opencv.view.ViewFrame;
 
 /**
- * OpenCVでイメージファイルの中身をのぞいて見ます。
+ * OpenCVでを行う。
  * 
  * @author takunoji
- * 2018/11/22
+ * 2018/11/23
  */
-public class OpenCVTest4 {
+public class OpenCVTest5 {
 
 	static {
 		// OpenCVのライブラリをロードする
@@ -30,12 +32,12 @@ public class OpenCVTest4 {
 	 * @param argsプログラム引数
 	 */
 	public static void main(String[] args) {
-		// ファイルの読み込み
-		Mat src = Imgcodecs.imread(
-				OpenCVTest4.class.getClass().getResource("/images/likeEye.png").getPath());
+		// 100x100の白いPNGからのデータを作成する
+		Mat src = Imgcodecs.imread(OpenCVTest5.class.getResource("/images/white100x100.png").getPath());
 		Point pt1 = new Point(0,0);
-		Point pt2 = new Point(10,10);
-		Imgproc.line(src, pt1, pt2, new Scalar(30, 30, 40));
+		Point pt2 = new Point(100,100);
+		Imgproc.line(src, pt1, pt2, new Scalar(240, 255, 240), 4);
+//		Imgproc.boxPoints(new RotatedRect(pt1, new Size(20, 20), 1.0), src);
 		
 		System.out.println(src.dump());
 //		// 出力用変数
