@@ -30,12 +30,29 @@ import org.opencv.imgcodecs.Imgcodecs;
  */
 public class ViewFrame extends JFrame {
 
+	/** 引っ越し2018/11/23 */
+	private final JLabel label;
+	
 	public ViewFrame(Mat image) {
 		// 受け取ったMatを表示する
 		super("Show Image");
 		// JFrameのメソッドを呼び出す(親クラス)
 		Container con = super.getContentPane();
 		
+		// 入力ストリームを用意する
+		BufferedImage buf = getIconImage(image);
+		// ラベルをフィールドに持っていく 2018/11/23
+		label = new JLabel(new ImageIcon(buf));
+		con.add(label);
+		// JFrameを閉じるときにアプリケーションも終わるようにする
+		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// コンポーンエントの配置を整理する
+		super.pack();
+		// JFrameを表示する(これをやらないと何も表示されない)
+		setVisible(true);
+	}
+
+	private BufferedImage getIconImage(Mat image) {
 		// イメージのバイト配列を受ける変数
 		MatOfByte bytes = new MatOfByte();
 		// 上の変数にpngファイルを書き込む
@@ -52,13 +69,13 @@ public class ViewFrame extends JFrame {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
-		JLabel label = new JLabel(new ImageIcon(buf));
-		con.add(label);
-		// JFrameを閉じるときにアプリケーションも終わるようにする
-		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// コンポーンエントの配置を整理する
-		super.pack();
-		// JFrameを表示する(これをやらないと何も表示されない)
-		setVisible(true);
+		return buf;
+	}
+	/**
+	 * 引数のMat(イメージ)でラベルを更新します。
+	 * @param img Mat
+	 */
+	public void updateLabel(Mat img) {
+		label.setIcon(new ImageIcon(getIconImage(img)));
 	}
 }
