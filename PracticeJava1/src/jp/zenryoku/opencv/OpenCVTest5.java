@@ -10,7 +10,7 @@ import org.opencv.imgproc.Imgproc;
 import jp.zenryoku.opencv.view.ViewFrame;
 
 /**
- * OpenCVでを行う。
+ * OpenCVでを線描が行う。
  * 
  * @author takunoji
  * 2018/11/23
