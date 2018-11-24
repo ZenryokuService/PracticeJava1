@@ -11,6 +11,7 @@ package jp.zenryoku.opencv.view;
 import java.awt.Container;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -64,6 +65,7 @@ public class ViewFrame extends JFrame {
 		try {
 			// イメージとして読み込む
 			buf = ImageIO.read(new ByteArrayInputStream(bytes.toArray()));
+			Imgcodecs.imwrite("./dst.png", image);
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
