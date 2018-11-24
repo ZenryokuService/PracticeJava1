@@ -13,7 +13,7 @@ import org.opencv.imgproc.Imgproc;
 import jp.zenryoku.opencv.view.ViewFrame;
 
 /**
- * OpenCVでを行う。
+ * OpenCVで部分的に画像の一部を修正する処理を行う。
  * 
  * @author takunoji
  * 2018/11/23
@@ -35,38 +35,16 @@ public class OpenCVTest8 {
 		long start = System.currentTimeMillis();
 		// 100x100の白いPNGからのデータを作成する
 		Mat src = Imgcodecs.imread(OpenCVTest8.class.getResource("/images/mountain.png").getPath());
-		/* トリミングを行なってみる
+		/* 1.トリミングを行なってみる
 		 * x座標:100, y座標:100, 幅: 100, 高さ:100
+		 * この処理で取得したRectでMatを再作成する
+		 * Mat src = new Mat(src, rect);
 		 */
-		Rect rect = new Rect(100, 100, 100, 100);
-		// 領域を指定、白の資格を描く
+		// Rect rect = new Rect(100, 100, 100, 100);
+		// 領域を指定、白の四角を描く new Scalar(R, G, B);
 		Imgproc.rectangle(src, new Point(100, 100), new Point(200, 200), new Scalar(255, 255, 255));
 		ViewFrame frame = new ViewFrame(src);
 		System.out.println("実行時間: " + (System.currentTimeMillis() - start) + "ミリ秒");
 		
-	}
-
-	private static Mat ellipseLabel(Mat src, int left, int right) {
-		Imgproc.ellipse(src
-				, new Point(src.width() /2, src.height() / 2)
-				, new Size(src.width() / left, src.width() / right)
-				, 0     // angle
-				, 0.0   // ??
-				, 360.0 // 0と360度の間の弧を延長する
-				, new Scalar(255, 0, 0) // BGRの値
-				, 2   // thickness
-				, 8   // lineType
-				, 0); // Shift
-		return src;
-	}
-
-	private static void sleepFrame() {
-		try {
-			Thread.sleep(3000L);
-		} catch(Exception e) {
-			e.printStackTrace();
-			System.exit(-1);
-		}
-
 	}
 }
