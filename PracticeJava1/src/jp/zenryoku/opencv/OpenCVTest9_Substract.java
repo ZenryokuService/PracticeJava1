@@ -34,12 +34,12 @@ public class OpenCVTest9_Substract {
 	public static void main(String[] args) {
 		long start = System.currentTimeMillis();
 		// 真っ白な画像から引き算してみる
-		Mat src = Imgcodecs.imread(OpenCVTest9_Substract.class.getResource("/images/rakugaki.png").getPath());
-		Mat cart = Imgcodecs.imread(OpenCVTest9_Substract.class.getResource("/images/racgaki2.png").getPath());
+		Mat src = Imgcodecs.imread(OpenCVTest9_AddWeited.class.getResource("/images/white50x50.png").getPath());
+		Mat cart = Imgcodecs.imread(OpenCVTest9_AddWeited.class.getResource("/images/racgaki2.png").getPath());
 		System.out.println("*** First ****");
 		System.out.println(src.dump());
 		Mat dst = new Mat();
-		Core.addWeighted(src, 0.5, cart, 0.5, 0, dst);
+		Core.subtract(src, cart, dst);
 		System.out.println("*** Second ****");
 		System.out.println(dst.dump());
 		ViewFrame frame = new ViewFrame(dst);

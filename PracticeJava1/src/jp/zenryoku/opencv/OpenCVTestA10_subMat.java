@@ -18,7 +18,7 @@ import jp.zenryoku.opencv.view.ViewFrame;
  * @author takunoji
  * 2018/11/24
  */
-public class OpenCVTest9_AddWeited {
+public class OpenCVTestA10_subMat {
 
 	static {
 		// OpenCVのライブラリをロードする
@@ -33,16 +33,14 @@ public class OpenCVTest9_AddWeited {
 	 */
 	public static void main(String[] args) {
 		long start = System.currentTimeMillis();
-		// 真っ白な画像から引き算してみる
-		Mat src = Imgcodecs.imread(OpenCVTest9_Substract.class.getResource("/images/rakugaki.png").getPath());
+		// 画像を２枚読み込む
+		Mat src = Imgcodecs.imread(OpenCVTest9_Substract.class.getResource("/images/mountain.png").getPath());
 		Mat cart = Imgcodecs.imread(OpenCVTest9_Substract.class.getResource("/images/racgaki2.png").getPath());
-		System.out.println("*** First ****");
-		System.out.println(src.dump());
-		Mat dst = new Mat();
-		Core.addWeighted(src, 0.5, cart, 0.5, 0, dst);
-		System.out.println("*** Second ****");
-		System.out.println(dst.dump());
-		ViewFrame frame = new ViewFrame(dst);
+		Rect rect = new Rect(600, 400, 50, 50);
+		Mat roi = src.submat(rect);
+		// 抜き出した部分に掛け算を行う(アルファブレンドを行う)
+		Core.addWeighted(roi, 0.5, cart, 0.5, 0, roi);
+		ViewFrame frame = new ViewFrame(src);
 		System.out.println("実行時間: " + (System.currentTimeMillis() - start) + "ミリ秒");
 	}
 }
