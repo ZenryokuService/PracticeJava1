@@ -30,47 +30,47 @@ public class RootFxMain extends Application {
 	 * @see javafx.application.Application#start(javafx.stage.Stage)
 	 */
 	@Override
-public void start(Stage primaryStage) throws Exception {
-	// Stageの設定
-	primaryStage.setHeight(VIEW_HEIGHT);
-	primaryStage.setWidth(VIEW_WIDTH);
-	// レイアウトたて
-	VBox vBox = new VBox(5);
-	// レイアウト横
-	HBox hBox = new HBox(8);
-	// ラベルの設定
-	Label label = new Label();
-	// ハローワールドを出力する
-	label.setText(myFirstProgram());
-	label.setFont(new Font("RobotRegular", 24));
-	vBox.getChildren().add(label);
-
-	// １個目の数値、テキストフィールド
-	TextField text1 = new TextField();
-	text1.setPrefColumnCount(3);
-	text1.setAlignment(Pos.BASELINE_CENTER);
-	hBox.getChildren().add(text1);
-	// 計算式のラベル
-	Label ope = new Label("+");
-	hBox.getChildren().add(ope);
-
-	// ２個目の数値、テキストフィールド
-	TextField text2 = new TextField();
-	text1.setPrefColumnCount(3);
-	text1.setAlignment(Pos.BASELINE_CENTER);
-	hBox.getChildren().add(text2);
-
-	// 縦のレイアウトに追加する
-	vBox.getChildren().add(hBox);
-	// ペインの作成
-	Group root = new Group();
-	root.getChildren().add(vBox);
-
-	// シーンの作成
-	Scene scene = new Scene(root, VIEW_WIDTH, VIEW_HEIGHT);
-	primaryStage.setScene(scene);
-	primaryStage.show();
-}
+	public void start(Stage primaryStage) throws Exception {
+		// Stageの設定
+		primaryStage.setHeight(VIEW_HEIGHT);
+		primaryStage.setWidth(VIEW_WIDTH);
+		// レイアウトたて
+		VBox vBox = new VBox(5);
+		// レイアウト横
+		HBox hBox = new HBox(8);
+		// ラベルの設定
+		Label label = new Label();
+		// ハローワールドを出力する
+		label.setText(myFirstProgram());
+		label.setFont(new Font("RobotRegular", 24));
+		vBox.getChildren().add(label);
+	
+		// １個目の数値、テキストフィールド
+		TextField text1 = new TextField();
+		text1.setPrefColumnCount(3);
+		text1.setAlignment(Pos.BASELINE_CENTER);
+		hBox.getChildren().add(text1);
+		// 計算式のラベル
+		Label ope = new Label("+");
+		hBox.getChildren().add(ope);
+	
+		// ２個目の数値、テキストフィールド
+		TextField text2 = new TextField();
+		text1.setPrefColumnCount(3);
+		text1.setAlignment(Pos.BASELINE_CENTER);
+		hBox.getChildren().add(text2);
+	
+		// 縦のレイアウトに追加する
+		vBox.getChildren().add(hBox);
+		// ペインの作成
+		Group root = new Group();
+		root.getChildren().add(vBox);
+	
+		// シーンの作成
+		Scene scene = new Scene(root, VIEW_WIDTH, VIEW_HEIGHT);
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
 
 	/**
 	 * メインメソッド
