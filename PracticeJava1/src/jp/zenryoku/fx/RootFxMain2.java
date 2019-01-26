@@ -6,7 +6,9 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -35,7 +37,10 @@ public class RootFxMain2 extends Application {
 		// Stageの設定
 		primaryStage.setHeight(VIEW_HEIGHT);
 		primaryStage.setWidth(VIEW_WIDTH);
-		primaryStage.setScene(createJavaBasicScene());
+		// 画面部分とコントロールボタン部分にレイアウト(表示領域を分ける)
+		BorderPane baseLayout = new BorderPane();
+		baseLayout.setCenter(createJavaBasicPane());
+		primaryStage.setScene(new Scene(baseLayout, VIEW_WIDTH, VIEW_HEIGHT));
 		primaryStage.show();
 	}
 
@@ -44,9 +49,9 @@ public class RootFxMain2 extends Application {
 	 * このシーンはJavaの基本を実行する時用にします。
 	 * 
 	 * @see http://zenryokuservice.com/wp/2019/01/25/java-stepupprogr…avafxで画面切り替えを作る〜/
-	 * @return JavaBasic用のシーン
+	 * @return JavaBasic用のPane
 	 */
-	private Scene createJavaBasicScene() {
+	private Pane createJavaBasicPane() {
 		// レイアウトたて
 		VBox vBox = new VBox(5);
 		// レイアウト横
@@ -75,11 +80,20 @@ public class RootFxMain2 extends Application {
 	
 		// 縦のレイアウトに追加する
 		vBox.getChildren().add(hBox);
-		// ペインの作成
-		Group root = new Group();
-		root.getChildren().add(vBox);
 	
 		// シーンの作成
+		return vBox;
+	}
+
+	/**
+	 * HTMLローダーの画面(シーン)を作成します。
+	 * 
+	 * @return HTンLローダー画面
+	 */
+	private Scene createHtmlLoaderScene() {
+		// ルート・レイアウト
+		Group root = new Group();
+		
 		return new Scene(root, VIEW_WIDTH, VIEW_HEIGHT);
 	}
 	/**
