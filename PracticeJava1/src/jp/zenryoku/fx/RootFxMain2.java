@@ -1,9 +1,12 @@
 package jp.zenryoku.fx;
 
+import java.util.ArrayList;
+
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -25,6 +28,8 @@ public class RootFxMain2 extends Application {
 	private double VIEW_HEIGHT;
 	/** 画面の横幅 */
 	private double VIEW_WIDTH;
+	/** コントロールボタンのリスト */
+	private ArrayList<Button> buttonList;
 
 	/**
 	 * 親クラスのメソッドをオーバーライドする。
@@ -34,12 +39,20 @@ public class RootFxMain2 extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		// JavaBasic画面用のコントロールボタンを作成する
+		this.cretateControllButtonList();
+		
 		// Stageの設定
 		primaryStage.setHeight(VIEW_HEIGHT);
 		primaryStage.setWidth(VIEW_WIDTH);
+
 		// 画面部分とコントロールボタン部分にレイアウト(表示領域を分ける)
 		BorderPane baseLayout = new BorderPane();
+		// このクラスにあるメソッドなので名前だけで呼び出せる
 		baseLayout.setCenter(createJavaBasicPane());
+		// このクラスのメソッドであることを明示的に示すのに「this」を使用する
+		baseLayout.setBottom(this.createFooterPanel());
+		// 土台になるレイアウト(ペイン)をステージに追加する
 		primaryStage.setScene(new Scene(baseLayout, VIEW_WIDTH, VIEW_HEIGHT));
 		primaryStage.show();
 	}
@@ -90,11 +103,36 @@ public class RootFxMain2 extends Application {
 	 * 
 	 * @return HTンLローダー画面
 	 */
-	private Scene createHtmlLoaderScene() {
-		// ルート・レイアウト
-		Group root = new Group();
-		
-		return new Scene(root, VIEW_WIDTH, VIEW_HEIGHT);
+	private Pane createHtmlLoaderPane() {
+		return null;
+	}
+
+	/**
+	 * 画面のフッター部分にコントロール用のボタンを配置する。
+	 * 
+	 * @return Pane レイアウトコンテナ
+	 */
+	private Pane createFooterPanel() {
+		HBox hBox = new HBox(buttonList.size());
+		for(Button ctlBtn : buttonList) {
+			hBox.getChildren().add(ctlBtn);
+		}
+		return hBox;
+	}
+
+	/**
+	 * コントロールボタンを作成する。
+	 * 
+	 */
+	private void cretateControllButtonList() {
+		// デザインパターン：シングルトンの実装
+		if (buttonList == null) {
+			buttonList = new ArrayList<Button>();
+		}
+		Button viewChangeBtn = new Button("画面切り替え");
+		buttonList.add(viewChangeBtn);
+		Button closeBtn = new Button("閉じる");
+		buttonList.add(closeBtn);
 	}
 	/**
 	 * メインメソッド
