@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.concurrent.Worker.State;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,6 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
@@ -28,9 +30,9 @@ import javafx.stage.Stage;
  */
 public class RootFxMain2 extends Application {
 	/** 画面の縦幅 */
-	private double VIEW_HEIGHT;
+	private static final double VIEW_HEIGHT = 500.0;
 	/** 画面の横幅 */
-	private double VIEW_WIDTH;
+	private static final double VIEW_WIDTH = 500.0;
 	/** コントロールボタンのリスト */
 	private ArrayList<Button> buttonList;
 	/** startメソッドから引っ越ししてフィールド変数にします */
@@ -111,9 +113,18 @@ public class RootFxMain2 extends Application {
 	private Pane createHtmlLoaderPane() {
 		StackPane pane = new StackPane();
 		WebView web = new WebView();
-		web.getEngine().load("https://docs.oracle.com/javafx/2/get_started/jfxpub-get_started.htm");
+		web.setPrefWidth(VIEW_WIDTH);
+		web.setPrefHeight(VIEW_HEIGHT - 20);
+		WebEngine engine = web.getEngine();
+		engine.getLoadWorker().stateProperty()
+			.addListener((observer, oldValue, newValue) -> {
+				if (newValue == State.SUCCEEDED) {
+					System.out.println("*** Load is finished! ***");
+				}
+			});
+		engine.load("http://zenryokuservice.com/wp/");
 		pane.getChildren().add(web);
-		System.out.println("ロード完了");
+		System.out.println("非同期ロード処理開始");
 		return pane;
 	}
 
@@ -142,7 +153,7 @@ public class RootFxMain2 extends Application {
 		Button viewChangeBtn = new Button("画面切り替え");
 		viewChangeBtn.setOnAction(event -> {
 			baseLayout.getChildren().remove(0);
-			baseLayout.getChildren().add(createHtmlLoaderPane());
+			baseLayout.setCenter(createHtmlLoaderPane());
 		});
 		buttonList.add(viewChangeBtn);
 		Button closeBtn = new Button("閉じる");
