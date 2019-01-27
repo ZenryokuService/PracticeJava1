@@ -3,17 +3,20 @@ package jp.zenryoku.fx;
 import java.util.ArrayList;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
 /**
@@ -30,6 +33,8 @@ public class RootFxMain2 extends Application {
 	private double VIEW_WIDTH;
 	/** コントロールボタンのリスト */
 	private ArrayList<Button> buttonList;
+	/** startメソッドから引っ越ししてフィールド変数にします */
+	private BorderPane baseLayout;
 
 	/**
 	 * 親クラスのメソッドをオーバーライドする。
@@ -41,13 +46,13 @@ public class RootFxMain2 extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// JavaBasic画面用のコントロールボタンを作成する
 		this.cretateControllButtonList();
+		// 画面部分とコントロールボタン部分にレイアウト(表示領域を分ける)
+		baseLayout = new BorderPane();
 		
 		// Stageの設定
 		primaryStage.setHeight(VIEW_HEIGHT);
 		primaryStage.setWidth(VIEW_WIDTH);
 
-		// 画面部分とコントロールボタン部分にレイアウト(表示領域を分ける)
-		BorderPane baseLayout = new BorderPane();
 		// このクラスにあるメソッドなので名前だけで呼び出せる
 		baseLayout.setCenter(createJavaBasicPane());
 		// このクラスのメソッドであることを明示的に示すのに「this」を使用する
@@ -104,7 +109,12 @@ public class RootFxMain2 extends Application {
 	 * @return HTンLローダー画面
 	 */
 	private Pane createHtmlLoaderPane() {
-		return null;
+		StackPane pane = new StackPane();
+		WebView web = new WebView();
+		web.getEngine().load("https://docs.oracle.com/javafx/2/get_started/jfxpub-get_started.htm");
+		pane.getChildren().add(web);
+		System.out.println("ロード完了");
+		return pane;
 	}
 
 	/**
@@ -130,6 +140,10 @@ public class RootFxMain2 extends Application {
 			buttonList = new ArrayList<Button>();
 		}
 		Button viewChangeBtn = new Button("画面切り替え");
+		viewChangeBtn.setOnAction(event -> {
+			baseLayout.getChildren().remove(0);
+			baseLayout.getChildren().add(createHtmlLoaderPane());
+		});
 		buttonList.add(viewChangeBtn);
 		Button closeBtn = new Button("閉じる");
 		buttonList.add(closeBtn);
