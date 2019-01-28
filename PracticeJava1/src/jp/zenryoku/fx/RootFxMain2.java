@@ -1,6 +1,8 @@
 package jp.zenryoku.fx;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -20,6 +22,8 @@ import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import jp.zenryoku.fx.pane.JavaBasicPane;
+import jp.zenryoku.fx.pane.WebLoaderPane;
 
 /**
  * JavaFXでのハローワールド〜OpenCVなどの
@@ -40,7 +44,7 @@ public class RootFxMain2 extends Application {
 
 	/**
 	 * 親クラスのメソッドをオーバーライドする。
-	 * 画面を作成したり、シーンを作成したり、色々。。。
+	 * 画面を作成したり、ペインを作成したり、色々。。。
 	 * 
 	 * @see javafx.application.Application#start(javafx.stage.Stage)
 	 */
@@ -48,6 +52,7 @@ public class RootFxMain2 extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// JavaBasic画面用のコントロールボタンを作成する
 		this.cretateControllButtonList();
+
 		// 画面部分とコントロールボタン部分にレイアウト(表示領域を分ける)
 		baseLayout = new BorderPane();
 		
@@ -56,76 +61,12 @@ public class RootFxMain2 extends Application {
 		primaryStage.setWidth(VIEW_WIDTH);
 
 		// このクラスにあるメソッドなので名前だけで呼び出せる
-		baseLayout.setCenter(createJavaBasicPane());
+		baseLayout.setCenter(JavaBasicPane.getInstance());
 		// このクラスのメソッドであることを明示的に示すのに「this」を使用する
 		baseLayout.setBottom(this.createFooterPanel());
 		// 土台になるレイアウト(ペイン)をステージに追加する
 		primaryStage.setScene(new Scene(baseLayout, VIEW_WIDTH, VIEW_HEIGHT));
 		primaryStage.show();
-	}
-
-	/**
-	 * シーンの作成部分を切り出ししました。
-	 * このシーンはJavaの基本を実行する時用にします。
-	 * 
-	 * @see http://zenryokuservice.com/wp/2019/01/25/java-stepupprogr…avafxで画面切り替えを作る〜/
-	 * @return JavaBasic用のPane
-	 */
-	private Pane createJavaBasicPane() {
-		// レイアウトたて
-		VBox vBox = new VBox(5);
-		// レイアウト横
-		HBox hBox = new HBox(8);
-		// ラベルの設定
-		Label label = new Label();
-		// ハローワールドを出力する
-		label.setText(myFirstProgram());
-		label.setFont(new Font("RobotRegular", 24));
-		vBox.getChildren().add(label);
-	
-		// １個目の数値、テキストフィールド
-		TextField text1 = new TextField();
-		text1.setPrefColumnCount(3);
-		text1.setAlignment(Pos.BASELINE_CENTER);
-		hBox.getChildren().add(text1);
-		// 計算式のラベル
-		Label ope = new Label("+");
-		hBox.getChildren().add(ope);
-	
-		// ２個目の数値、テキストフィールド
-		TextField text2 = new TextField();
-		text1.setPrefColumnCount(3);
-		text1.setAlignment(Pos.BASELINE_CENTER);
-		hBox.getChildren().add(text2);
-	
-		// 縦のレイアウトに追加する
-		vBox.getChildren().add(hBox);
-	
-		// シーンの作成
-		return vBox;
-	}
-
-	/**
-	 * HTMLローダーの画面(シーン)を作成します。
-	 * 
-	 * @return HTンLローダー画面
-	 */
-	private Pane createHtmlLoaderPane() {
-		StackPane pane = new StackPane();
-		WebView web = new WebView();
-		web.setPrefWidth(VIEW_WIDTH);
-		web.setPrefHeight(VIEW_HEIGHT - 20);
-		WebEngine engine = web.getEngine();
-		engine.getLoadWorker().stateProperty()
-			.addListener((observer, oldValue, newValue) -> {
-				if (newValue == State.SUCCEEDED) {
-					System.out.println("*** Load is finished! ***");
-				}
-			});
-		engine.load("http://zenryokuservice.com/wp/");
-		pane.getChildren().add(web);
-		System.out.println("非同期ロード処理開始");
-		return pane;
 	}
 
 	/**
@@ -153,7 +94,7 @@ public class RootFxMain2 extends Application {
 		Button viewChangeBtn = new Button("画面切り替え");
 		viewChangeBtn.setOnAction(event -> {
 			baseLayout.getChildren().remove(0);
-			baseLayout.setCenter(createHtmlLoaderPane());
+			baseLayout.setCenter(WebLoaderPane.getInstance());
 		});
 		buttonList.add(viewChangeBtn);
 		Button closeBtn = new Button("閉じる");
