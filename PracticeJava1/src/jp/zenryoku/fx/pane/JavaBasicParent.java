@@ -9,6 +9,7 @@
 package jp.zenryoku.fx.pane;
 
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -23,15 +24,17 @@ import javafx.scene.text.Font;
  * @author takunoji
  * 2019/01/28
  */
-public class JavaBasicPane extends Pane {
+public class JavaBasicParent extends Parent {
+	/** このクラス(画面)の名前 */
+	public static final String VIEW_NAME = "JavaBasic";
 	/** このクラスのインスタンス */
-	private static JavaBasicPane instance;
+	private static JavaBasicParent instance;
 	
 	/**
 	 * コンストラクタ。
 	 * デフォルト設定でのJavaBasic画面を作成します。
 	 */
-	private JavaBasicPane() {
+	private JavaBasicParent() {
 		// 暗黙的に起動される親クラスのコンストラクタ
 		super();
 		// レイアウトたて
@@ -72,9 +75,9 @@ public class JavaBasicPane extends Pane {
 	 * このクラスのインスタンスは、必ず１つなので「static」をつけて良い。
 	 * @return JavaBasicPane
 	 */
-	public static JavaBasicPane getInstance() {
+	public static JavaBasicParent getInstance() {
 		if (instance == null) {
-			instance = new JavaBasicPane();
+			instance = new JavaBasicParent();
 		}
 		return instance;
 	}

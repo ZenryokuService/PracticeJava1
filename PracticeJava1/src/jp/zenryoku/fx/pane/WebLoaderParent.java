@@ -9,6 +9,7 @@
 package jp.zenryoku.fx.pane;
 
 import javafx.concurrent.Worker.State;
+import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
@@ -19,13 +20,15 @@ import javafx.scene.web.WebView;
  *
  * 2019/01/28
  */
-public class WebLoaderPane extends Pane {
+public class WebLoaderParent extends Parent {
+	/** このクラス(画面)の名前 */
+	public static final String VIEW_NAME = "WebLoader";
 	/** 初期値(デフォルト値)の縦幅 */
 	private final double VIEW_HEIGHT = 500.0;
 	/** 初期値(デフォルト値)の横幅 */
 	private final double VIEW_WIDTH = 500.0;
 	/** このクラスのインスタンス */
-	private static WebLoaderPane instance;
+	private static WebLoaderParent instance;
 	/** WebViewクラスのインスタンス */
 	private WebView web;
 	
@@ -33,7 +36,7 @@ public class WebLoaderPane extends Pane {
 	 * コンストラクタ。
 	 * デフォルト値でWeb画面を表示する画面を作成する
 	 */
-	private WebLoaderPane() {
+	private WebLoaderParent() {
 		web = new WebView();
 		
 		web.setPrefWidth(VIEW_WIDTH);
@@ -47,9 +50,9 @@ public class WebLoaderPane extends Pane {
 	 * このクラスのインスタンスは、必ず１つなので「static」をつけて良い。
 	 * @return WebLoaderPane
 	 */
-	public static WebLoaderPane getInstance() {
+	public static WebLoaderParent getInstance() {
 		if (instance == null) {
-			instance = new WebLoaderPane();
+			instance = new WebLoaderParent();
 		}
 		WebEngine engine = instance.getWebView().getEngine();
 		engine.getLoadWorker().stateProperty()

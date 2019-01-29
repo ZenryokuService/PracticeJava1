@@ -5,25 +5,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.concurrent.Worker.State;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import jp.zenryoku.fx.pane.JavaBasicPane;
-import jp.zenryoku.fx.pane.WebLoaderPane;
+import jp.zenryoku.fx.pane.JavaBasicParent;
+import jp.zenryoku.fx.pane.WebLoaderParent;
 
 /**
  * JavaFXでのハローワールド〜OpenCVなどの
@@ -39,6 +29,8 @@ public class RootFxMain2 extends Application {
 	private static final double VIEW_WIDTH = 500.0;
 	/** コントロールボタンのリスト */
 	private ArrayList<Button> buttonList;
+	/** 各画面のインスタンスを格納する */
+	private Map<String, Parent> parentMap;
 	/** startメソッドから引っ越ししてフィールド変数にします */
 	private BorderPane baseLayout;
 
@@ -52,6 +44,9 @@ public class RootFxMain2 extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// JavaBasic画面用のコントロールボタンを作成する
 		this.cretateControllButtonList();
+		parentMap = new HashMap<String, Parent>();
+		parentMap.put(JavaBasicParent.VIEW_NAME, JavaBasicParent.getInstance());
+		parentMap.put(WebLoaderParent.VIEW_NAME, WebLoaderParent.getInstance());
 
 		// 画面部分とコントロールボタン部分にレイアウト(表示領域を分ける)
 		baseLayout = new BorderPane();
@@ -61,7 +56,7 @@ public class RootFxMain2 extends Application {
 		primaryStage.setWidth(VIEW_WIDTH);
 
 		// このクラスにあるメソッドなので名前だけで呼び出せる
-		baseLayout.setCenter(JavaBasicPane.getInstance());
+		baseLayout.setCenter(parentMap.get(JavaBasicParent.VIEW_NAME));
 		// このクラスのメソッドであることを明示的に示すのに「this」を使用する
 		baseLayout.setBottom(this.createFooterPanel());
 		// 土台になるレイアウト(ペイン)をステージに追加する
@@ -94,7 +89,7 @@ public class RootFxMain2 extends Application {
 		Button viewChangeBtn = new Button("画面切り替え");
 		viewChangeBtn.setOnAction(event -> {
 			baseLayout.getChildren().remove(0);
-			baseLayout.setCenter(WebLoaderPane.getInstance());
+			baseLayout.setCenter(parentMap.get(WebLoaderParent.VIEW_NAME));
 		});
 		buttonList.add(viewChangeBtn);
 		Button closeBtn = new Button("閉じる");
