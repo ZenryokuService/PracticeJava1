@@ -58,8 +58,18 @@ public class RootFxMain extends Application {
 		TextField text2 = new TextField();
 		text1.setPrefColumnCount(3);
 		text1.setAlignment(Pos.BASELINE_CENTER);
+
+		// Hello Worldという文言の下にあるレイアウトに追加
 		hBox.getChildren().add(text2);
-	
+
+		// 「=」を追加する
+		Label equal = new Label("=");
+		hBox.getChildren().add(equal);
+
+		// 答えを表示するラベル
+		Label answer = new Label("");
+		hBox.getChildren().add(answer);
+		
 		// 縦のレイアウトに追加する
 		vBox.getChildren().add(hBox);
 		// ペインの作成
