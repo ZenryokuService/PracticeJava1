@@ -44,8 +44,8 @@ public class Step1_1 {
 		 * 複数行コメント部分
 		 * 処理の説明など複数行に渡りコメントを記述する
 		 */
-		System.out.println("Hello World");
-		System.out.println("Tiger! Gaaa!!");
+		System.out.print("あっ！外人だ。。。");
+		yobareru();
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class Step1_1 {
 	 * クラスの内部からのみ参照できる 文字列を返却する「mojiwoKaesu」という名の
 	 * 引数「int型のnumberという変数を持つ」メソッド
 	 */
-	public void yobareru() {
+	public static void yobareru() {
 		System.out.println("Nice to meet you!");
 	}
 }
