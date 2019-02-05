@@ -10,6 +10,10 @@ package jp.zenryoku.fx.parent;
 
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -36,8 +40,25 @@ public class JavaBasicParent extends Parent {
 	private JavaBasicParent() {
 		// 暗黙的に起動される親クラスのコンストラクタ
 		super();
+		
 		// レイアウトたて
 		VBox vBox = new VBox(5);
+		// 初めのコンポーネントを設定する
+		createHelloAndCalc(vBox);
+		// LineChartを表示する
+		createLineChart(vBox);
+		// 子供(中身)のペインを追加
+		this.getChildren().add(vBox);
+	}
+
+	/**
+	 * 初期表示するコンポーネントを設定する。
+	 * 1.HelloWorldのラベル
+	 * 2.四則計算のテキストフィールド
+	 * 
+	 * @param vBox 縦のレイアウト
+	 */
+	private void createHelloAndCalc(VBox vBox) {
 		// レイアウト横
 		HBox hBox = new HBox(8);
 		// ラベルの設定
@@ -61,14 +82,42 @@ public class JavaBasicParent extends Parent {
 		text1.setPrefColumnCount(3);
 		text1.setAlignment(Pos.BASELINE_CENTER);
 		hBox.getChildren().add(text2);
-	
+
 		// 縦のレイアウトに追加する
 		vBox.getChildren().add(hBox);
-
-		// 子供(中身)のペインを追加
-		this.getChildren().add(vBox);
 	}
 
+	private void createLineChart(VBox vBox) {
+		final CategoryAxis xAxis = new CategoryAxis();
+        final NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Month");       
+        
+        final LineChart<String,Number> lineChart = 
+                new LineChart<String,Number>(xAxis,yAxis);
+                
+        lineChart.setTitle("Stock Monitoring, 2010");
+                                
+        XYChart.Series series = new XYChart.Series();
+        series.setName("My portfolio");
+        
+        series.getData().add(new XYChart.Data("Jan", 23));
+        series.getData().add(new XYChart.Data("Feb", 14));
+        series.getData().add(new XYChart.Data("Mar", 15));
+        series.getData().add(new XYChart.Data("Apr", 24));
+        series.getData().add(new XYChart.Data("May", 34));
+        series.getData().add(new XYChart.Data("Jun", 36));
+        series.getData().add(new XYChart.Data("Jul", 22));
+        series.getData().add(new XYChart.Data("Aug", 45));
+        series.getData().add(new XYChart.Data("Sep", 43));
+        series.getData().add(new XYChart.Data("Oct", 17));
+        series.getData().add(new XYChart.Data("Nov", 29));
+        series.getData().add(new XYChart.Data("Dec", 25));
+
+        vBox.getChildren().add(lineChart);
+        // データのセット
+        lineChart.getData().add(series);
+        
+	}
 	/** 
 	 * インスタンを取得する。
 	 * このクラスのインスタンスは、必ず１つなので「static」をつけて良い。

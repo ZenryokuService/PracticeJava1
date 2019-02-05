@@ -69,8 +69,7 @@ public class RootFxMain2 extends Application {
 		// このクラスのメソッドであることを明示的に示すのに「this」を使用する
 		baseLayout.setBottom(this.createFooterPanel());
 		// 土台になるレイアウト(ペイン)をステージに追加する
-//		primaryStage.setScene(new Scene(baseLayout, VIEW_WIDTH, VIEW_HEIGHT));
-		primaryStage.setScene(new Scene((Parent) parentMap.get(JavaBasicParent.VIEW_NAME), VIEW_WIDTH, VIEW_HEIGHT));
+		primaryStage.setScene(new Scene(baseLayout, VIEW_WIDTH, VIEW_HEIGHT));
 		primaryStage.show();
 	}
 
