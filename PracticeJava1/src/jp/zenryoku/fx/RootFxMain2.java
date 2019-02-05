@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.opencv.core.Core;
+
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,8 +14,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import jp.zenryoku.fx.pane.JavaBasicParent;
-import jp.zenryoku.fx.pane.WebLoaderParent;
+import jp.zenryoku.fx.parent.JavaBasicParent;
+import jp.zenryoku.fx.parent.WebLoaderParent;
 
 /**
  * JavaFXでのハローワールド〜OpenCVなどの
@@ -33,6 +35,13 @@ public class RootFxMain2 extends Application {
 	private Map<String, Parent> parentMap;
 	/** startメソッドから引っ越ししてフィールド変数にします */
 	private BorderPane baseLayout;
+
+	/**
+	 * OpenCV起動用ライビラリロード
+	 */
+	static {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+	}
 
 	/**
 	 * 親クラスのメソッドをオーバーライドする。
@@ -60,7 +69,8 @@ public class RootFxMain2 extends Application {
 		// このクラスのメソッドであることを明示的に示すのに「this」を使用する
 		baseLayout.setBottom(this.createFooterPanel());
 		// 土台になるレイアウト(ペイン)をステージに追加する
-		primaryStage.setScene(new Scene(baseLayout, VIEW_WIDTH, VIEW_HEIGHT));
+//		primaryStage.setScene(new Scene(baseLayout, VIEW_WIDTH, VIEW_HEIGHT));
+		primaryStage.setScene(new Scene((Parent) parentMap.get(JavaBasicParent.VIEW_NAME), VIEW_WIDTH, VIEW_HEIGHT));
 		primaryStage.show();
 	}
 
