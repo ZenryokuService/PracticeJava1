@@ -14,11 +14,13 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.collections.FXCollections;
 
 /**
  * JavaBasic用の画面クラス。
@@ -74,7 +76,8 @@ public class JavaBasicParent extends Parent {
 		text1.setAlignment(Pos.BASELINE_CENTER);
 		hBox.getChildren().add(text1);
 		// 計算式のラベル
-		Label ope = new Label("+");
+		ChoiceBox ope = new ChoiceBox(
+				FXCollections.observableArrayList("+", "-", "*", "/"));
 		hBox.getChildren().add(ope);
 	
 		// ２個目の数値、テキストフィールド
