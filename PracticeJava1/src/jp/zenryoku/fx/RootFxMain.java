@@ -1,9 +1,18 @@
 package jp.zenryoku.fx;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.application.Application;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -49,15 +58,20 @@ public class RootFxMain extends Application {
 		TextField text1 = new TextField();
 		text1.setPrefColumnCount(3);
 		text1.setAlignment(Pos.BASELINE_CENTER);
+		// １個目のテキストフィールドのIDをつける
+		text1.setId("input1");
 		hBox.getChildren().add(text1);
+
 		// 計算式のラベル
 		Label ope = new Label("+");
 		hBox.getChildren().add(ope);
 	
 		// ２個目の数値、テキストフィールド
 		TextField text2 = new TextField();
-		text1.setPrefColumnCount(3);
-		text1.setAlignment(Pos.BASELINE_CENTER);
+		text2.setPrefColumnCount(3);
+		text2.setAlignment(Pos.BASELINE_CENTER);
+		// ２個目のテキストフィールドのIDをつける
+		text2.setId("input2");
 
 		// Hello Worldという文言の下にあるレイアウトに追加
 		hBox.getChildren().add(text2);
@@ -68,8 +82,49 @@ public class RootFxMain extends Application {
 
 		// 答えを表示するラベル
 		Label answer = new Label("");
+		answer.setId("answer");
 		hBox.getChildren().add(answer);
-		
+
+		// 答えの隣に計算ボタンを追加する
+		Button keisan = new Button("計算");
+		keisan.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				System.out.println("ボタンアクション開始");
+				final List<Integer> numbers = new ArrayList<>();
+				// ボタンを取得する
+				Button pushed = (Button) event.getSource();
+				// 親のノード(コンポーネント)を取得する→この場合は「HBox」になる
+				Parent parent = pushed.getParent();
+				// 親に含まれているノード(コンポーネント)を取得する
+				ObservableList<Node> list = parent.getChildrenUnmodifiable();
+				list.stream().forEach(node -> {
+					System.out.println("ノード取得: " + node.getId());
+					try {
+						if ("input1".equals(node.getId())) {
+							TextField t1 = (TextField) node;
+							String input = t1.getText();
+							numbers.add(new Integer(input));
+						} else if("input2".equals(node.getId())) {
+							TextField t2 = (TextField) node;
+							String input = t2.getText();
+							numbers.add(new Integer(input));
+						} else if("answer".equals(node.getId())) {
+							Label anser = (Label) node;
+							Integer in1 = numbers.get(0);
+							Integer in2 = numbers.get(1);
+							int kotae = in1 + in2;
+							anser.setText(String.valueOf(kotae));
+						}
+					} catch (Exception e) {
+						label.setText(e.getMessage());
+					}
+				});
+				
+				System.out.println("ボタンアクション終了");
+			}
+		});
+		hBox.getChildren().add(keisan);
 		// 縦のレイアウトに追加する
 		vBox.getChildren().add(hBox);
 		// ペインの作成
