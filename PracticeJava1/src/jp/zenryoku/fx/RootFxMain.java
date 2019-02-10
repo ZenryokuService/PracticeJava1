@@ -15,10 +15,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.scene.canvas.Canvas;
 
 /**
  * JavaFXでのハローワールド〜OpenCVなどの
@@ -29,9 +33,9 @@ import javafx.stage.Stage;
  */
 public class RootFxMain extends Application {
 	/** 画面の縦幅 */
-	private double VIEW_HEIGHT;
+	private double VIEW_HEIGHT = 500.0;
 	/** 画面の横幅 */
-	private double VIEW_WIDTH;
+	private double VIEW_WIDTH = 500.0;
 	/**
 	 * 親クラスのメソッドをオーバーライドする。
 	 * 画面を作成したり、シーンを作成したり、色々。。。
@@ -120,13 +124,16 @@ public class RootFxMain extends Application {
 						label.setText(e.getMessage());
 					}
 				});
-				
 				System.out.println("ボタンアクション終了");
 			}
 		});
 		hBox.getChildren().add(keisan);
+
 		// 縦のレイアウトに追加する
 		vBox.getChildren().add(hBox);
+
+		// 背景の作成
+		createBackGround(vBox);
 		// ペインの作成
 		Group root = new Group();
 		root.getChildren().add(vBox);
@@ -156,5 +163,32 @@ public class RootFxMain extends Application {
 		long num = 12345678901L;
 		float shosu = 123.09876543f;
 		return hyoji;
+	}
+
+	/**
+	 * ImageViewを作成する
+	 * @param fileName ファイルの名前
+	 * @return ImageView 画像
+	 */
+	public Label createImageLbl(String fileName ) {
+		ImageView img =  new ImageView(new Image(getClass().getResourceAsStream("/images/" + fileName)));
+		Label tile = new Label();
+		tile.setGraphic(img);
+		return tile;
+	}
+
+	/**
+	 * Canvasに背景を描画する
+	 * @param vBox Canvasを追加する領域
+	 */
+	public void createBackGround(VBox vBox) {
+		String lightGrass = "grass_light.png";
+		String deepGrass = "grass_deep.png";
+		String soilBasic = "soil_basic.png";
+		GridPane grid = new GridPane();
+		for (int i = 1; i <= 5; i++) {
+			grid.add(createImageLbl(lightGrass), 0, i);
+		}
+		vBox.getChildren().add(grid);
 	}
 }
