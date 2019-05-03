@@ -34,14 +34,16 @@ public class OpenCVTest9_AddWeited {
 	public static void main(String[] args) {
 		long start = System.currentTimeMillis();
 		// 真っ白な画像から引き算してみる
-		Mat src = Imgcodecs.imread(OpenCVTest9_Substract.class.getResource("/images/rakugaki.png").getPath());
-		Mat cart = Imgcodecs.imread(OpenCVTest9_Substract.class.getResource("/images/racgaki2.png").getPath());
+		Mat src = Imgcodecs.imread(OpenCVTest9_Substract.class.getResource("/categories/" + "1_create.png").getPath(), Imgcodecs.IMREAD_UNCHANGED);
+		Mat cart = Imgcodecs.imread(OpenCVTest9_Substract.class.getResource("/categories/" + "A_design.png").getPath(), Imgcodecs.IMREAD_UNCHANGED);
+		Mat cart1 = Imgcodecs.imread(OpenCVTest9_Substract.class.getResource("/categories/" + "a_artifacts.png").getPath(), Imgcodecs.IMREAD_UNCHANGED);
 		System.out.println("*** First ****");
-		System.out.println(src.dump());
 		Mat dst = new Mat();
 		Core.addWeighted(src, 0.5, cart, 0.5, 0, dst);
+		Core.addWeighted(dst, 0.5, cart1, 0.5, 0, dst);
 		System.out.println("*** Second ****");
-		System.out.println(dst.dump());
+		Imgcodecs.imwrite("/dst/1Aa.png", dst);
+//		System.out.println(dst.dump());
 		ViewFrame frame = new ViewFrame(dst);
 		System.out.println("実行時間: " + (System.currentTimeMillis() - start) + "ミリ秒");
 	}
