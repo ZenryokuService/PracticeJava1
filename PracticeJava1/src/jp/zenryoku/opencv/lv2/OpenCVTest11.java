@@ -29,8 +29,8 @@ public class OpenCVTest11 {
 	public static void main(String[] args) {
 		long start = System.currentTimeMillis();
 		// 画像を２枚読み込む
-		Mat src = Imgcodecs.imread(OpenCVTest11.class.getResource("/images/4color.png").getPath());
-		Mat cart = Imgcodecs.imread(OpenCVTest11.class.getResource("/images/racgaki2.png").getPath());
+		Mat src = Imgcodecs.imread(OpenCVTest11.class.getResource("/categories/1_create.png").getPath(), Imgcodecs.IMREAD_UNCHANGED);
+		Mat cart = Imgcodecs.imread(OpenCVTest11.class.getResource("/categories/A_design.png").getPath(), Imgcodecs.IMREAD_UNCHANGED);
 		// 論理演算処理を行う
 		Mat dst = new Mat();
 		Core.bitwise_and(src, cart, dst);

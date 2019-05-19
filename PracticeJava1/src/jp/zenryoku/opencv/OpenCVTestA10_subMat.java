@@ -34,8 +34,8 @@ public class OpenCVTestA10_subMat {
 	public static void main(String[] args) {
 		long start = System.currentTimeMillis();
 		// 画像を２枚読み込む
-		Mat src = Imgcodecs.imread(OpenCVTest9_Substract.class.getResource("/images/mountain.png").getPath());
-		Mat cart = Imgcodecs.imread(OpenCVTest9_Substract.class.getResource("/images/racgaki2.png").getPath());
+		Mat src = Imgcodecs.imread(OpenCVTest9_Substract.class.getResource("/categories/1_創造実行.png").getPath());
+		Mat cart = Imgcodecs.imread(OpenCVTest9_Substract.class.getResource("/categories/A_デザイン_アート.png").getPath());
 		Rect rect = new Rect(600, 400, 50, 50);
 		Mat roi = src.submat(rect);
 		// 抜き出した部分に掛け算を行う(アルファブレンドを行う)

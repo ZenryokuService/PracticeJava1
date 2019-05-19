@@ -8,6 +8,7 @@
  */
 package jp.zenryoku.opencv.view;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -44,6 +45,8 @@ public class ViewFrame extends JFrame {
 		BufferedImage buf = getIconImage(image);
 		// ラベルをフィールドに持っていく 2018/11/23
 		label = new JLabel(new ImageIcon(buf));
+		// 背景を白くする
+		label.setBackground(Color.WHITE);
 		con.add(label);
 		// JFrameを閉じるときにアプリケーションも終わるようにする
 		super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
