@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 /**
@@ -29,7 +30,7 @@ import java.nio.channels.SocketChannel;
  */
 public class U16ProconClient {
 	/** タイムアウトする時間(ミリ秒) */
-	private static final int TIME_OUT = 3000;
+	private static final int TIME_OUT = 10000;
 	/** 接続するSocket(クライアントソケット) */
 	private Socket socket;
 	/** 
@@ -44,7 +45,6 @@ public class U16ProconClient {
 		int portNo = 2009; // COOLを使用する
 		// CHaserServerへの接続作成及びゲーム起動
 		U16ProconClient client = new U16ProconClient(serverHost, portNo);
-
 		// サーバーへ接続する(GetReady送信)
 		client.connectChaser();
 	}
@@ -68,21 +68,41 @@ public class U16ProconClient {
 	}
 
 	private void connectChaser() {
-		String sendHttpRequest = "GET /UserCheck?user=cool&pass=cool HTTP/1.1\r\nAccept-Language: ja;q=0.7,en;q=0.3\r\nUser-Agent: Java/1.8.0_144\r\nHost: 127.0.0.1:2009\r\nAccept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2\r\nConnection: keep-alive\r\n\r\n";
+//		String sendHttpRequest = "GET /UserCheck?user=cool&pass=cool HTTP/1.1\r\nAccept-Language: ja;q=0.7,en;q=0.3\r\nUser-Agent: Java/1.8.0_144\r\nHost: 127.0.0.1:2009\r\nAccept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2\r\nConnection: keep-alive\r\n\r\n";
+		String sendHttpRequest = "TeamName";
 		try {
 			System.out.println("*** Send Socket ***");
 			OutputStream sendTo = socket.getOutputStream();
+			sendHttpRequest = sendHttpRequest + "\r\n";
 			sendTo.write(sendHttpRequest.getBytes());
 			// CHaserServerにアクセスする
 			System.out.println("isConnected: "+ socket.isConnected());
+			System.out.println("isInputStreamShutdown: "+ socket.isInputShutdown());
 			System.out.println("isOutputShutdown: "+ socket.isOutputShutdown());
 			BufferedReader res = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+			// 1秒待つ
+			waitASecond();
+
 			String line = null;
+			System.out.println("*** Game Start ***");
+			// 接続確認フラグ
+			boolean connected = false;
 			while((line = res.readLine()) != null) {
+				connected = true;
 				System.out.println(line);
+				if("@".equals(line)) {
+					break;
+				}
 			}
-
-
+			if (connected) {
+				System.out.println("send 'gr'");
+				startGame(sendTo, res);
+			}
+			// ChaserServerから"@"が送られてくるのでゲーム処理を開始する
+//			while(socket.isConnected()) {
+//				
+//			}
 			sendTo.close();
 			res.close();
 		} catch (IOException e) {
@@ -90,12 +110,31 @@ public class U16ProconClient {
 		}
 	}
 
-	private void accessChaser() throws IOException {
-		System.out.println("Response");
-		SocketChannel channel = socket.getChannel();
-		channel.configureBlocking(true);
-		System.out.println("Remote: " + channel.getRemoteAddress());
-		System.out.println("Connected: " + channel.isConnected());
-		System.out.println("isOpen: " + channel.isOpen());
+	private void startGame(OutputStream sendTo, BufferedReader response) throws IOException {
+		sendTo.write("gr\r\n".getBytes());
+
+		int gameStep = 100;
+		System.out.println("*** Loop Start ***");
+		ByteBuffer buf = ByteBuffer.allocate(100);
+		while(true) {
+			String line = response.readLine();
+			System.out.println(line);
+			sendTo.write("lu".getBytes());
+			if ("1202200202".equals(line)) {
+				System.out.println("サーバーでエラー？起動を終了する。");
+				break;
+			}
+		}
+	}
+	/**
+	 * 1秒待つ
+	 */
+	private void waitASecond() {
+		try {
+			// 1秒待つ
+			Thread.sleep(1000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

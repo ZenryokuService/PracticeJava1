@@ -38,14 +38,21 @@ public class Step1_1 {
 	 *  
 	 * @param args　メインメソッドの引数はプログラム引数を示す
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] aabb) {
 		// 1行コメント部分
 		/*
 		 * 複数行コメント部分
 		 * 処理の説明など複数行に渡りコメントを記述する
 		 */
-		System.out.print("あっ！外人だ。。。");
-		yobareru();
+		int num = Integer.parseInt(aabb[0]);
+		String[] json = new String[] {"a", "bb", "ccc"};
+		try {
+			System.out.println(json[num]);
+		} catch(Exception e) {
+			e.printStackTrace();
+			// 
+		}
+//		System.out.println("Hello");
 	}
 
 	/**
