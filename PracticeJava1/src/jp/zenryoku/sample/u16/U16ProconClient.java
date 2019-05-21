@@ -13,10 +13,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.util.Arrays;
 
 /**
  * サンプルでアップされているプログラムがHTTPでの接続をしているので動かないと判断。
@@ -31,6 +33,8 @@ import java.nio.channels.SocketChannel;
 public class U16ProconClient {
 	/** タイムアウトする時間(ミリ秒) */
 	private static final int TIME_OUT = 10000;
+	/** 改行コード */
+	private static final String ENTER = "\r\n";
 	/** 接続するSocket(クライアントソケット) */
 	private Socket socket;
 	/** 
@@ -97,7 +101,7 @@ public class U16ProconClient {
 			}
 			if (connected) {
 				System.out.println("send 'gr'");
-				startGame(sendTo, res);
+				startGame(sendTo, socket.getInputStream());
 			}
 			// ChaserServerから"@"が送られてくるのでゲーム処理を開始する
 //			while(socket.isConnected()) {
@@ -110,20 +114,68 @@ public class U16ProconClient {
 		}
 	}
 
-	private void startGame(OutputStream sendTo, BufferedReader response) throws IOException {
-		sendTo.write("gr\r\n".getBytes());
+	/**
+	 * 1003000200
+	 * 1222000200
+	 * @param sendTo
+	 * @param response
+	 * @throws IOException
+	 */
+	private void startGame(OutputStream sendTo, InputStream response) throws IOException {
 
 		int gameStep = 100;
 		System.out.println("*** Loop Start ***");
 		ByteBuffer buf = ByteBuffer.allocate(100);
+//		String[] arr = new String[] {"lu", "wd"};
+		int loop = 0;
+		byte[] res = new byte[100];
 		while(true) {
-			String line = response.readLine();
-			System.out.println(line);
-			sendTo.write("lu".getBytes());
-			if ("1202200202".equals(line)) {
-				System.out.println("サーバーでエラー？起動を終了する。");
+			if (4 <= loop) {
 				break;
 			}
+			// コマンドの送信[gr + "コマンド" + \r\n]
+//			System.out.println(gameStep + " / send: " + arr[loop]);
+			sendTo.write(("gr" + ENTER).getBytes());
+			// レスポンスを受ける
+			response.read(res);
+			convert(res);
+			sendTo.write(("lu" + ENTER).getBytes());
+			waitASecond();
+			// レスポンスを受ける
+			response.read(res);
+			System.out.println(new String(res));
+			sendTo.write(("#" + ENTER).getBytes());
+			gameStep--;
+			loop++;
+		}
+		System.out.println("*** Finish ***");
+	}
+
+	/**
+	 * 変換処理を行う
+	 * @param response
+	 * @return
+	 */
+	private int[] convert(byte[] response) {
+		System.out.println("*** ByteLength: " + response.length + " ***");
+		// 返却する値
+		int[] retInt = new int[response.length -2];
+		dump(response, retInt);
+		for (int i = 0; i < retInt.length; i++) {
+			// \rと\nの分を差し引く
+			retInt[i] = response[i] - '0';
+		}
+		System.out.println(retInt);
+		return retInt;
+	}
+
+	private void dump(byte[] response, int[] retInt) {
+		try {
+			System.out.println("Arrays.toString: " + Arrays.toString(response));
+			System.out.println("new String: " + new String(response, System.getProperty("file.encoding")));
+			System.out.println("Return: " + retInt);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
 	}
 	/**
@@ -132,7 +184,7 @@ public class U16ProconClient {
 	private void waitASecond() {
 		try {
 			// 1秒待つ
-			Thread.sleep(1000);
+			Thread.sleep(1500);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
