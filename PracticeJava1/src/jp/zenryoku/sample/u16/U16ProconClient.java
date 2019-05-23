@@ -146,8 +146,8 @@ public class U16ProconClient {
 		System.out.println("*** Game Start ***");
 		String line = null;
 		// ゲーム開始のデータを送信する
-		outputStream.write(("gr" + ENTER).getBytes());
-		System.out.println("send 'gr'");
+//		outputStream.write(("gr" + ENTER).getBytes());
+//		System.out.println("send 'gr'");
 		// ゲームループ開始
 		startLoop(outputStream, inputStream);
 		outputStream.close();
@@ -164,7 +164,7 @@ public class U16ProconClient {
 		int gameStep = 100;
 		System.out.println("*** Loop Start ***");
 		ByteBuffer buf = ByteBuffer.allocate(100);
-		String[] arr = new String[] {"lu", "wd", "ld", "ou"};
+		String[] arr = new String[] {"lu", "wu", "sd", "wd", "pp"};
 		int loop = 0;
 		byte[] res = new byte[100];
 		boolean isDead = false;
@@ -183,7 +183,7 @@ public class U16ProconClient {
 			showResponse(sendTo, response, "#");
 			gameStep--;
 			loop++;
-			if (4 <= loop) {
+			if (arr.length <= loop) {
 				break;
 			}
 		}
