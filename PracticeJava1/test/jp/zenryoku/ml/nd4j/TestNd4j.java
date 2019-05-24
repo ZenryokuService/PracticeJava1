@@ -24,9 +24,13 @@ public class TestNd4j {
 	public void testCreateINDArray() {
 		// INT型データの行列を作成する
 		INDArray data = Nd4j.create(new int[] {3, 3});
-		System.out.println("*** init ***");
+		System.out.println("*** init zeros***");
 		System.out.println(data);
 		System.out.println("*** putScalar ***");
 		System.out.println(data.putScalar(new int[] {2, 1}, 1.0));
+		System.out.println("*** init ones ***");
+		INDArray reData = Nd4j.ones(new int[] {3, 3});
+		System.out.println(reData);
+		System.out.println(Nd4j.pad(reData, new int[] {1,  1}, Nd4j.PadMode.CONSTANT));
 	}
 }
