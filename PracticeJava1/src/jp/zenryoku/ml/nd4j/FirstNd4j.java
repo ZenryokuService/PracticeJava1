@@ -6,7 +6,7 @@ import org.nd4j.linalg.factory.Nd4j;
 
 /**
  * @author takunoji
- *
+ * @see https://github.com/ZenryokuService/AsahikawaProcon-Server/blob/master/README.md
  * 2019/02/14
  */
 public class FirstNd4j {
