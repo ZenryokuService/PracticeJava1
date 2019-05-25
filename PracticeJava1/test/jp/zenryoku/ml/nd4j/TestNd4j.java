@@ -8,12 +8,16 @@
  */
 package jp.zenryoku.ml.nd4j;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.awt.image.DataBuffer;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -23,7 +27,9 @@ import org.junit.Test;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 
+import jp.zenryoku.sample.u16.ClientData;
 import jp.zenryoku.sample.u16.ClientManager;
+import jp.zenryoku.sample.u16.WalkHandler;
 
 /**
  * ND4JのNd４jクラスを学習のため、テストする
@@ -51,12 +57,12 @@ public class TestNd4j {
 	}
 
 	/**
-	 * 
+	 * メソッド
 	 * @param <T> 取得するメソッドの引数の型
 	 * @param methodName
 	 * @return
 	 */
-	private <T> Method getPrivateMethod(String methodName, Class<T> ... args ) {
+	private <T> Method getPrivateMethod(String methodName, Class<?> ... args ) {
 		Method method = null;
 		try {
 			if (args == null) {
@@ -102,7 +108,7 @@ public class TestNd4j {
 		Method test = this.getPrivateMethod("setBufMap", String.class);
 		try {
 			test.invoke(target, "1002001222");
-			String[] res = target.getBufMap();
+			String[] res = target.getClientData().getBufMap();
 			for (String val: res) {
 				System.out.print(val + ", ");
 			}
@@ -118,6 +124,58 @@ public class TestNd4j {
 		} catch (SecurityException e) {
 			e.printStackTrace();
 			fail("メソッドの実行に失敗");
+		}
+	}
+
+	/** 自分の周りをチェックするメソッドのテストケース　*/
+	@Test
+	public void testCheckAround() {
+		//// 本当はメソッド１つにつき１ケースのテストを行うが、小さなテストなので勘弁してください。。。 ////
+		try {
+			Method test = this.getPrivateMethod("checkAround", String.class);
+			
+			Consumer<String> func = str -> {
+				try {
+					test.invoke(target, str);
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+					e.printStackTrace();
+					fail("アクセス違反です。");
+				}
+			};
+			//// サンプルデータ１での検証 ////
+			func.accept("1010010010");
+			// テストケース１：周囲にアイテムがあるかの判定
+			ClientData data = target.getClientData();
+			assertEquals(true, data.isItem());
+			// テストケース２：周囲に相手プレーヤがいる化の判定
+			assertEquals(false, data.isPlayer());
+			// テストケース３：行動できるスペースにブロックがあるかどうか
+			WalkHandler handle = data.getHandler();
+			assertEquals(true, handle.isOkUp());
+			assertEquals(true, handle.isOkDown());
+			assertEquals(true, handle.isOkLeft());
+			assertEquals(true, handle.isOkRight());
+
+			//// サンプルデータ２での検証 ////
+			func.accept("1020020020");
+			// テストケース１：周囲にアイテムがあるかの判定
+			ClientData data2 = target.getClientData();
+			assertEquals(true, data2.isItem());
+			// テストケース２：周囲に相手プレーヤがいる化の判定
+			assertEquals(false, data2.isPlayer());
+			// テストケース３：行動できるスペースにブロックがあるかどうか
+			WalkHandler handle2 = data2.getHandler();
+			assertEquals(false, handle2.isOkUp());
+			assertEquals(false, handle2.isOkDown());
+			assertEquals(true, handle2.isOkLeft());
+			assertEquals(true, handle2.isOkRight());
+
+		} catch (SecurityException e) {
+			e.printStackTrace();
+			fail("セキュリティ違反です。");
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			fail("メソッドの引数違反です。");
 		}
 	}
 }
