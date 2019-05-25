@@ -29,8 +29,9 @@ public class TestNd4j {
 		System.out.println("*** putScalar ***");
 		System.out.println(data.putScalar(new int[] {2, 1}, 1.0));
 		System.out.println("*** init ones ***");
-		INDArray reData = Nd4j.ones(new int[] {3, 3});
+		// １の値で初期化された配列に全て３を足す
+		INDArray reData = Nd4j.ones(new int[] {3, 3}).addi(3);
 		System.out.println(reData);
-		System.out.println(Nd4j.pad(reData, new int[] {1,  1}, Nd4j.PadMode.CONSTANT));
+		System.out.println(Nd4j.pad(reData, new int[] {6,  6}, Nd4j.PadMode.CONSTANT));
 	}
 }
