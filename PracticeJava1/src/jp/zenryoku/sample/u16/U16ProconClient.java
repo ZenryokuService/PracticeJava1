@@ -14,38 +14,27 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
 import java.util.Arrays;
 
 /**
  * サンプルでアップされているプログラムがHTTPでの接続をしているので動かないと判断。
  * Socket通信を行う方向で作成し直す。
- * このクラスは、単体で使用する目的で作成しているので、<br/>
- * コンストラクタ及びそのほかのメソッドは外部からアクセスできません。
  * [Input: ]でコメントがついている部分は、使用者が入力(記入)する部分です。
- * Input: 1 
+ * [例] Input: 1 
  * 
  * @author takunoji
  * @see http://www.zenjouken.com/index.php?action=pages_view_main&block_id=150&active_action=journal_view_main_detail&post_id=55#_150 …
  * 2019/05/19
  */
 public class U16ProconClient {
-	/** タイムアウトする時間(ミリ秒) */
-	private static final int TIME_OUT = 10000;
-	/** 改行コード */
-	private static final String ENTER = "\r\n";
-	/** COOLのポート番号 */
-	private static final int COOL = 2009;
-	/** HOTのポート番号 */
-	private static final int HOT = 2010;
+
 	/** 接続するSocket(クライアントソケット) */
 	private Socket socket;
-	/** 接続フラグ */
-	boolean isConnected;
-
+	/** クライアントの行動などの管理 */
+	private ClientManager manager;
+	/** クライアントアプリの使用する情報を保持する */
+	private ClientData data;
 
 	/** 
 	 * Mainメソッド。
@@ -58,7 +47,7 @@ public class U16ProconClient {
 		// Input: 1 サーバーホスト(IPアドレス)
 		String serverHost = "127.0.0.1";
 		// COOLを使用する: HOTを使用する場合は2010版のポート番号
-		int portNo = COOL;
+		int portNo = ClientData.COOL;
 		// CHaserServerへの接続作成及びゲーム起動
 		U16ProconClient client = new U16ProconClient(serverHost, portNo);
 		// サーバーへ接続する(GetReady送信)
@@ -81,12 +70,12 @@ public class U16ProconClient {
 	 * @param serverHost 接続先のIPとポート番号(ホスト名)
 	 */
 	private U16ProconClient(String serverHost, int portNo) {
-		// 接続フラグを初期化する
-		isConnected = false;
+		// マネージャの作成
+		manager = new ClientManager();
 		try {
 			System.out.println("*** 1.Create Socket in Constructor ***");
 			socket = new Socket(serverHost, portNo);
-			socket.setSoTimeout(TIME_OUT);
+			socket.setSoTimeout(ClientData.TIME_OUT);
 			
 		} catch (IOException e) {
 			System.out.println("*** Error:コネクションの作成に失敗 ***");
@@ -116,9 +105,6 @@ public class U16ProconClient {
 			// レスポンスの値を取得する
 			String line = res.readLine();
 			System.out.println("Start Command: " + line);
-			if("@".equals(line)) {
-				isConnected = true;
-			}
 			// 1秒待つ
 			waitASecond();
 		} catch (IOException e) {
@@ -126,6 +112,8 @@ public class U16ProconClient {
 				System.out.println("Server Reponse is 0. Finish!!");
 			} else {
 				e.printStackTrace();
+				// プログラムを異常終了する。
+				System.exit(-1);
 			}
 		}
 	}
@@ -140,54 +128,66 @@ public class U16ProconClient {
 		OutputStream outputStream = socket.getOutputStream();
 		// 受信用の入力ストリーム、同様にストリーム経由でデータを受信する
 		InputStream inputStream = socket.getInputStream();
-		// 受信したデータをラッパークラスを使用して読み込む
-		BufferedReader res = new BufferedReader(new InputStreamReader(inputStream));
 
 		System.out.println("*** Game Start ***");
-		String line = null;
-		// ゲーム開始のデータを送信する
-//		outputStream.write(("gr" + ENTER).getBytes());
-//		System.out.println("send 'gr'");
 		// ゲームループ開始
 		startLoop(outputStream, inputStream);
 		outputStream.close();
 		inputStream.close();
 	}
 	/**
-	 * ゲームのループを実装する
-	 * @param sendTo
-	 * @param response
-	 * @throws IOException
+	 * ゲームのループを実装する。
+	 * GetReady,コマンド送信,'#'(行動終了)を送信、描くレスポンスを取得する。
+	 * @param sendTo 送信用ストリーム
+	 * @param response 受信用ストリーム
+	 * @throws IOException 入出力の例外
 	 */
 	private void startLoop(OutputStream sendTo, InputStream response) throws IOException, Exception {
-		// ゲームのターン数
-		int gameStep = 100;
 		System.out.println("*** Loop Start ***");
-		ByteBuffer buf = ByteBuffer.allocate(100);
 		String[] arr = new String[] {"lu", "wu", "sd", "wd", "pp"};
 		int loop = 0;
-		byte[] res = new byte[100];
-		boolean isDead = false;
 		while(true) {
 			// コマンドの送信[gr + "コマンド" + \r\n]
-			sendTo.write(("gr" + ENTER).getBytes());
-			// レスポンスを受ける
+			sendTo.write(("gr" + ClientData.ENTER).getBytes());
+			// GetReadyのレスポンスに対する処理
+			manager.resGetRedy(response);
+			// レスポンスを受けコンソールに出力する
 			showResponse(sendTo, response, "GetReady");
-			//convert(res);
-			sendTo.write((arr[loop] + ENTER).getBytes());
-			// レスポンスを受ける
+			// 操作コマンドを送信する
+			sendTo.write((arr[loop] + ClientData.ENTER).getBytes());
+			manager.afterCommand(response, arr[loop]);
+			// レスポンスを受けコンソールに出力する
 			showResponse(sendTo, response, arr[loop]);
 			waitASecond();
-			sendTo.write(("#" + ENTER).getBytes());
-			// レスポンスを受ける
+			sendTo.write(("#" + ClientData.ENTER).getBytes());
+			// レスポンスを受けコンソールに出力する
 			showResponse(sendTo, response, "#");
-			gameStep--;
 			loop++;
 			if (arr.length <= loop) {
 				break;
 			}
 		}
 		System.out.println("*** Finish ***");
+	}
+
+	/**
+	 * サーバーからのレスポンスを受けて、それに対する行動を決める。
+	 * 行動を決定しない(GetReadyと行動終了の)ときはNullを返却する
+	 * @param response サーバーからのレスポンス
+	 * @param sent 送信したコマンド
+	 * @return 行動コマンド or null 
+	 */
+	private String operateCommand(String response, char sent) {
+		String command = null;
+		if (ClientData.GET_READY == sent) {
+			// GetReady送信後の処理(返却値なし)
+			
+		} else if (ClientData.COMMAND == sent){
+			// 行動コマンド送信後の処理
+		} else {
+			// 行動終了コマンド送信後の処理
+		}
+		return command;
 	}
 
 	/**
@@ -216,12 +216,16 @@ public class U16ProconClient {
 		return isDead;
 	}
 
+	/**
+	 * レスポンスを人間に見やすいよう編集してコンソールに出力する。
+	 * @param resCode サーバーからのレスポンス
+	 */
 	private void dumpResponseCode(String resCode) {
 		try {
-			int isAlive = Integer.parseInt(resCode.substring(0, 1));
-			if (isAlive == 1) {
+			String resVal = resCode.substring(0, 1);
+			if (ClientData.IS_ALIVE.equals(resVal)) {
 				System.out.println("生きています");
-			} else if ("#".equals(isAlive)) {
+			} else if (ClientData.END_TURN.equals(resVal)) {
 				System.out.println("#コマンドです");
 				return;
 			} else {
@@ -229,11 +233,11 @@ public class U16ProconClient {
 			}
 			char[] mapData = resCode.substring(1, 10).toCharArray();
 			System.out.println("******************");
-			System.out.println("|  " + mapData[0] + "     "+ mapData[1] +"      "+ mapData[2] +" |");
+			System.out.println("[  " + mapData[0] + "]     ["+ mapData[1] + "]      ["+ mapData[2] +"]");
 			System.out.println("******************");
-			System.out.println("|  " + mapData[3] + "     "+ mapData[4] +"      "+ mapData[5] +" |");
+			System.out.println("[" + mapData[3] + "]     [" + mapData[4] + "]      ["+ mapData[5] +"]");
 			System.out.println("******************");
-			System.out.println("|  " + mapData[6] + "     "+ mapData[7] +"      "+ mapData[8] +" |");
+			System.out.println("[" + mapData[6] + "]     ["+ mapData[7] + "]      [" + mapData[8] +"]");
 			System.out.println("******************");
 		} catch (NumberFormatException e) {
 			if ("@".equals(resCode.substring(0, 1))) {
@@ -243,10 +247,11 @@ public class U16ProconClient {
 			}
 		}
 	}
+	
 	/**
-	 * 変換処理を行う
-	 * @param response
-	 * @return
+	 * 変換処理を行う(C＃のコードからパクってきた)
+	 * @param response サーバーレスポンス
+	 * @return int[]
 	 */
 	private int[] convert(byte[] response) {
 		System.out.println("*** ByteLength: " + response.length + " ***");
