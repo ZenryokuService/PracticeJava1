@@ -8,11 +8,22 @@
  */
 package jp.zenryoku.ml.nd4j;
 
-import java.awt.image.DataBuffer;
+import static org.junit.Assert.fail;
 
+import java.awt.image.DataBuffer;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
+
+import jp.zenryoku.sample.u16.ClientManager;
 
 /**
  * ND4JのNd４jクラスを学習のため、テストする
@@ -20,6 +31,53 @@ import org.nd4j.linalg.factory.Nd4j;
  * 2019/05/24
  */
 public class TestNd4j {
+	/** テスト対象クラス */
+	private static ClientManager target;
+
+	/**
+	 * テストクラスの実行時に一度だけ起動するメソッド。
+	 * Afterは終了時に呼ばれる
+	 */
+	@BeforeClass
+	public static void init() {
+		 System.out.println("*** BeforeClass ***");
+		target = new ClientManager();
+	}
+
+	@AfterClass
+	public static void after() {
+		 System.out.println("*** AfterClass ***");
+		target = null;
+	}
+
+	/**
+	 * 
+	 * @param <T> 取得するメソッドの引数の型
+	 * @param methodName
+	 * @return
+	 */
+	private <T> Method getPrivateMethod(String methodName, Class<T> ... args ) {
+		Method method = null;
+		try {
+			if (args == null) {
+				method = target.getClass().getDeclaredMethod(methodName);
+			} else {
+				method = target.getClass().getDeclaredMethod(methodName, String.class);
+			}
+			// 公開レベルをテストのために変更する
+			method.setAccessible(true);
+		} catch (NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
+			fail("メソッドの取得に失敗");
+		}
+		return method;
+	}
+
+	/**
+	 * ClientManagerのコンストラクタで、マッピング用行列を初期化する。
+	 * 1.初期化時に中身を４で埋める<br>
+	 * 2.移動した時にMapを拡張するので配列の拡張方法も確認
+	 */
 	@Test
 	public void testCreateINDArray() {
 		// INT型データの行列を作成する
@@ -33,5 +91,33 @@ public class TestNd4j {
 		INDArray reData = Nd4j.ones(new int[] {3, 3}).addi(3);
 		System.out.println(reData);
 		System.out.println(Nd4j.pad(reData, new int[] {6,  6}, Nd4j.PadMode.CONSTANT));
+	}
+
+	/**
+	 * 現在の状況を確認するためのマップを初期化する確認。
+	 * 1. サーバーレスポンスを受けてそれをマップ配列に格納する
+	 */
+	@Test
+	public void testSetBufMap() {
+		Method test = this.getPrivateMethod("setBufMap", String.class);
+		try {
+			test.invoke(target, "1002001222");
+			String[] res = target.getBufMap();
+			for (String val: res) {
+				System.out.print(val + ", ");
+			}
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			fail("メソッドの実行に失敗");
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			fail("メソッドの実行に失敗");
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+			fail("メソッドの実行に失敗");
+		} catch (SecurityException e) {
+			e.printStackTrace();
+			fail("メソッドの実行に失敗");
+		}
 	}
 }
