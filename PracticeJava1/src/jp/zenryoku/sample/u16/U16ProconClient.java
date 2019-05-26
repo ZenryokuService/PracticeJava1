@@ -144,7 +144,7 @@ public class U16ProconClient {
 	 */
 	private void startLoop(OutputStream sendTo, InputStream response) throws IOException, Exception {
 		System.out.println("*** Loop Start ***");
-		String[] arr = new String[] {"lu", "wu", "sd", "wd", "pp"};
+		String[] arr = new String[] {"su", "sl", "sd", "sr", "pp"};
 		int loop = 0;
 		while(true) {
 			// コマンドの送信[gr + "コマンド" + \r\n]
@@ -152,12 +152,13 @@ public class U16ProconClient {
 			// GetReadyのレスポンスに対する処理
 			manager.resGetRedy(response);
 			// レスポンスを受けコンソールに出力する
-			showResponse(sendTo, response, "GetReady");
+//			showResponse(sendTo, response, "GetReady");
 			// 操作コマンドを送信する
 			sendTo.write((arr[loop] + ClientData.ENTER).getBytes());
+			waitASecond();
 			manager.afterCommand(response, arr[loop]);
-			// レスポンスを受けコンソールに出力する
-			showResponse(sendTo, response, arr[loop]);
+//			// レスポンスを受けコンソールに出力する
+//			showResponse(sendTo, response, arr[loop]);
 			waitASecond();
 			sendTo.write(("#" + ClientData.ENTER).getBytes());
 			// レスポンスを受けコンソールに出力する
@@ -168,26 +169,6 @@ public class U16ProconClient {
 			}
 		}
 		System.out.println("*** Finish ***");
-	}
-
-	/**
-	 * サーバーからのレスポンスを受けて、それに対する行動を決める。
-	 * 行動を決定しない(GetReadyと行動終了の)ときはNullを返却する
-	 * @param response サーバーからのレスポンス
-	 * @param sent 送信したコマンド
-	 * @return 行動コマンド or null 
-	 */
-	private String operateCommand(String response, char sent) {
-		String command = null;
-		if (ClientData.GET_READY == sent) {
-			// GetReady送信後の処理(返却値なし)
-			
-		} else if (ClientData.COMMAND == sent){
-			// 行動コマンド送信後の処理
-		} else {
-			// 行動終了コマンド送信後の処理
-		}
-		return command;
 	}
 
 	/**
@@ -202,7 +183,7 @@ public class U16ProconClient {
 	private boolean showResponse(
 			OutputStream sendTo, InputStream response, String exeCommand) throws IOException, Exception {
 		// 受信するデータのメモリ領域を確保
-		byte[] res = new byte[100];
+		byte[] res = new byte[ClientManager.RESPONSE_SIZE];
 		boolean isDead = false;
 		// レスポンスを受ける
 		response.read(res);
@@ -225,15 +206,15 @@ public class U16ProconClient {
 			String resVal = resCode.substring(0, 1);
 			if (ClientData.IS_ALIVE.equals(resVal)) {
 				System.out.println("生きています");
-			} else if (ClientData.END_TURN.equals(resVal)) {
+			} else if (ClientData.END_TURN.equals(resVal) || ClientData.READY_CMD_RES.equals(resVal)) {
 				System.out.println("#コマンドです");
 				return;
 			} else {
-				System.out.println("死にました");
+				System.out.println("死にました: " + resVal);
 			}
 			char[] mapData = resCode.substring(1, 10).toCharArray();
 			System.out.println("******************");
-			System.out.println("[  " + mapData[0] + "]     ["+ mapData[1] + "]      ["+ mapData[2] +"]");
+			System.out.println("[" + mapData[0] + "]     ["+ mapData[1] + "]      ["+ mapData[2] +"]");
 			System.out.println("******************");
 			System.out.println("[" + mapData[3] + "]     [" + mapData[4] + "]      ["+ mapData[5] +"]");
 			System.out.println("******************");

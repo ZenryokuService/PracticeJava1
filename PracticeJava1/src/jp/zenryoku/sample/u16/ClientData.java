@@ -8,6 +8,9 @@
  */
 package jp.zenryoku.sample.u16;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 
@@ -27,11 +30,11 @@ public class ClientData {
 	/** HOTのポート番号 */
 	public static final int HOT = 2010;
 	/** GetReadyを送信した時のフラグ */
-	public static final char GET_READY = 'G'; 
+	public static final String GET_READY = "G"; 
 	/** 行動コマンドを送信した時のフラグ */
-	public static final char COMMAND = 'C'; 
+	public static final String COMMAND_WALK = "W"; 
 	/** 行動終了コマンドを送信した時のフラグ */
-	public static final char SHARP = 'S'; 
+	public static final String SHARP = "S"; 
 	/** ゲームエリアの空白を占めす定数 */
 	public static final String SAFETY_ZONE = "0";
 	/** ゲームエリアのアイテムを占めす定数 */
@@ -47,16 +50,26 @@ public class ClientData {
 
 	/** ゲームのターン数 */
 	private int gameStep;
+	/** */
+	public static String READY_CMD_RES = "@";
 	/** Searchコマンドを送信した事を示す */
-	public static final char SEARCH_CMD = 's';
+	public static final String SEARCH_CMD = "s";
 	/** Lookコマンドを送信した事を示す */
-	public static final char LOOK_CMD = 'l';
+	public static final String LOOK_CMD = "l";
 	/** Putコマンドを送信した事を示す */
-	public static final char PUT_CMD = 'p';
+	public static final String PUT_CMD = "p";
 	/** Walkコマンドを送信したことを示す */
-	public static final char WALK_CMD = 'w';
+	public static final String WALK_CMD = "w";
 	/** 終了コマンド(Stringで使用する) */
 	public static final String END_TURN = "#";
+	/** 方向を示すコマンド(上) */
+	public static final String UP = "u";
+	/** 方向を示すコマンド(上) */
+	public static final String DOWN = "d";
+	/** 方向を示すコマンド(上) */
+	public static final String LEFT = "l";
+	/** 方向を示すコマンド(上) */
+	public static final String RIGHT = "r";
 	/** 自分の上方向を示すレスポンスデータの位置 */
 	public static final int UP_POS = 1;
 	/** 自分の左方向を示すレスポンスデータの位置 */
@@ -66,7 +79,7 @@ public class ClientData {
 	/** 自分の下方向を示すレスポンスデータの位置 */
 	public static final int DOWN_POS = 7;
 	/** 周囲確認用BufferedMap */
-	private String[] bufMap;
+	private Double[] bufMap;
 	/** 周囲確認済み(bufMap更新済み)フラグ */
 	private boolean isReady;
 	/** 周囲に相手プレーヤがいるかどうかのフラグ */
@@ -75,19 +88,27 @@ public class ClientData {
 	private boolean isItem;
 	/** ND4Jの行列部品 */
 	private INDArray map;
+	/** 作成したMapの中心(19x19のマス) */
+	public static final int[] START_POS = {10, 10};
+	/** 移動履歴管理List */
+	private List<int[]> posLogger;
 	/** 移動方向管理クラス */
 	private WalkHandler handler;
+	
 
 	/** コンストラクタ */
 	public ClientData() {
 		// 19 x 19のマップ(行列)を作る
 		map = createMap();
 		// 周囲確認用バッファードマップ(length=9)
-		bufMap = new String[] {"0", "0", "0", "0", "0", "0", "0", "0", "0"};
+		bufMap = new Double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 		// bufMap更新フラグ
 		isReady = false;
 		// WalkHandler生成
 		handler = new WalkHandler();
+		// 移動履歴管理List
+		posLogger = new ArrayList<int[]>();
+		
 	}
 
 	/**
@@ -108,6 +129,7 @@ public class ClientData {
 	}
 
 	/**
+	 * ポジションは[row , col]で示す
 	 * @return the map
 	 */
 	public INDArray getMap() {
@@ -124,14 +146,14 @@ public class ClientData {
 	/**
 	 * @return the bufMap
 	 */
-	public String[] getBufMap() {
+	public Double[] getBufMap() {
 		return bufMap;
 	}
 
 	/**
 	 * @param bufMap the bufMap to set
 	 */
-	public void setBufMap(String[] bufMap) {
+	public void setBufMap(Double[] bufMap) {
 		this.bufMap = bufMap;
 	}
 
@@ -196,5 +218,188 @@ public class ClientData {
 	 */
 	public WalkHandler getHandler() {
 		return handler;
+	}
+
+	/**
+	 * @return the posLogger
+	 */
+	public List<int[]> getPosLogger() {
+		return posLogger;
+	}
+
+	/**
+	 * @param posLogger the posLogger to set
+	 */
+	public void setPosLogger(List<int[]> posLogger) {
+		this.posLogger = posLogger;
+	}
+
+	/**
+	 * 現在のポジションをロギングする。
+	 * ClientManager用のポジションをClientData用のポジションに更新して登録する。
+	 * @param pos 現在のポジション
+	 */
+	public void loggingPos(int[] pos, INDArray map) {
+		// Loggin用リストに追加
+		this.posLogger.add(pos);
+		// 更新する座標の中心を算出
+		int centerX = (map.columns() / 2) + 1;
+		int centerY = (map.rows() / 2) + 1;
+		int updateX = centerX + pos[1];
+		int updateY = centerY + pos[0];
+		// 現在位置の座標(ClientManager)からRowCol(ClientData)を取得する
+		int[][] matrixCounter = new int[][] {new int[] {updateX-2, updateY-2}
+														, new int[] {updateX-1,updateY-2}
+														, new int[] {updateX,updateY-2}
+														, new int[] {updateX-2,updateY-1}
+														, new int[] {updateX-1,updateY-1}
+														, new int[] {updateX,updateY-1}
+														, new int[] {updateX-2,updateY}
+														, new int[] {updateX-1,updateY}
+														, new int[] {updateX,updateY}
+		} ;
+		int rowCounter = 0;
+		for (int i = 0; i < bufMap.length; i++) {
+			System.out.println(i + ":" + matrixCounter[i][0] + "/" + matrixCounter[i][1]);
+			map.putScalar(matrixCounter[i], bufMap[i]);
+			if (i < 3 &&i % 2 == 0) {
+				rowCounter++;
+			}
+		}
+	}
+
+	/**
+	 * サーチコマンドの時のマップ更新処理。
+	 * @param res サーバーレスポンス
+	 */
+	public void loggingSearch(String res, int[] currentPos, String cmd) throws Exception {
+		// 初めの１文字を抜かしそれ以降を取得する。
+		String searchData = res.substring(1, res.length());
+		// コマンドは必ず２文字の前提
+		String direction = cmd.substring(1, 2);
+		
+		if (UP.equals(direction)) {
+			updateSearchMap(res, UP, currentPos);
+		} else if (DOWN.equals(direction)) {
+			updateSearchMap(res, DOWN, currentPos);
+		} else if (LEFT.equals(direction)) {
+			updateSearchMap(res, LEFT, currentPos);
+		} else if (RIGHT.equals(direction)) {
+			updateSearchMap(res, RIGHT, currentPos);
+		} else {
+			throw new Exception("想定外のコマンドです。: " + cmd);
+		}
+	}
+
+	/**
+	 * サーチコマンドのレスポンスをbufMapに反映する。
+	 * @param res サーバーレスポンス
+	 * @param direction 方向(上下左右)
+	 */
+	private void updateSearchMap(String res, String direction, int[] currentPos) {
+		
+	}
+	/**
+	 * 座業系(現在位置を(0, 0)として計算する)位置情報から
+	 * 行列(INDArray)のRowColの位置情報へ変換する。
+	 * @param currentPos
+	 */
+	private void convertZahyoToRowCol(int[] currentPos) {
+		
+	}
+
+	/**
+	 * 現在位置から、左上の作成マップ上のポジションを取得する。
+	 * @param currentPos 現在位置
+	 * @return 左上のポジション
+	 */
+	public int[] getUpLeftPos(int[] currentPos) {
+		int[] tmp = {0, 0};
+		tmp[0] = currentPos[0] - 1;
+		tmp[1] = currentPos[1] + 1;
+		return tmp;
+	}
+
+
+	/**
+	 * 現在位置から、上の作成マップ上のポジションを取得する。
+	 * @param currentPos 現在位置
+	 * @return 左上のポジション
+	 */
+	public int[] getUpperPos(int[] currentPos) {
+		int[] tmp = {0, 0};
+		tmp[0] = currentPos[0];
+		tmp[1] = currentPos[1] + 1;
+		return tmp;
+	}
+
+	/**
+	 * 現在位置から、右上の作成マップ上のポジションを取得する。
+	 * @param currentPos 現在位置
+	 * @return 左上のポジション
+	 */
+	public int[] getUpRightPos(int[] currentPos) {
+		int[] tmp = {0, 0};
+		tmp[0] = currentPos[0] + 1;
+		tmp[1] = currentPos[1] + 1;
+		return tmp;
+	}
+
+	/**
+	 * 現在位置から、左の作成マップ上のポジションを取得する。
+	 * @param currentPos 現在位置
+	 * @return 左上のポジション
+	 */
+	public int[] getLeftPos(int[] currentPos) {
+		int[] tmp = {0, 0};
+		tmp[0] = currentPos[0] - 1;
+		tmp[1] = currentPos[1];
+		return tmp;
+	}
+
+	/**
+	 * 現在位置から、右の作成マップ上のポジションを取得する。
+	 * @param currentPos 現在位置
+	 * @return 左上のポジション
+	 */
+	public int[] getRighttPos(int[] currentPos) {
+		int[] tmp = {0, 0};
+		tmp[0] = currentPos[0] + 1;
+		tmp[1] = currentPos[1];
+		return tmp;
+	}
+
+	/**
+	 * 現在位置から、左下の作成マップ上のポジションを取得する。
+	 * @param currentPos 現在位置
+	 * @return 左上のポジション
+	 */
+	public int[] getDownLeftPos(int[] currentPos) {
+		int[] tmp = {0, 0};
+		tmp[0] = currentPos[0] + 1;
+		tmp[1] = currentPos[1] - 1;
+		return tmp;
+	}
+	/**
+	 * 現在位置から、下の作成マップ上のポジションを取得する。
+	 * @param currentPos 現在位置
+	 * @return 左上のポジション
+	 */
+	public int[] getDownPos(int[] currentPos) {
+		int[] tmp = {0, 0};
+		tmp[0] = currentPos[0];
+		tmp[1] = currentPos[1] - 1;
+		return tmp;
+	}
+	/**
+	 * 現在位置から、右下の作成マップ上のポジションを取得する。
+	 * @param currentPos 現在位置
+	 * @return 左上のポジション
+	 */
+	public int[] getDownRightPos(int[] currentPos) {
+		int[] tmp = {0, 0};
+		tmp[0] = currentPos[0] + 1;
+		tmp[1] = currentPos[1] - 1;
+		return tmp;
 	}
 }
