@@ -21,6 +21,8 @@ import org.nd4j.linalg.factory.Nd4j;
  * 2019/05/25
  */
 public class ClientData {
+	/** デバッカフラグ */
+	public boolean isDebug;
 	/** タイムアウトする時間(ミリ秒) */
 	public static final int TIME_OUT = 10000;
 	/** 改行コード */
@@ -38,11 +40,11 @@ public class ClientData {
 	/** ゲームエリアの空白を占めす定数 */
 	public static final String SAFETY_ZONE = "0";
 	/** ゲームエリアのアイテムを占めす定数 */
-	public static final String ITEM_ZONE = "1";
+	public static final String ITEM_ZONE = "3";
 	/** ゲームエリアのブロックを占めす定数 */
 	public static final String BLOCK_ZONE = "2";
 	/** ゲームエリアの相手プレーヤを占めす定数 */
-	public static final String OPPONENT_PLAYER = "3";
+	public static final String OPPONENT_PLAYER = "1";
 	/** ゲームエリアの未知のエリアを占めす定数 */
 	public static final String UNKNOWN_ZONE = "4";
 	/** サーバーレスポンスの１バイト目(1=Alive, 0:=Dead) */
@@ -50,7 +52,8 @@ public class ClientData {
 
 	/** ゲームのターン数 */
 	private int gameStep;
-	/** */
+	/** 移動可能な場所 */
+	private List<Double> walkable;
 	public static String READY_CMD_RES = "@";
 	/** Searchコマンドを送信した事を示す */
 	public static final String SEARCH_CMD = "s";
@@ -108,7 +111,8 @@ public class ClientData {
 		handler = new WalkHandler();
 		// 移動履歴管理List
 		posLogger = new ArrayList<int[]>();
-		
+		// ターン数を設定
+		gameStep = 100;
 	}
 
 	/**
@@ -169,6 +173,28 @@ public class ClientData {
 	 */
 	public void setGameStep(int gameStep) {
 		this.gameStep = gameStep;
+	}
+
+	public void countGameStep() {
+		this.gameStep--;
+	}
+
+	/**
+	 * 移動可能な方向の配列を取得。
+	 * 上: 1, 左: 3, 右: 5, 下: 7
+	 * @return the walkable
+	 */
+	public List<Double> getWalkable() {
+		return walkable;
+	}
+
+	/**
+	 * 移動可能な方向の配列を設定。
+	 * 上: 1, 左: 3, 右: 5, 下: 7
+	 * @param walkable the walkable to set
+	 */
+	public void setWalkable(List<Double> walkable) {
+		this.walkable = walkable;
 	}
 
 	/**
@@ -243,25 +269,14 @@ public class ClientData {
 		// Loggin用リストに追加
 		this.posLogger.add(pos);
 		// 更新する座標の中心を算出
-		int centerX = (map.columns() / 2) + 1;
-		int centerY = (map.rows() / 2) + 1;
-		int updateX = centerX + pos[1];
-		int updateY = centerY + pos[0];
-		// 現在位置の座標(ClientManager)からRowCol(ClientData)を取得する
-		int[][] matrixCounter = new int[][] {new int[] {updateX-2, updateY-2}
-														, new int[] {updateX-1,updateY-2}
-														, new int[] {updateX,updateY-2}
-														, new int[] {updateX-2,updateY-1}
-														, new int[] {updateX-1,updateY-1}
-														, new int[] {updateX,updateY-1}
-														, new int[] {updateX-2,updateY}
-														, new int[] {updateX-1,updateY}
-														, new int[] {updateX,updateY}
-		} ;
+		int[][] matrixIndexes = getAroundUpdatePosArray(pos);
+		@SuppressWarnings("unused")
 		int rowCounter = 0;
 		for (int i = 0; i < bufMap.length; i++) {
-			System.out.println(i + ":" + matrixCounter[i][0] + "/" + matrixCounter[i][1]);
-			map.putScalar(matrixCounter[i], bufMap[i]);
+			if (isDebug) {
+				System.out.println("mapX: " + matrixIndexes[i][0] + " / mapY: " + matrixIndexes[i][1]);
+			}
+			map.putScalar(matrixIndexes[i], bufMap[i]);
 			if (i < 3 &&i % 2 == 0) {
 				rowCounter++;
 			}
@@ -269,43 +284,16 @@ public class ClientData {
 	}
 
 	/**
-	 * サーチコマンドの時のマップ更新処理。
-	 * @param res サーバーレスポンス
-	 */
-	public void loggingSearch(String res, int[] currentPos, String cmd) throws Exception {
-		// 初めの１文字を抜かしそれ以降を取得する。
-		String searchData = res.substring(1, res.length());
-		// コマンドは必ず２文字の前提
-		String direction = cmd.substring(1, 2);
-		
-		if (UP.equals(direction)) {
-			updateSearchMap(res, UP, currentPos);
-		} else if (DOWN.equals(direction)) {
-			updateSearchMap(res, DOWN, currentPos);
-		} else if (LEFT.equals(direction)) {
-			updateSearchMap(res, LEFT, currentPos);
-		} else if (RIGHT.equals(direction)) {
-			updateSearchMap(res, RIGHT, currentPos);
-		} else {
-			throw new Exception("想定外のコマンドです。: " + cmd);
-		}
-	}
-
-	/**
 	 * サーチコマンドのレスポンスをbufMapに反映する。
 	 * @param res サーバーレスポンス
-	 * @param direction 方向(上下左右)
+	 * @param cmd 実行したコマンド
 	 */
-	private void updateSearchMap(String res, String direction, int[] currentPos) {
-		
-	}
-	/**
-	 * 座業系(現在位置を(0, 0)として計算する)位置情報から
-	 * 行列(INDArray)のRowColの位置情報へ変換する。
-	 * @param currentPos
-	 */
-	private void convertZahyoToRowCol(int[] currentPos) {
-		
+	public void updateSearchMap(String res, String cmd, int[] currentPos) throws Exception {
+		// 更新する行列のIndex[cols, rows]
+		int[][] matrixIndexes = getSearchUpdatePosArray(currentPos, cmd);
+		for (int i = 1; i <  res.length()-1; i++) {
+			map.putScalar(matrixIndexes[i], Double.parseDouble(res.substring(i, i+1)));
+		}
 	}
 
 	/**
@@ -401,5 +389,96 @@ public class ClientData {
 		tmp[0] = currentPos[0] + 1;
 		tmp[1] = currentPos[1] - 1;
 		return tmp;
+	}
+
+	/**
+	 * 周囲のマップを更新するときに使用する更新する行列の位置(int[][])を返却する。
+	 * 
+	 * @param currentPos 現在位置(座標系:スタート地点を(0, 0))
+	 * @return 更新するMap行列の位置[col, row]とXYが逆になるので注意
+	 */
+	private int[][] getAroundUpdatePosArray(int[] currentPos) {
+		int centerX = (map.columns() / 2) + 1;
+		int centerY = (map.rows() / 2) + 1;
+		int updateX = centerX + currentPos[1];
+		int updateY = centerY + currentPos[0];
+		// 現在位置の座標(ClientManager)からRowCol(ClientData)を取得する
+		return  new int[][] {new int[] {updateY-2, updateX-2}
+								, new int[] {updateY-2,updateX-1}
+								, new int[] {updateY-2,updateX}
+								, new int[] {updateY-1,updateX-2}
+								, new int[] {updateY-1,updateX-1}
+								, new int[] {updateY-1,updateX}
+								, new int[] {updateY,updateX-2}
+								, new int[] {updateY,updateX-1}
+								, new int[] {updateY,updateX}};
+	}
+
+	/**
+	 * サーチコマンドのレスポンスからマップを更新するときに使用する。
+	 * 更新する行列の位置(int[][])を返却する。
+	 * 
+	 * @param currentPos 現在位置(座標系:スタート地点を(0, 0))
+	 * @param cmd 実行したコマンド
+	 * @return 更新するMap行列の位置[col, row]とXYが逆になるので注意
+	 */
+	private int[][] getSearchUpdatePosArray(int[] currentPos, String cmd) throws Exception {
+		// コマンドは必ず２文字
+		String way = cmd.substring(1,2);
+		int centerX = (map.columns() / 2) + 1;
+		int centerY = (map.rows() / 2) + 1;
+		int updateX = centerX + currentPos[1];
+		int updateY = centerY + currentPos[0];
+		int[][] matrixIndexes = null;
+
+		if (ClientData.LEFT.equals(way)) {
+			matrixIndexes = createUpDownIndexes(updateX, updateY, -1);
+		} else if (ClientData.UP.equals(way)) {
+			matrixIndexes = createLeftRightIndexes(updateX, updateY, -1);
+		} else if (ClientData.DOWN.equals(way)) {
+			matrixIndexes = createLeftRightIndexes(updateX, updateY, 1);
+		} else if (ClientData.RIGHT.equals(way)) {
+			matrixIndexes = createUpDownIndexes(updateX, updateY, 1);
+		} else {
+			throw new Exception("コマンドの入力が想定外です。: " + way);
+		}
+		return matrixIndexes;
+	}
+
+	/**
+	 * UP, DOWN用のint[][]を作成する、引数のcounterにより
+	 * UP: -1, DOWN: 1を区別する。
+	 * そして【updateX, updateYはそれぞれ-1した値(配列のため)】
+	 * @param counter 1 or -1が設定される。
+	 * @return
+	 */
+	private int[][] createUpDownIndexes(int updateX, int updateY, int counter) {
+		return new int[][] {new int[] {updateX, updateY}
+							, new int[] {updateX-1,updateY+(counter * 1)-1}
+							, new int[] {updateX-1,updateY+(counter * 2)-1}
+							, new int[] {updateX-1,updateY+(counter * 3)-1}
+							, new int[] {updateX-1,updateY+(counter * 4)-1}
+							, new int[] {updateX-1,updateY+(counter * 5)-1}
+							, new int[] {updateX-1,updateY+(counter * 6)-1}
+							, new int[] {updateX-1,updateY+(counter * 7)-1}
+							, new int[] {updateX-1,updateY+(counter * 8)-1}};
+	}
+
+	/**
+	 * LEFT, RIGHT用のint[][]を作成する、引数のcounterにより
+	 * LEFT: -1, RIGHT: 1
+	 * @param counter 1 or -1が設定される。
+	 * @return
+	 */
+	private int[][] createLeftRightIndexes(int updateX, int updateY, int counter) {
+		return new int[][] {new int[] {updateX, updateY}
+							, new int[] {updateX + (counter * 1)-1, updateY-1}
+							, new int[] {updateX + (counter * 2)-1, updateY-1}
+							, new int[] {updateX + (counter * 3)-1, updateY-1}
+							, new int[] {updateX + (counter * 4)-1, updateY-1}
+							, new int[] {updateX + (counter * 5)-1, updateY-1}
+							, new int[] {updateX + (counter * 6)-1, updateY-1}
+							, new int[] {updateX + (counter * 7)-1, updateY-1}
+							, new int[] {updateX + (counter * 8)-1, updateY-1}};
 	}
 }

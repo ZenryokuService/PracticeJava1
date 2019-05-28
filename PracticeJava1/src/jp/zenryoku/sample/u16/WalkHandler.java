@@ -8,12 +8,17 @@
  */
 package jp.zenryoku.sample.u16;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * U16プログラミングコンテスト、クライアントアプリの移動方向管理クラス。
  * @author takunoji
  * 2019/05/25
  */
 public class WalkHandler {
+	/** 移動可能ポジション */
+	private List<Double> walkable;
 	/** 上に移動可能 */
 	private boolean okUp;
 	/** 下に移動可能 */
@@ -22,11 +27,42 @@ public class WalkHandler {
 	private boolean okRight;
 	/** 左に移動可能 */
 	private boolean okLeft;
+	/** 侵攻方向優先順位配列 */
+	private Integer[] directPriority;
+
+	/**
+	 * 進行方向などの移動に関する情報を管理する。
+	 */
+	public WalkHandler() {
+		// 上、右、下、左の時計回りに優先順位を初期化
+		directPriority = new Integer[]{1, 5, 7, 3};
+		walkable = new LinkedList<Double>();
+		walkable.add(1, 0.0);
+		walkable.add(3, 0.0);
+		walkable.add(5, 0.0);
+		walkable.add(7, 0.0);
+		
+	}
 	/**
 	 * @return the okUp
 	 */
 	public boolean isOkUp() {
 		return okUp;
+	}
+	
+	/**
+	 * 上、右、下、左の時計回りに優先順位を初期化
+	 * @return the directPriority
+	 */
+	public Integer[] getDirectPriority() {
+		return directPriority;
+	}
+	/**
+	 * 上、右、下、左の時計回りに優先順位を初期化
+	 * @param directPriority the directPriority to set
+	 */
+	public void setDirectPriority(Integer[] directPriority) {
+		this.directPriority = directPriority;
 	}
 	/**
 	 * @param okUp the okUp to set
@@ -70,4 +106,17 @@ public class WalkHandler {
 	public void setOkLeft(boolean okLeft) {
 		this.okLeft = okLeft;
 	}
+	/**
+	 * @return the walkable
+	 */
+	public List<Double> getWalkable() {
+		return walkable;
+	}
+	/**
+	 * @param walkable the walkable to set
+	 */
+	public void setWalkable(List<Double> walkable) {
+		this.walkable = walkable;
+	}
+	
 }

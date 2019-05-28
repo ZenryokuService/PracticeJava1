@@ -56,8 +56,10 @@ public class U16ProconClient {
 			// ゲームを開始する
 			client.startGame();
 		} catch(IOException ie) {
+			ie.printStackTrace();
 			System.out.println("通信中に例外がありあました、プログラムを終了します。");
 		} catch(Exception e) {
+			e.printStackTrace();
 			System.out.println("想定外の例外が発生しました。");
 		} finally {
 			client.closeIO();
@@ -159,10 +161,11 @@ public class U16ProconClient {
 			manager.afterCommand(response, arr[loop]);
 //			// レスポンスを受けコンソールに出力する
 //			showResponse(sendTo, response, arr[loop]);
-			waitASecond();
 			sendTo.write(("#" + ClientData.ENTER).getBytes());
-			// レスポンスを受けコンソールに出力する
-			showResponse(sendTo, response, "#");
+			waitASecond();
+			manager.terminatedTurn();			
+//			// レスポンスを受けコンソールに出力する
+//			showResponse(sendTo, response, "#");
 			loop++;
 			if (arr.length <= loop) {
 				break;

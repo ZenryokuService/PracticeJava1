@@ -16,6 +16,8 @@ import java.awt.image.DataBuffer;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -66,8 +68,10 @@ public class TestNd4j {
 		Method method = null;
 		try {
 			if (args == null) {
+				System.out.println("引数なしのメソッド");
 				method = target.getClass().getDeclaredMethod(methodName);
 			} else {
+				System.out.println("引数:Stringのメソッド");
 				method = target.getClass().getDeclaredMethod(methodName, String.class);
 			}
 			// 公開レベルをテストのために変更する
@@ -91,12 +95,38 @@ public class TestNd4j {
 		System.out.println("*** init zeros***");
 		System.out.println(data);
 		System.out.println("*** putScalar ***");
-		System.out.println(data.putScalar(new int[] {2, 1}, 1.0));
-		System.out.println("*** init ones ***");
+		System.out.println(data.putScalar(new int[] {0, 1}, 1.0));
+		System.out.println("*** update ones ***");
 		// １の値で初期化された配列に全て３を足す
-		INDArray reData = Nd4j.ones(new int[] {3, 3}).addi(3);
+		INDArray reData = Nd4j.ones(new int[] {5, 5}).addi(3);
+		reData.put(new int[]{2, 2}, data.getScalar(0));
 		System.out.println(reData);
-		System.out.println(Nd4j.pad(reData, new int[] {6,  6}, Nd4j.PadMode.CONSTANT));
+		// X, Y
+		int[] startPos = new int[] {-1, -1};
+		int x = reData.columns() / 2 + 1 + startPos[1];
+		int y = reData.rows() / 2 + 1 + startPos[0];
+		System.out.println("x: " + x + " / y: " + y);
+		int[][] matrixCounter = new int[][] {new int[] {x-2, y-2}
+											, new int[] {x-1,y-2}
+											, new int[] {x,y-2}
+											, new int[] {x-2,y-1}
+											, new int[] {x-1,y-1}
+											, new int[] {x,y-1}
+											, new int[] {x-2,y}
+											, new int[] {x-1,y}
+											, new int[] {x,y}
+		} ;
+		int rowCounter = 0;
+		Double[] dd = new Double[] {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0};
+		for (int i = 0; i < dd.length; i++) {
+			System.out.println(i + ":" + matrixCounter[i][0] + "/" + matrixCounter[i][1]);
+			reData.putScalar(matrixCounter[i], dd[i]);
+			if (i < 3 &&i % 2 == 0) {
+				rowCounter++;
+			}
+		}
+		System.out.println("*** map ***");
+		System.out.println(reData);
 	}
 
 	/**
@@ -108,8 +138,8 @@ public class TestNd4j {
 		Method test = this.getPrivateMethod("setBufMap", String.class);
 		try {
 			test.invoke(target, "1002001222");
-			String[] res = target.getClientData().getBufMap();
-			for (String val: res) {
+			Double[] res = target.getClientData().getBufMap();
+			for (Double val: res) {
 				System.out.print(val + ", ");
 			}
 		} catch (IllegalAccessException e) {
@@ -176,6 +206,29 @@ public class TestNd4j {
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 			fail("メソッドの引数違反です。");
+		}
+	}
+
+	@Test
+	public void testSetDirection() {
+		List<Double> walkable = new LinkedList<Double>();
+		walkable.set(1,  2.0);
+		walkable.set(3,  0.0);
+		walkable.set(5,  2.0);
+		walkable.set(7,  0.0);
+		target.getClientData().setWalkable(walkable);
+		Method test = this.getPrivateMethod("setDirection", null);
+		try {
+			test.invoke(target);
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
 		}
 	}
 }
