@@ -52,8 +52,6 @@ public class ClientData {
 
 	/** ゲームのターン数 */
 	private int gameStep;
-	/** 移動可能な場所 */
-	private List<Double> walkable;
 	public static String READY_CMD_RES = "@";
 	/** Searchコマンドを送信した事を示す */
 	public static final String SEARCH_CMD = "s";
@@ -177,24 +175,6 @@ public class ClientData {
 
 	public void countGameStep() {
 		this.gameStep--;
-	}
-
-	/**
-	 * 移動可能な方向の配列を取得。
-	 * 上: 1, 左: 3, 右: 5, 下: 7
-	 * @return the walkable
-	 */
-	public List<Double> getWalkable() {
-		return walkable;
-	}
-
-	/**
-	 * 移動可能な方向の配列を設定。
-	 * 上: 1, 左: 3, 右: 5, 下: 7
-	 * @param walkable the walkable to set
-	 */
-	public void setWalkable(List<Double> walkable) {
-		this.walkable = walkable;
 	}
 
 	/**

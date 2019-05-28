@@ -8,8 +8,10 @@
  */
 package jp.zenryoku.sample.u16;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * U16プログラミングコンテスト、クライアントアプリの移動方向管理クラス。
@@ -18,7 +20,7 @@ import java.util.List;
  */
 public class WalkHandler {
 	/** 移動可能ポジション */
-	private List<Double> walkable;
+	private Map<Integer, Double> walkable;
 	/** 上に移動可能 */
 	private boolean okUp;
 	/** 下に移動可能 */
@@ -36,11 +38,11 @@ public class WalkHandler {
 	public WalkHandler() {
 		// 上、右、下、左の時計回りに優先順位を初期化
 		directPriority = new Integer[]{1, 5, 7, 3};
-		walkable = new LinkedList<Double>();
-		walkable.add(1, 0.0);
-		walkable.add(3, 0.0);
-		walkable.add(5, 0.0);
-		walkable.add(7, 0.0);
+		walkable = new HashMap<Integer, Double>();
+		walkable.put(1, 0.0);
+		walkable.put(3, 0.0);
+		walkable.put(5, 0.0);
+		walkable.put(7, 0.0);
 		
 	}
 	/**
@@ -109,13 +111,13 @@ public class WalkHandler {
 	/**
 	 * @return the walkable
 	 */
-	public List<Double> getWalkable() {
+	public Map<Integer, Double> getWalkable() {
 		return walkable;
 	}
 	/**
 	 * @param walkable the walkable to set
 	 */
-	public void setWalkable(List<Double> walkable) {
+	public void setWalkable(Map<Integer, Double> walkable) {
 		this.walkable = walkable;
 	}
 	

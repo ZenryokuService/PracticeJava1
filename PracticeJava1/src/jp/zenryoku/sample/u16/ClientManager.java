@@ -151,7 +151,7 @@ public class ClientManager {
 
 	private void setDirection() {
 		// 移動可能な場所のマス(ブロック)を確認する(必ず1->7)の順番で設定されている)
-		List<Double> walkable = data.getWalkable();
+		Map<Integer, Double> walkable = data.getHandler().getWalkable();
 		// 移動優先順位
 		Integer[] direct = data.getHandler().getDirectPriority();
 		// コピーを作成しておく
@@ -159,21 +159,20 @@ public class ClientManager {
 		// walkableには移動可能なマスの配列番号入っている
 		// 改めて優先順位を付け直す(１ターン毎に更新)
 		for (Integer i : direct) {
-			System.out.println(direct[i]);
+			System.out.println(walkable.get(i));
 		}
-		System.out.println(direct);
 		int[] listIdx = new int[] {1, 3, 5, 7};
-		for (int i = 0; i < direct.length / 2; i++) {
+		for (int i = 0; i < direct.length; i++) {
 			if (walkable.get(listIdx[i]) == 2.0) {
 				Integer first = direct[i];
-				Integer tmp = direct[direct.length-1];
+				Integer tmp = direct[direct.length-(i+1)];
 				direct[i] = tmp;
-				direct[direct.length - 1] = first;
+				direct[direct.length - (i+1)] = first;
 			}
 		}
 		System.out.println("****");
 		for (Integer i : direct) {
-			System.out.println(direct[i]);
+			System.out.println(walkable.get(i));
 		}
 	}
 	/**
@@ -218,15 +217,8 @@ public class ClientManager {
 		boolean playerIs = false;
 		boolean itemIs = false;
 		String errorStr = null;
-		List<Double> walkable = data.getWalkable();
-		if (data.getWalkable() == null) {
-			//移動可能な場所を示す配列(UP, LEFT, RIGHT, DOWNの順)
-			walkable = new LinkedList<Double>();
-			walkable.add(1, 0.0);
-			walkable.add(3, 0.0);
-			walkable.add(5, 0.0);
-			walkable.add(7, 0.0);
-		}
+		WalkHandler handler = data.getHandler();
+		Map<Integer, Double> walkable = handler.getWalkable();
 
 		try {
 			// バイト数が10のはずだが?
@@ -245,12 +237,10 @@ public class ClientManager {
 				}
 				if (i == ClientData.UP_POS || i == ClientData.DOWN_POS
 						|| i == ClientData.LEFT_POS || i == ClientData.RIGHT_POS) {
-					walkable.set(i, Double.parseDouble(resData));
-					Double.parseDouble(resData);
-					data.setWalkable(walkable);
+					walkable.put(i, Double.parseDouble(resData));
 				}
 	 		}
-			data.setWalkable(walkable);
+			handler.setWalkable(walkable);
 		} catch (NumberFormatException e) {
 			System.out.println("レスポンスが数字ではありません。" + errorStr);
 			e.printStackTrace();

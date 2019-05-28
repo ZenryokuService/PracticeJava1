@@ -16,8 +16,10 @@ import java.awt.image.DataBuffer;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -211,12 +213,12 @@ public class TestNd4j {
 
 	@Test
 	public void testSetDirection() {
-		List<Double> walkable = new LinkedList<Double>();
-		walkable.set(1,  2.0);
-		walkable.set(3,  0.0);
-		walkable.set(5,  2.0);
-		walkable.set(7,  0.0);
-		target.getClientData().setWalkable(walkable);
+		Map<Integer, Double> walkable = new HashMap<Integer, Double>();
+		walkable.put(1,  2.0);
+		walkable.put(3,  0.0);
+		walkable.put(5,  2.0);
+		walkable.put(7,  0.0);
+		target.getClientData().getHandler().setWalkable(walkable);
 		Method test = this.getPrivateMethod("setDirection", null);
 		try {
 			test.invoke(target);
