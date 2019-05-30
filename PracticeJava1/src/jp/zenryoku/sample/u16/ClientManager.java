@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.nd4j.linalg.api.buffer.DataBuffer;
 import org.nd4j.linalg.api.ndarray.INDArray;
@@ -27,9 +30,11 @@ import org.nd4j.linalg.factory.Nd4j;
  */
 public class ClientManager {
 	/** サーバーレスポンスのデータサイズ */
-	public static final int RESPONSE_SIZE = 15;
+	public static final int RESPONSE_SIZE = 100;
 	/** クライアントデータ管理クラス */
 	private ClientData data;
+	/** ターゲットロックオンのフラグ */
+	private boolean isLockOn;
 
 	/**
 	 * 【注意】
@@ -46,24 +51,9 @@ public class ClientManager {
 		// デバッカーON
 		data.isDebug = true;
 		currentPos = new int[] {0, 0};
-	}
-
-	/**
-	 * 次に実行するコマンドを決定する。
-	 * @return 次に実行するコマンド
-	 */
-	public String decideCommand() {
-		String nextCommand = null;
-		// 1.他のプレーヤがいる場合
+		data.isJiDo = true;
+		isLockOn = false;
 		
-		// 2.Itemがある場合
-		
-		// 何もなければ予定のコマンドを実行する
-		int last = data.getGameStep();
-		if (last >= 96) {
-			nextCommand = firstCommand(last);
-		}
-		return nextCommand;
 	}
 
 	public String firstCommand(int lastTurn) {
@@ -87,10 +77,15 @@ public class ClientManager {
 		return command;
 	}
 	/**
-	 * GetReadyコマンドを送信した後のレスポンスを受けた時の処理
+	 * GetReadyコマンドを送信した後のレスポンスを受けた時の処理。
+	 * 1. butMapの更新
+	 * 2. 全体(自分を中心に19x19マス)Mapの更新
+	 * 3. 周囲の確認を行い、実行コマンドを決定する
 	 * @param response サーバーレスポンス
+	 * @return 実行するコマンド
 	 */
-	public void resGetRedy(InputStream response) throws IOException {
+	public String resGetRedy(InputStream response) throws IOException {
+		String cmd = null;
 		String res = this.getString(response);
 		try {
 			// 周囲確認用のMapにデータを登録
@@ -99,14 +94,15 @@ public class ClientManager {
 			if (data.isDebug) {
 				showBufMap();
 			}
-			// 周囲にあるものをチェック
-			checkAround(res);
 			// 現在位置のマッピングを行う
 			updateMap(res, ClientData.GET_READY, null);
+			// 周囲にあるものをチェック
+			cmd = checkAround(res);
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw new IOException("bufMapにデータを設定中にエラーがありました。");
 		}
+		return cmd;
 	}
 	/**
 	 * 操作コマンドを送信した後の処理です。
@@ -114,19 +110,27 @@ public class ClientManager {
 	 * @param cmd 送信した操作コマンド
 	 */
 	public void afterCommand(InputStream response, String cmd)  throws IOException, Exception {
-		String res = this.getString(response).trim();
+		String res = this.getString(response);
 		// 送信したコマンドにより処理をハンドル
 		String command = cmd.substring(0, 1);
 		if (data.isDebug) {
 			System.out.println("afterCommand: " + cmd == null ? "GetReady": cmd);
 			System.out.println("CommandResponse: " + res);
 		}
+		String exe = cmd.substring(0, 1);
+		String way = cmd.substring(1, 2);
 		if (ClientData.SEARCH_CMD.equals(command)) {
+			// サーチ済みの方向はサーチしない
 			updateMap(res, ClientData.SEARCH_CMD, cmd);
+			data.setSearched(data.getWayToPos(cmd.substring(1,2)));
 		} else if (ClientData.PUT_CMD.equals(command)) {
 			
 		} else if (ClientData.LOOK_CMD.equals(command)) {
-			
+			if (data.isLooked(data.getWayToPos(way))) {
+				cmd = exe + decideDirection(ClientData.LOOK_CMD);
+			}
+			updateMap(res, ClientData.LOOK_CMD,  cmd);
+			data.setLooked(data.getWayToPos(cmd.substring(1,2)));
 		} else if (ClientData.WALK_CMD.equals(command)) {
 		}
 		// 上記以外のコマンドは無視
@@ -136,44 +140,207 @@ public class ClientManager {
 	 * 周囲の安全確認を行い次の行動を決める。
 	 * @res サーバーレスポンス
 	 */
-	private void checkAround(String res) throws Exception {
-		// 移動可能な場所の判定をして移動優先順位を決める
-		
+	private String checkAround(String res) throws Exception {
+		String cmd = null;
 		// 相手プレーヤの有無
 		if (data.isPlayer()) {
+			System.out.println("isPlayerAction staert");
 			// プレーヤがいる時の処理フラグを設定
+			cmd = isPlayerAction();
 		}
 		// アイテムがの有無
 		if (data.isItem()) {
+			System.out.println("isItemAction staert");
 			// アイテムがある時の処理フラグを設定
+			cmd = isItemAction();
 		}
-	}
-
-	private void setDirection() {
-		// 移動可能な場所のマス(ブロック)を確認する(必ず1->7)の順番で設定されている)
-		Map<Integer, Double> walkable = data.getHandler().getWalkable();
-		// 移動優先順位
-		Integer[] direct = data.getHandler().getDirectPriority();
-		// コピーを作成しておく
-		Integer[] newDirect = direct;
-		// walkableには移動可能なマスの配列番号入っている
-		// 改めて優先順位を付け直す(１ターン毎に更新)
-		for (Integer i : direct) {
-			System.out.println(walkable.get(i));
+		/// 上記の条件に当てはまらない場合はMap作成に走る ///
+		
+		// 進行方向が決まっていない時はSearchコマンドで広域確認
+		int direction = data.getHandler().getDirection();
+		if (data.isDebug) {
+			System.out.println("direction: " + direction);
+			System.out.println("isSearched: " + data.isSearched(direction));
+			System.out.println("isLooked: " + data.isLooked(direction));
 		}
-		int[] listIdx = new int[] {1, 3, 5, 7};
-		for (int i = 0; i < direct.length; i++) {
-			if (walkable.get(listIdx[i]) == 2.0) {
-				Integer first = direct[i];
-				Integer tmp = direct[direct.length-(i+1)];
-				direct[i] = tmp;
-				direct[direct.length - (i+1)] = first;
+		if (direction == -1 || data.allSearched() == false) {
+			System.out.println("*** IN: Search Method ***");
+			cmd = ClientData.SEARCH_CMD + decideDirection(ClientData.SEARCH_CMD);
+			data.setSearched(direction);
+		} else {
+			if (data.isLooked(direction)) {
+				cmd = isWalkAction(direction);
+			} else {
+				cmd = ClientData.LOOK_CMD + decideDirection(ClientData.LOOK_CMD);
+				data.setLooked(direction);
 			}
 		}
-		System.out.println("****");
-		for (Integer i : direct) {
-			System.out.println(walkable.get(i));
+		return cmd;
+	}
+
+	/**
+	 * 周囲にプレーヤがいた時の行動(コマンド)を返却する
+	 */
+	private String isPlayerAction() throws Exception {
+		// PUT(攻撃可能か？)
+		if (data.isCanAttack()) {
+			// p + 方向
+			return ClientData.PUT_CMD + data.getPosToWay(data.getHandler().getPlayerPos());
 		}
+		String cmd = null;
+		// プレイヤーが周囲にいて攻撃ができない時(0, 2, 6, 8)
+		int playerIs = data.getHandler().getPlayerPos();
+		if (playerIs == ClientData.UPPER_LEFT_POS || playerIs == ClientData.UPPER_RIGHT_POS) {
+			cmd = ClientData.WALK_CMD + ClientData.UP;
+		} else if (playerIs == ClientData.DOWN_LEFT_POS || playerIs == ClientData.DOWN_RIGHT_POS) {
+			cmd = ClientData.WALK_CMD + ClientData.UP;
+		} else {
+			cmd = ClientData.PUT_CMD + getRandamPos(playerIs);
+		}
+		return cmd;
+	}
+
+	/**
+	 * 周囲にアイテムがあった時の行動
+	 */
+	private String isItemAction() throws Exception {
+		// PUT(攻撃可能か？)
+		if (data.isCanItem()) {
+			// p + 方向
+			return ClientData.WALK_CMD + data.getPosToWay(data.getHandler().getPlayerPos());
+		}
+		String cmd = null;
+		// プレイヤーが周囲にいて攻撃ができない時(0, 2, 6, 8)
+		int playerIs = data.getHandler().getPlayerPos();
+		cmd = ClientData.WALK_CMD + getRandamPos(playerIs);
+		return cmd;
+	}
+
+	/**
+	 * Walkコマンドの移動方向を決定して送信コマンドを返す
+	 * @param direction Look済みの方向
+	 * @return 実行コマンド
+	 */
+	private String isWalkAction(Integer direction) throws Exception {
+		if (data.isDebug) {
+			System.out.println("direction: " + direction + " / " );
+		}
+		WalkHandler handler = data.getHandler();
+		// 自分の周囲の確認
+		Double[] bufIdx = data.getBufMap();
+		Map<Integer, Double> walkable = handler.getWalkable();
+		boolean canWalk = false;
+		Integer[] priority = handler.getDirectPriority(direction);
+		int canDirect = -1;
+		int tmp = -1;
+		// 優先順序順にいけるか確認、行ければ行動
+		for (int j = 0;j < priority.length; j++) {
+			for (int i = 0;i < bufIdx.length; i++) {
+				if (i == 1 || i == 3 || i == 5 || i == 7) {
+					walkable.put(i, bufIdx[i]);
+				}
+				if (priority[j] == i && bufIdx[i] != 2.0) {
+					canWalk = true;
+					canDirect = i;
+					break;
+				}
+			}
+			if (canDirect != -1 ) {
+				handler.setDirection(canDirect);
+				break;
+			}
+		}
+		String cmd = ClientData.WALK_CMD + data.getPosToWay(canDirect);
+		if (data.isDebug) {
+			System.out.println("isWalkAction canDirect ='" + canDirect + "';");
+			System.out.println("isWalkAction return '" + cmd + "';");
+		}
+		// Looked済みであれば先の情報確認する
+		if (data.isLooked(canDirect)) {
+			
+		}
+		return cmd;
+	}
+	/**
+	 * 対象posに対してどちらか隣接する方向(u,r,d,l)を返す。
+	 * @param pos 対象pos
+	 * @return 方向(u,r,d,l)
+	 */
+	private String getRandamPos(Integer pos) throws Exception {
+		int zeroOne = new Random().nextInt(2);
+		// 返却する方向
+		String retWay = null;
+		switch(pos) {
+		case ClientData.UPPER_LEFT_POS:
+			retWay = zeroOne == 1 ? ClientData.LEFT : ClientData.UP;
+			break;
+		case ClientData.UPPER_RIGHT_POS:
+			retWay = zeroOne == 1 ? ClientData.RIGHT : ClientData.UP;
+			break;
+		case ClientData.DOWN_LEFT_POS:
+			retWay = zeroOne == 1 ? ClientData.LEFT : ClientData.DOWN;
+			break;
+		case ClientData.DOWN_RIGHT_POS:
+			retWay = zeroOne == 1 ? ClientData.RIGHT : ClientData.DOWN;
+			break;
+		default:
+			throw new Exception("指定するposが不適切です。: " + pos);
+		}
+		return retWay;
+	}
+
+	/**
+	 * 進行方向を設定する。
+	 * walkHandlerには周囲情報設定済みになっている。
+	 */
+	private String decideDirection(String searchOrLook) throws Exception {
+		WalkHandler handler = data.getHandler();
+		// 移動優先順位
+		Integer[] priority = handler.getDirectPriority();
+		if (data.isDebug) {
+			System.out.println("directPriority.length: " + priority.length); 
+			System.out.println("SearchUp: " + data.getHandler().isOkSearchUp());
+			System.out.println("SearchRight: " + data.getHandler().isOkSearchRight());
+			System.out.println("SearchDown: " + data.getHandler().isOkSearchDown());
+			System.out.println("SearchLeft: " + data.getHandler().isOkSearchLeft());
+		}
+		Double[] bufMap = data.getBufMap();
+//		Double[] nextBufMap = data.getNextBufMap();
+		Function<Integer, Boolean> funcLooked = pos -> {
+			boolean flg = false;
+			try {
+				System.out.println("LOOK FUNC" + pos);
+				flg = data.isLooked(pos) == false;
+			} catch(Exception e) {
+				flg = false;
+			}
+			return flg;
+		};
+		Function<Integer, Boolean> funcSearched = pos -> {
+			boolean flg = false;
+			try {
+				System.out.println("SEARCH FUNC: " + pos);
+				flg = data.isSearched(pos) == false;
+			} catch(Exception e) {
+				flg = false;
+			}
+			return flg;
+		};
+		Function<Integer, Boolean> func = null;
+		func = ClientData.SEARCH_CMD.equals(searchOrLook) ? funcSearched : funcLooked;
+		for (Integer p: priority) {
+			if (bufMap[p] != 2.0 && func.apply(p)) {
+				System.out.println("進行方向変更：" + p);
+				handler.setDirection(p);
+				break;
+			}
+//			if (nextBufMap != null && nextBufMap[p] != 2.0 && handler.getDirection() != p) {
+//				System.out.println("進行方向変更：" + p);
+//				handler.setDirection(p);
+//				break;
+//			}
+		}
+		return data.getPosToWay(handler.getDirection());
 	}
 	/**
 	 * 自分の位置などのMapを更新する。bufMapは更新済み。
@@ -190,7 +357,7 @@ public class ClientManager {
 		} else if (ClientData.SEARCH_CMD.equals(cmdFlg)){
 			data.updateSearchMap(response, command, currentPos);
 		} else if (ClientData.LOOK_CMD.equals(command)) {
-			
+			data.updateNextBufMap(response, command, currentPos);
 		}
 		if (data.isDebug) {
 			System.out.println("CurrentPos: " + currentPos[0]+ ", " +  currentPos[1]);
@@ -203,12 +370,11 @@ public class ClientManager {
 	 * ついでなので、周囲の状況確認も行う。
 	 * 1.Playerが周囲にいるかのフラグを設定
 	 * 2.Itemがあるかのフラグを設定
-	 * 3.行動可能な方向をWalkHanderクラスにint[]で設定
+	 * 3.行動可能な方向をWalkHanderクラスに設定
 	 * @param res サーバーレスポンス
 	 */
 	private void setBufMap(String res) throws Exception {
 		if (ClientData.END_TURN.equals(res)) {
-			this.terminatedTurn();
 			return;
 		} else if (ClientData.READY_CMD_RES.equals(res)) {
 			return;
@@ -229,18 +395,27 @@ public class ClientManager {
 				playerIs = ClientData.OPPONENT_PLAYER.equals(resData);
 				itemIs = ClientData.ITEM_ZONE.equals(resData);
 				bufMap[i] = Double.parseDouble(resData);
+				// 1.他のプレーヤがいるかの確認
 				if (playerIs) {
+					isLockOn = true;
 					data.setPlayer(true);
+					data.getHandler().setPlayerPos(i);
+					if (i == ClientData.UP_POS || i == ClientData.RIGHT_POS
+							|| i == ClientData.DOWN_POS || i == ClientData.LEFT_POS) {
+						data.setCanAttack(true);
+					}
 				}
+				// 2.アイテムがあるかの確認
 				if (itemIs) {
 					data.setItem(true);
+					data.getHandler().setItemPos(i);
 				}
+				// 3.移動可能な方向の確認(移動可能配列に1:上にマスの情報(2=ブロック))
 				if (i == ClientData.UP_POS || i == ClientData.DOWN_POS
 						|| i == ClientData.LEFT_POS || i == ClientData.RIGHT_POS) {
 					walkable.put(i, Double.parseDouble(resData));
 				}
 	 		}
-			handler.setWalkable(walkable);
 		} catch (NumberFormatException e) {
 			System.out.println("レスポンスが数字ではありません。" + errorStr);
 			e.printStackTrace();
@@ -248,10 +423,7 @@ public class ClientManager {
 		// bufMap更新フラグをtrueにする
 		data.setReady(true);
 		data.setBufMap(bufMap);
-		// ClientDataのマップを更新する
-		//data.loggingPos(currentPos);
 	}
-
 
 	/**
 	 * 行動コマンド送信後のレスポンス。
@@ -273,7 +445,7 @@ public class ClientManager {
 	 * @param res CHaserServerからのレスポンス
 	 */
 	public void mapping(String res, boolean isSearch) {
-		INDArray mat = Nd4j.create(3, 3);
+//		INDArray mat = Nd4j.create(3, 3);
 //		mat.put(arg0, arg1)
 	}
 
@@ -286,8 +458,14 @@ public class ClientManager {
 	private String getString(InputStream inp) throws IOException {
 		byte[] b = new byte[RESPONSE_SIZE];
 		inp.read(b);
+		String res = new String(b).replaceAll("\r", "").replaceAll("\n", "").trim();
+		if (res.contains("@")) {
+			return "@";
+		}
 		// 改行コード、スペースを削除
-		return new String(b).replaceAll("\r", "").replaceAll("\n", "").trim();
+		// ゴミが改行などの文字以外のものあるのできっちり10バイト取得して他は捨てることにする。
+		StringBuilder buf = new StringBuilder(new String(b).replaceAll("\r", "").replaceAll("\n", "").trim());
+		return buf.substring(0, 10);
 	}
 
 	/**
@@ -314,8 +492,19 @@ public class ClientManager {
 	/**
 	 * １ターンの終了時の処理
 	 */
-	public void terminatedTurn() {
+	public void terminatedTurn(InputStream response) throws IOException {
+		// ターン終了コマンドを受ける
+		byte[] b = new byte[RESPONSE_SIZE];
+		response.read(b);
+		if (data.isDebug) {
+			System.out.println("ターン終了レスポンス：" + new String(b));
+		}
 		// ゲームステップ数をマイナス
 		data.countGameStep();
+		// 各GetReadyで設定するフラグを初期化する
+		data.setPlayer(false);
+		data.setItem(false);
+		data.setCanAttack(false);
+		data.setCanItem(false);
 	}
 }

@@ -33,8 +33,6 @@ public class U16ProconClient {
 	private Socket socket;
 	/** クライアントの行動などの管理 */
 	private ClientManager manager;
-	/** クライアントアプリの使用する情報を保持する */
-	private ClientData data;
 
 	/** 
 	 * Mainメソッド。
@@ -42,8 +40,9 @@ public class U16ProconClient {
 	 * <dl><dt>1.URL=IPとポート番号</dt>
 	 * <dd>String serverHost = "127.0.0.1:2009";</dd>
 	 * </dl>
+	 * @throws InterruptedException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		// Input: 1 サーバーホスト(IPアドレス)
 		String serverHost = "127.0.0.1";
 		// COOLを使用する: HOTを使用する場合は2010版のポート番号
@@ -62,6 +61,7 @@ public class U16ProconClient {
 			e.printStackTrace();
 			System.out.println("想定外の例外が発生しました。");
 		} finally {
+			Thread.sleep(7000);
 			client.closeIO();
 		}
 	}
@@ -146,28 +146,36 @@ public class U16ProconClient {
 	 */
 	private void startLoop(OutputStream sendTo, InputStream response) throws IOException, Exception {
 		System.out.println("*** Loop Start ***");
-		String[] arr = new String[] {"su", "sl", "sd", "sr", "pp"};
-		int loop = 0;
+//		String[] arr = new String[] {"su", "sl", "sd", "sr", "pp"};
+//		int loop = 0;
 		while(true) {
 			// コマンドの送信[gr + "コマンド" + \r\n]
 			sendTo.write(("gr" + ClientData.ENTER).getBytes());
 			// GetReadyのレスポンスに対する処理
-			manager.resGetRedy(response);
+			String cmd = manager.resGetRedy(response);
 			// レスポンスを受けコンソールに出力する
 //			showResponse(sendTo, response, "GetReady");
 			// 操作コマンドを送信する
-			sendTo.write((arr[loop] + ClientData.ENTER).getBytes());
+			if (manager.getClientData().isDebug) {
+				System.out.println("送信コマンド:" + cmd);
+			}
+			sendTo.write((cmd + ClientData.ENTER).getBytes());
 			waitASecond();
-			manager.afterCommand(response, arr[loop]);
+			manager.afterCommand(response, cmd);
 //			// レスポンスを受けコンソールに出力する
 //			showResponse(sendTo, response, arr[loop]);
 			sendTo.write(("#" + ClientData.ENTER).getBytes());
 			waitASecond();
-			manager.terminatedTurn();			
+			manager.terminatedTurn(response);			
 //			// レスポンスを受けコンソールに出力する
 //			showResponse(sendTo, response, "#");
-			loop++;
-			if (arr.length <= loop) {
+//			loop++;
+			if (manager.getClientData().getGameStep() <= 95) {
+				// 意味不明のコマンドを送信
+				sendTo.write("pp".getBytes());
+				// レスポンスが返ってこないのでタイムアウト
+				byte[] b = new byte[10];
+				response.read(b);
 				break;
 			}
 		}

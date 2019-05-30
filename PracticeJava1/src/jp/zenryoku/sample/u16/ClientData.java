@@ -9,7 +9,9 @@
 package jp.zenryoku.sample.u16;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
@@ -23,6 +25,9 @@ import org.nd4j.linalg.factory.Nd4j;
 public class ClientData {
 	/** デバッカフラグ */
 	public boolean isDebug;
+	/** VS自動くん */
+	public boolean isJiDo;
+	/// 定数 ///
 	/** タイムアウトする時間(ミリ秒) */
 	public static final int TIME_OUT = 10000;
 	/** 改行コード */
@@ -49,9 +54,7 @@ public class ClientData {
 	public static final String UNKNOWN_ZONE = "4";
 	/** サーバーレスポンスの１バイト目(1=Alive, 0:=Dead) */
 	public static final String IS_ALIVE = "1";
-
-	/** ゲームのターン数 */
-	private int gameStep;
+	/** ターン終了コマンドのレスポンス */
 	public static String READY_CMD_RES = "@";
 	/** Searchコマンドを送信した事を示す */
 	public static final String SEARCH_CMD = "s";
@@ -79,23 +82,44 @@ public class ClientData {
 	public static final int RIGHT_POS = 5;
 	/** 自分の下方向を示すレスポンスデータの位置 */
 	public static final int DOWN_POS = 7;
-	/** 周囲確認用BufferedMap */
-	private Double[] bufMap;
-	/** 周囲確認済み(bufMap更新済み)フラグ */
-	private boolean isReady;
-	/** 周囲に相手プレーヤがいるかどうかのフラグ */
-	private boolean isPlayer;
-	/** 周囲にアイテムがあるかどうかのフラグ */
-	private boolean isItem;
-	/** ND4Jの行列部品 */
-	private INDArray map;
+	/** 自分の左上を示すレスポンスデータの位置 */
+	public static final int UPPER_LEFT_POS = 0;
+	/** 自分の左上を示すレスポンスデータの位置 */
+	public static final int UPPER_RIGHT_POS = 2;
+	/** 自分の左上を示すレスポンスデータの位置 */
+	public static final int DOWN_LEFT_POS = 6;
+	/** 自分の左上を示すレスポンスデータの位置 */
+	public static final int DOWN_RIGHT_POS = 8;
 	/** 作成したMapの中心(19x19のマス) */
 	public static final int[] START_POS = {10, 10};
+	/** ポジションと方向の関連HashMap */
+	private static final Map<Integer, String> posWay = new HashMap<Integer, String>();
+
+	/// クライアントが使用する変数 ///
+	/** ゲームのターン数 */
+	private int gameStep;
+	/** 周囲確認用BufferedMap */
+	private Double[] bufMap;
+	/** Lookコマンド実行時の周囲マップ */
+	private Double[] nextBufMap;
+	/** ND4Jの行列部品(全体のマップ) */
+	private INDArray map;
 	/** 移動履歴管理List */
 	private List<int[]> posLogger;
 	/** 移動方向管理クラス */
 	private WalkHandler handler;
-	
+	/** 周囲確認済み(bufMap更新済み)フラグ */
+	private boolean isReady;
+	/** 周囲に相手プレーヤがいるかどうかのフラグ */
+	private boolean isPlayer;
+	/** PUTコマンドが可能を示すフラグ */
+	private boolean canAttack;
+	/** 周囲にアイテムがあるかどうかのフラグ */
+	private boolean isItem;
+	/** アイテム取得が可能か示すフラグ */
+	private boolean canItem;
+	/** 移動開始フラグ */
+	private boolean isMove;
 
 	/** コンストラクタ */
 	public ClientData() {
@@ -111,6 +135,15 @@ public class ClientData {
 		posLogger = new ArrayList<int[]>();
 		// ターン数を設定
 		gameStep = 100;
+		// ポジションと方向をセット
+		posWay.put(UP_POS, UP);
+		posWay.put(LEFT_POS, LEFT);
+		posWay.put(RIGHT_POS, RIGHT);
+		posWay.put(DOWN_POS, DOWN);
+		// 移動開始フラグ
+		isMove = false;
+		handler.setDirection(UP_POS);
+		
 	}
 
 	/**
@@ -241,6 +274,49 @@ public class ClientData {
 	}
 
 	/**
+	 * @return the nextBufMap
+	 */
+	public Double[] getNextBufMap() {
+		return nextBufMap;
+	}
+
+	/**
+	 * @param nextBufMap the nextBufMap to set
+	 */
+	public void setNextBufMap(Double[] nextBufMap) {
+		this.nextBufMap = nextBufMap;
+	}
+
+	/**
+	 * @return the canAttack
+	 */
+	public boolean isCanAttack() {
+		return canAttack;
+	}
+
+	/**
+	 * @param canAttack the canAttack to set
+	 */
+	public void setCanAttack(boolean canAttack) {
+		this.canAttack = canAttack;
+	}
+
+	/**
+	 * @return the canItem
+	 */
+	public boolean isCanItem() {
+		return canItem;
+	}
+
+	/**
+	 * @param canItem the canItem to set
+	 */
+	public void setCanItem(boolean canItem) {
+		this.canItem = canItem;
+	}
+
+	/// ロジックのあるメソッド ///
+	/**
 	 * 現在のポジションをロギングする。
 	 * ClientManager用のポジションをClientData用のポジションに更新して登録する。
 	 * @param pos 現在のポジション
@@ -254,7 +330,7 @@ public class ClientData {
 		int rowCounter = 0;
 		for (int i = 0; i < bufMap.length; i++) {
 			if (isDebug) {
-				System.out.println("mapX: " + matrixIndexes[i][0] + " / mapY: " + matrixIndexes[i][1]);
+//				System.out.println("mapX: " + matrixIndexes[i][0] + " / mapY: " + matrixIndexes[i][1]);
 			}
 			map.putScalar(matrixIndexes[i], bufMap[i]);
 			if (i < 3 &&i % 2 == 0) {
@@ -271,8 +347,62 @@ public class ClientData {
 	public void updateSearchMap(String res, String cmd, int[] currentPos) throws Exception {
 		// 更新する行列のIndex[cols, rows]
 		int[][] matrixIndexes = getSearchUpdatePosArray(currentPos, cmd);
-		for (int i = 1; i <  res.length()-1; i++) {
+		for (int i = 1; i <  res.length()-2; i++) {
 			map.putScalar(matrixIndexes[i], Double.parseDouble(res.substring(i, i+1)));
+		}
+		// コマンドは２文字[sX] X = u,r,d,l
+		String directStr = cmd.substring(1, 2);
+		if (isDebug) {
+			System.out.println("OkSearch: update " + directStr);
+		}
+		if (UP.equals(directStr)) {
+			handler.setOkSearchUp(true);
+		} else if (RIGHT.equals(directStr)) {
+			handler.setOkSearchRight(true);
+		} else if (DOWN.equals(directStr)) {
+			handler.setOkSearchLeft(true);
+		} else if (LEFT.equals(directStr)) {
+			handler.setOkSearchLeft(true);
+		} else {
+			throw new Exception("想定外のコマンドです: " + cmd);
+		}
+	}
+
+	/** ４方向全てをサーチしたか */
+	public boolean allSearched() {
+		return handler.isOkSearchUp() 
+				&& handler.isOkSearchRight()
+				&& handler.isOkSearchDown()
+				&& handler.isOkSearchLeft();
+	}
+	/**
+	 * ルックコマンドのレスポンスをnextBufMapに反映する。
+	 * @param res サーバーレスポンス
+	 * @param cmd 実行したコマンド
+	 * @param 現在位置(座標系)
+	 */
+	public void updateNextBufMap(String res, String cmd, int[] currentPos) throws Exception {
+		Double[] nextBufMap = handler.getNextBufMap();
+		for (int i = 1; i <  res.length()-2; i++) {
+			double d = Double.parseDouble(res.substring(i, i+1));
+			nextBufMap[i] = d;
+		}
+		
+	}
+
+	/**
+	 * 1, 3, 5, 7のポイントに対してOkUp-Leftまで(うちの１つ)をTrueに更新する。
+	 * @param point 更新するポイント
+	 */
+	private void setOkTrue(int point) {
+		if (UP_POS == point) {
+			handler.setOkUp(true);
+		} else if (RIGHT_POS == point) {
+			handler.setOkRight(true);
+		} else if (DOWN_POS == point) {
+			handler.setOkDown(true);
+		} else if (LEFT_POS == point) {
+			handler.setOkLeft(true);
 		}
 	}
 
@@ -460,5 +590,120 @@ public class ClientData {
 							, new int[] {updateX + (counter * 6)-1, updateY-1}
 							, new int[] {updateX + (counter * 7)-1, updateY-1}
 							, new int[] {updateX + (counter * 8)-1, updateY-1}};
+	}
+
+	/**
+	 * ポジション情報(0-8)から方向(u,r,d,l)を取得する
+	 * @param pos ポジション情報
+	 * @return 方向文字列(u,r,d,l)
+	 */
+	public String getPosToWay(int pos) {
+		return posWay.get(pos);
+	}
+
+	/**
+	 * 方向からポジション情報を取得する
+	 * @param way 方向(u, r, d, l)
+	 * @return 1, 3, 5, 7
+	 */
+	public int getWayToPos(final String way) {
+		// ラムダ式対応のため配列で値を保持する
+		final Integer[] res = new Integer[] {0};
+		posWay.entrySet().forEach(ent -> {
+			if (ent.getValue().equals(way)) {
+				res[0] = ent.getKey();
+			}
+		});
+		return res[0];
+	}
+
+	/**
+	 * 指定したポジション(方向)はサーチ済みか判定する。
+	 * @param direction ポジション(方向)
+	 * @return サーチ済み(true)
+	 */
+	public boolean isSearched(int direction) throws Exception {
+		if(isDebug && direction == -1) {
+			return false;
+		}
+		boolean result = false;
+		if (UP_POS == direction) {
+			result = handler.isOkSearchUp();
+		} else if (RIGHT_POS == direction) {
+			result = handler.isOkSearchRight();
+		} else if (DOWN_POS == direction) {
+			result = handler.isOkSearchDown();
+		} else if (LEFT_POS == direction) {
+			result = handler.isOkSearchLeft();
+		} else {
+			throw new Exception("想定外のポジション(方向)です：" + direction);
+		}
+		return result;
+	}
+
+	/**
+	 * 指定したポジション(方向)はサーチ済みに更新する。
+	 * @param direction ポジション(方向)
+	 * @return サーチ済み(true)
+	 */
+	public boolean setSearched(int direction) throws Exception {
+		if(isDebug && direction == -1) {
+			return false;
+		}
+		boolean result = false;
+		if (UP_POS == direction) {
+			handler.setOkSearchUp(true);
+		} else if (RIGHT_POS == direction) {
+			handler.setOkSearchRight(true);
+		} else if (DOWN_POS == direction) {
+			handler.setOkSearchDown(true);
+		} else if (LEFT_POS == direction) {
+			handler.setOkSearchLeft(true);
+		} else {
+			throw new Exception("想定外のポジション(方向)です：" + direction);
+		}
+		return result;
+	}
+	/**
+	 * 指定した方向はLook済みかどうか判定する。
+	 * また、Look済みでないものはLookできないところも含む。
+	 * @param direction 方向(1-3,5,7)
+	 * @return true/false
+	 */
+	public boolean isLooked(int direction) throws Exception {
+		if(isDebug && direction == -1) {
+			return false;
+		}
+		boolean result = false;
+		if (UP_POS == direction) {
+			result = handler.isOkLookUp();
+		} else if (RIGHT_POS == direction) {
+			result = handler.isOkLookRight();
+		} else if (DOWN_POS == direction) {
+			result = handler.isOkLookDown();
+		} else if (LEFT_POS == direction) {
+			result = handler.isOkLookLeft();
+		} else {
+			throw new Exception("想定外の方向です。: " + direction);
+		}
+		return result;
+	}
+
+	/**
+	 * Look済みに指定したdirectionを更新する
+	 * @param direction 進行方向
+	 */
+	public void setLooked(int direction) throws Exception {
+		if (UP_POS == direction) {
+			handler.setOkLookUp(true);
+		} else if (RIGHT_POS == direction) {
+			handler.setOkLookRight(true);
+		} else if (DOWN_POS == direction) {
+			handler.setOkLookDown(true);
+		} else if (LEFT_POS == direction) {
+			handler.setOkLookLeft(true);
+		} else {
+			throw new Exception("想定外の方向です。: " + direction);
+		}
 	}
 }
