@@ -142,17 +142,36 @@ public class ClientManager {
 	 */
 	private String checkAround(String res) throws Exception {
 		String cmd = null;
+		Double[] bufMap = data.getBufMap();
 		// 相手プレーヤの有無
 		if (data.isPlayer()) {
 			System.out.println("isPlayerAction staert");
-			// プレーヤがいる時の処理フラグを設定
-			cmd = isPlayerAction();
+			for (int i = 0; i < bufMap.length; i++) {
+				if (bufMap[i] == 1) {
+					// プレーヤがいる時の処理フラグを設定
+					cmd = isPlayerAction();
+					break;
+				}
+			}
+			if (cmd == null) {
+				cmd = isPlayerAtFar();
+			}
+			return cmd;
 		}
-		// アイテムがの有無
+		// アイテムがある時
 		if (data.isItem()) {
 			System.out.println("isItemAction staert");
-			// アイテムがある時の処理フラグを設定
-			cmd = isItemAction();
+			for (int i = 0; i < bufMap.length; i++) {
+				if (bufMap[i] == 3) {
+					// プレーヤがいる時の処理フラグを設定
+					cmd = isItemAction();
+					break;
+				}
+			}
+			if (cmd == null) {
+				cmd = isItemAtFar();
+			}
+			return cmd;
 		}
 		/// 上記の条件に当てはまらない場合はMap作成に走る ///
 		
@@ -187,17 +206,27 @@ public class ClientManager {
 			// p + 方向
 			return ClientData.PUT_CMD + data.getPosToWay(data.getHandler().getPlayerPos());
 		}
-		String cmd = null;
 		// プレイヤーが周囲にいて攻撃ができない時(0, 2, 6, 8)
 		int playerIs = data.getHandler().getPlayerPos();
-		if (playerIs == ClientData.UPPER_LEFT_POS || playerIs == ClientData.UPPER_RIGHT_POS) {
-			cmd = ClientData.WALK_CMD + ClientData.UP;
-		} else if (playerIs == ClientData.DOWN_LEFT_POS || playerIs == ClientData.DOWN_RIGHT_POS) {
-			cmd = ClientData.WALK_CMD + ClientData.UP;
-		} else {
-			cmd = ClientData.PUT_CMD + getRandamPos(playerIs);
-		}
-		return cmd;
+		return ClientData.PUT_CMD + getRandamPos(playerIs);
+	}
+
+	/**
+	 * Search, Lookコマンドで相手プレーヤを発見した時の処理
+	 * @return 近くまで、前進する(想定)
+	 * @throws Exception
+	 */
+	private String isPlayerAtFar() throws Exception {
+		return "wd";
+	}
+
+	/**
+	 * Search, Lookコマンドでアイテムを発見した時の処理
+	 * @return 近くまで、前進する(想定)
+	 * @throws Exception
+	 */
+	private String isItemAtFar() throws Exception {
+		return "wu";
 	}
 
 	/**
@@ -206,13 +235,14 @@ public class ClientManager {
 	private String isItemAction() throws Exception {
 		// PUT(攻撃可能か？)
 		if (data.isCanItem()) {
+			System.out.println("*** Item ***");
 			// p + 方向
-			return ClientData.WALK_CMD + data.getPosToWay(data.getHandler().getPlayerPos());
+			return ClientData.WALK_CMD + data.getPosToWay(data.getHandler().getItemPos());
 		}
 		String cmd = null;
 		// プレイヤーが周囲にいて攻撃ができない時(0, 2, 6, 8)
-		int playerIs = data.getHandler().getPlayerPos();
-		cmd = ClientData.WALK_CMD + getRandamPos(playerIs);
+		int itemIs = data.getHandler().getItemPos();
+		cmd = ClientData.WALK_CMD + getRandamPos(itemIs);
 		return cmd;
 	}
 
@@ -232,7 +262,6 @@ public class ClientManager {
 		boolean canWalk = false;
 		Integer[] priority = handler.getDirectPriority(direction);
 		int canDirect = -1;
-		int tmp = -1;
 		// 優先順序順にいけるか確認、行ければ行動
 		for (int j = 0;j < priority.length; j++) {
 			for (int i = 0;i < bufIdx.length; i++) {
@@ -259,7 +288,30 @@ public class ClientManager {
 		if (data.isLooked(canDirect)) {
 			
 		}
+		// CurrentPosの更新
+		this.currentPos = setCurrentPos(direction);
 		return cmd;
+	}
+
+	/**
+	 * CurrentPos(座標系)なので中心が(0,0)になり
+	 * 上に行くと(0,1)となる
+	 * @param direction
+	 * @return
+	 */
+	private int[] setCurrentPos(int direction) {
+		int addX = 0;
+		int addY = 0;
+		if (direction == 1) {
+			addY = 1;
+		} else if (direction == 3) {
+			addX = -1;
+		} else if (direction == 5) {
+			addX = 1;
+		} else if (direction == 7) {
+			addY = -1;
+		}
+		return new int[] {(currentPos[0] + addX), currentPos[1] + addY};
 	}
 	/**
 	 * 対象posに対してどちらか隣接する方向(u,r,d,l)を返す。
@@ -332,7 +384,15 @@ public class ClientManager {
 			if (bufMap[p] != 2.0 && func.apply(p)) {
 				System.out.println("進行方向変更：" + p);
 				handler.setDirection(p);
+				// 進行方向優先順位も更新する
+				handler.setDirectPriority(WalkHandler.getPriprityArray(p));
 				break;
+			} else if (bufMap[p] == 2) {
+				if (ClientData.SEARCH_CMD.equals(searchOrLook)) {
+					data.setSearched(p);
+				} else {
+					data.setLooked(p);
+				}
 			}
 //			if (nextBufMap != null && nextBufMap[p] != 2.0 && handler.getDirection() != p) {
 //				System.out.println("進行方向変更：" + p);

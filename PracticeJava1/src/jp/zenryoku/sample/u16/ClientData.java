@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
@@ -142,7 +143,6 @@ public class ClientData {
 		posWay.put(DOWN_POS, DOWN);
 		// 移動開始フラグ
 		isMove = false;
-		handler.setDirection(UP_POS);
 		
 	}
 
@@ -347,13 +347,47 @@ public class ClientData {
 	public void updateSearchMap(String res, String cmd, int[] currentPos) throws Exception {
 		// 更新する行列のIndex[cols, rows]
 		int[][] matrixIndexes = getSearchUpdatePosArray(currentPos, cmd);
+		boolean playerIs = false;
+		boolean itemIs = false;
 		for (int i = 1; i <  res.length()-2; i++) {
-			map.putScalar(matrixIndexes[i], Double.parseDouble(res.substring(i, i+1)));
+			String place = res.substring(i, i+1);
+			map.putScalar(matrixIndexes[i], Double.parseDouble(place));
+			if (ClientData.OPPONENT_PLAYER.equals(place)) {
+				playerIs = true;
+			}
+			if (ClientData.ITEM_ZONE.equals(place)) {
+				itemIs = true;
+			}
 		}
 		// コマンドは２文字[sX] X = u,r,d,l
 		String directStr = cmd.substring(1, 2);
 		if (isDebug) {
 			System.out.println("OkSearch: update " + directStr);
+			System.out.println("playerIs: " + playerIs);
+			System.out.println("itemIs: " + itemIs);
+		}
+		// プロパティの更新
+		setPlayer(playerIs);
+		setItem(itemIs);
+		// 進行方向設定メソッド
+		Consumer<String> func = str -> {
+			int direction = this.getWayToPos(directStr);
+			handler.setDirection(direction);
+			try {
+				handler.setDirectPriority(WalkHandler.getPriprityArray(direction));
+			} catch (Exception e) {
+				System.out.println("進行方向の設定時エラー[値が不適切です]：" + direction);
+				e.printStackTrace();
+			}
+		};
+		if (isPlayer()) {
+			// 目的地を設定するように変更する
+			func.accept(directStr);
+			setPlayer(true);
+		}
+		if (isItem()) {
+			func.accept(directStr);
+			setItem(true);
 		}
 		if (UP.equals(directStr)) {
 			handler.setOkSearchUp(true);

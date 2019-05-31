@@ -170,7 +170,7 @@ public class U16ProconClient {
 //			// レスポンスを受けコンソールに出力する
 //			showResponse(sendTo, response, "#");
 //			loop++;
-			if (manager.getClientData().getGameStep() <= 95) {
+			if (manager.getClientData().getGameStep() <= 94) {
 				// 意味不明のコマンドを送信
 				sendTo.write("pp".getBytes());
 				// レスポンスが返ってこないのでタイムアウト
