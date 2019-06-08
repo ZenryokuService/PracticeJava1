@@ -170,7 +170,7 @@ public class U16ProconClient {
 //			// レスポンスを受けコンソールに出力する
 //			showResponse(sendTo, response, "#");
 //			loop++;
-			if (manager.getClientData().getGameStep() <= 94) {
+			if (manager.getClientData().getGameStep() <= 0) {
 				// 意味不明のコマンドを送信
 				sendTo.write("pp".getBytes());
 				// レスポンスが返ってこないのでタイムアウト
@@ -273,7 +273,7 @@ public class U16ProconClient {
 	private void waitASecond() {
 		try {
 			// 1秒待つ
-			Thread.sleep(1500);
+			Thread.sleep(500);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

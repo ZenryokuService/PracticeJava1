@@ -322,6 +322,7 @@ public class ClientData {
 	 * @param pos 現在のポジション
 	 */
 	public void loggingPos(int[] pos, INDArray map) {
+		updateBigMap(pos);
 		// Loggin用リストに追加
 		this.posLogger.add(pos);
 		// 更新する座標の中心を算出
@@ -345,6 +346,7 @@ public class ClientData {
 	 * @param cmd 実行したコマンド
 	 */
 	public void updateSearchMap(String res, String cmd, int[] currentPos) throws Exception {
+		updateBigMap(currentPos);
 		// 更新する行列のIndex[cols, rows]
 		int[][] matrixIndexes = getSearchUpdatePosArray(currentPos, cmd);
 		boolean playerIs = false;
@@ -402,6 +404,18 @@ public class ClientData {
 		}
 	}
 
+	/**
+	 * 移動している地点が18以上になったらマップを両サイドに３拡張する
+	 * @param currentPos 現在ポジション
+	 */
+	public void updateBigMap(int[] currentPos) {
+		// 移動していうポジションが18に来たらMapを拡張する
+		if (currentPos[0] >= map.columns() -1 || currentPos[1] >= map.rows() -1) {
+			System.out.println("*** Update NDArray ***");
+			map = Nd4j.pad(map, new int[] {3, 3}, Nd4j.PadMode.CONSTANT);
+		}
+	}
+
 	/** ４方向全てをサーチしたか */
 	public boolean allSearched() {
 		return handler.isOkSearchUp() 
@@ -421,7 +435,6 @@ public class ClientData {
 			double d = Double.parseDouble(res.substring(i, i+1));
 			nextBufMap[i] = d;
 		}
-		
 	}
 
 	/**

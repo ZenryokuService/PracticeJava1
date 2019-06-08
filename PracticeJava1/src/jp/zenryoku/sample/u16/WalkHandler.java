@@ -87,7 +87,8 @@ public class WalkHandler {
 	/** 他のプレーヤがいるポジション(3x3) */
 	private Integer playerPos;
 	/** アイテムのあるポジション */
-	private Integer itemPos;	
+	private Integer itemPos;
+	/** 壁までの距離 */
 
 	/**
 	 * 進行方向などの移動に関する情報を管理する。
@@ -159,6 +160,19 @@ public class WalkHandler {
 		return PRIRITY_RIGHT;
 	}
 
+	/**
+	 * @return the targetDirection
+	 */
+	public Integer getTargetDirection() {
+		return targetDirection;
+	}
+
+	/**
+	 * @param targetDirection the targetDirection to set
+	 */
+	public void setTargetDirection(Integer targetDirection) {
+		this.targetDirection = targetDirection;
+	}
 
 	/**
 	 * @return the pRIRITY_DOWN
@@ -479,17 +493,29 @@ public class WalkHandler {
 	public Integer[] getDirectPriority(int direction) throws Exception {
 		Integer[] responsePriority;
 		switch(direction) {
-		case ClientData.UP_POS:
-			responsePriority = new Integer[] {1,3,5,7};
+		case LEFT_UP:
+			responsePriority = WalkHandler.PRIRITY_UP_LEFT;
 			break;
-		case ClientData.RIGHT_POS:
-			responsePriority = new Integer[] {1,3,5,7};
+		case UP:
+			responsePriority = WalkHandler.PRIRITY_UP;
 			break;
-		case ClientData.DOWN_POS:
-			responsePriority = new Integer[] {1,3,5,7};
+		case RIGHT_UP:
+			responsePriority = WalkHandler.PRIRITY_UP_RIGHT;
 			break;
-		case ClientData.LEFT_POS:
-			responsePriority = new Integer[] {1,3,5,7};
+		case LEFT:
+			responsePriority = WalkHandler.PRIRITY_LEFT;
+			break;
+		case RIGHT:
+			responsePriority = WalkHandler.PRIRITY_RIGHT;
+			break;
+		case LEFT_DOWN:
+			responsePriority = WalkHandler.PRIRITY_DOWN_LEFT;
+			break;
+		case DOWN:
+			responsePriority = WalkHandler.PRIRITY_DOWN;
+			break;
+		case RIGHT_DOWN:
+			responsePriority = WalkHandler.PRIRITY_DOWN_RIGHT;
 			break;
 		default:
 			throw new Exception("想定外の方向です。:" + direction);

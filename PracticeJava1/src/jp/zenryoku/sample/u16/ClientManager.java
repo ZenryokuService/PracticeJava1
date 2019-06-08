@@ -41,7 +41,7 @@ public class ClientManager {
 	 *  相対現在位置(中心はスタート位置)。
 	 *  ClientDataには、Map上の位置を持たせるので注意。
 	 */
-	private int[] currentPos = {0, 0};
+	private static int[] currentPos = {0, 0};
 
 	/**
 	 * コンストラクタ
@@ -160,11 +160,12 @@ public class ClientManager {
 		}
 		// アイテムがある時
 		if (data.isItem()) {
-			System.out.println("isItemAction staert");
+			System.out.println("isItemAction start");
 			for (int i = 0; i < bufMap.length; i++) {
+				// 対象のポジションにアイテムがある時
 				if (bufMap[i] == 3) {
 					// プレーヤがいる時の処理フラグを設定
-					cmd = isItemAction();
+					cmd = isItemAction(i);
 					break;
 				}
 			}
@@ -231,18 +232,47 @@ public class ClientManager {
 
 	/**
 	 * 周囲にアイテムがあった時の行動
+	 * @param pos アイテムのあるポジション
 	 */
-	private String isItemAction() throws Exception {
+	private String isItemAction(Integer pos) throws Exception {
 		// PUT(攻撃可能か？)
 		if (data.isCanItem()) {
-			System.out.println("*** Item ***");
+			String cmd = ClientData.WALK_CMD + data.getPosToWay(data.getHandler().getItemPos());
+			System.out.println("*** Item is " + cmd + " ***");
+			String tmp = isWalkAction(pos);
 			// p + 方向
-			return ClientData.WALK_CMD + data.getPosToWay(data.getHandler().getItemPos());
+			return tmp;
 		}
+		// アイテムを取得するのに一度移動する必要がある場合
 		String cmd = null;
 		// プレイヤーが周囲にいて攻撃ができない時(0, 2, 6, 8)
 		int itemIs = data.getHandler().getItemPos();
-		cmd = ClientData.WALK_CMD + getRandamPos(itemIs);
+//		cmd = ClientData.WALK_CMD + getRandamPos(itemIs);
+		// 進行方向のチェックを行う TODO: ラムダ式対応でこのコードをなんとかする
+		WalkHandler handler = data.getHandler();
+		// 自分の周囲の確認
+		Double[] bufIdx = data.getBufMap();
+		Map<Integer, Double> walkable = handler.getWalkable();
+		boolean canWalk = false;
+		Integer[] priority = handler.getDirectPriority(pos);
+		int canDirect = -1;
+		// 優先順序順にいけるか確認、行ければ行動
+		for (int j = 0;j < priority.length; j++) {
+			for (int i = 0;i < bufIdx.length; i++) {
+				if (i == 1 || i == 3 || i == 5 || i == 7) {
+					walkable.put(i, bufIdx[i]);
+				}
+				if (priority[j] == i && bufIdx[i] != 2.0) {
+					canWalk = true;
+					canDirect = i;
+					break;
+				}
+			}
+			if (canDirect != -1 ) {
+				break;
+			}
+		}
+		cmd = ClientData.WALK_CMD + data.getPosToWay(canDirect);
 		return cmd;
 	}
 
@@ -275,10 +305,14 @@ public class ClientManager {
 				}
 			}
 			if (canDirect != -1 ) {
+				// 進行方向変更
 				handler.setDirection(canDirect);
+				// 進行方向優先順位変更
+				handler.setDirectPriority(WalkHandler.getPriprityArray(canDirect));
 				break;
 			}
 		}
+		
 		String cmd = ClientData.WALK_CMD + data.getPosToWay(canDirect);
 		if (data.isDebug) {
 			System.out.println("isWalkAction canDirect ='" + canDirect + "';");
@@ -326,11 +360,17 @@ public class ClientManager {
 		case ClientData.UPPER_LEFT_POS:
 			retWay = zeroOne == 1 ? ClientData.LEFT : ClientData.UP;
 			break;
+		case ClientData.UP_POS:
+			retWay = zeroOne == 1 ? ClientData.LEFT : ClientData.UP;
+			break;
 		case ClientData.UPPER_RIGHT_POS:
 			retWay = zeroOne == 1 ? ClientData.RIGHT : ClientData.UP;
 			break;
 		case ClientData.DOWN_LEFT_POS:
 			retWay = zeroOne == 1 ? ClientData.LEFT : ClientData.DOWN;
+			break;
+		case ClientData.DOWN_POS:
+			retWay = zeroOne == 1 ? ClientData.LEFT : ClientData.UP;
 			break;
 		case ClientData.DOWN_RIGHT_POS:
 			retWay = zeroOne == 1 ? ClientData.RIGHT : ClientData.DOWN;

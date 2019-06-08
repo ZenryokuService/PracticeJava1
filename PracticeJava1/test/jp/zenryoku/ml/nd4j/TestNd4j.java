@@ -73,8 +73,8 @@ public class TestNd4j {
 				System.out.println("引数なしのメソッド");
 				method = target.getClass().getDeclaredMethod(methodName);
 			} else {
-				System.out.println("引数:Stringのメソッド");
-				method = target.getClass().getDeclaredMethod(methodName, String.class);
+				System.out.println("引数:" + args.getClass().getTypeName() + "のメソッド");
+				method = target.getClass().getDeclaredMethod(methodName, args);
 			}
 			// 公開レベルをテストのために変更する
 			method.setAccessible(true);
@@ -98,9 +98,12 @@ public class TestNd4j {
 		System.out.println(data);
 		System.out.println("*** putScalar ***");
 		System.out.println(data.putScalar(new int[] {0, 1}, 1.0));
-		System.out.println("*** update ones ***");
+		System.out.println("*** update padd ***");
+		INDArray padded = Nd4j.pad(data, new int[] {3, 3}, Nd4j.PadMode.CONSTANT);
+		System.out.println(padded);
+	System.out.println("*** update ones ***");
 		// １の値で初期化された配列に全て３を足す
-		INDArray reData = Nd4j.ones(new int[] {5, 5}).addi(3);
+		INDArray reData = Nd4j.ones(new int[] {5, 5});
 		reData.put(new int[]{2, 2}, data.getScalar(0));
 		System.out.println(reData);
 		// X, Y
@@ -159,69 +162,73 @@ public class TestNd4j {
 		}
 	}
 
-	/** 自分の周りをチェックするメソッドのテストケース　*/
+////// 仕様変更によりテストメソッドを削除 //////
+//	/** 自分の周りをチェックするメソッドのテストケース　*/
+//	@Test
+//	public void testCheckAround() {
+//		System.out.println("*** CheckAround ***");
+//		//// 本当はメソッド１つにつき１ケースのテストを行うが、小さなテストなので勘弁してください。。。 ////
+//		try {
+//			Method test = this.getPrivateMethod("checkAround", String.class);
+//			
+//			Consumer<String> func = str -> {
+//				try {
+//					test.invoke(target, str);
+//				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+//					e.printStackTrace();
+//					fail("アクセス違反です。");
+//				}
+//			};
+//			//// サンプルデータ１での検証 ////
+//			func.accept("1010030010");
+//			// テストケース１：周囲にアイテムがあるかの判定
+//			ClientData data = target.getClientData();
+//			assertEquals(true, data.isItem());
+//			// テストケース２：周囲に相手プレーヤがいる化の判定
+//			assertEquals(false, data.isPlayer());
+//			// テストケース３：行動できるスペースにブロックがあるかどうか
+//			WalkHandler handle = data.getHandler();
+//			assertEquals(true, handle.isOkUp());
+//			assertEquals(true, handle.isOkDown());
+//			assertEquals(true, handle.isOkLeft());
+//			assertEquals(true, handle.isOkRight());
+//
+//			//// サンプルデータ２での検証 ////
+//			func.accept("1020020020");
+//			// テストケース１：周囲にアイテムがあるかの判定
+//			ClientData data2 = target.getClientData();
+//			assertEquals(true, data2.isItem());
+//			// テストケース２：周囲に相手プレーヤがいる化の判定
+//			assertEquals(false, data2.isPlayer());
+//			// テストケース３：行動できるスペースにブロックがあるかどうか
+//			WalkHandler handle2 = data2.getHandler();
+//			assertEquals(false, handle2.isOkUp());
+//			assertEquals(false, handle2.isOkDown());
+//			assertEquals(true, handle2.isOkLeft());
+//			assertEquals(true, handle2.isOkRight());
+//
+//		} catch (SecurityException e) {
+//			e.printStackTrace();
+//			fail("セキュリティ違反です。");
+//		} catch (IllegalArgumentException e) {
+//			e.printStackTrace();
+//			fail("メソッドの引数違反です。");
+//		}
+//	}
+
 	@Test
-	public void testCheckAround() {
-		//// 本当はメソッド１つにつき１ケースのテストを行うが、小さなテストなので勘弁してください。。。 ////
+	public void testRandomPos() {
+		Method test = this.getPrivateMethod("getRandamPos", Integer.class);
 		try {
-			Method test = this.getPrivateMethod("checkAround", String.class);
-			
-			Consumer<String> func = str -> {
-				try {
-					test.invoke(target, str);
-				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-					e.printStackTrace();
-					fail("アクセス違反です。");
-				}
-			};
-			//// サンプルデータ１での検証 ////
-			func.accept("1010010010");
-			// テストケース１：周囲にアイテムがあるかの判定
-			ClientData data = target.getClientData();
-			assertEquals(true, data.isItem());
-			// テストケース２：周囲に相手プレーヤがいる化の判定
-			assertEquals(false, data.isPlayer());
-			// テストケース３：行動できるスペースにブロックがあるかどうか
-			WalkHandler handle = data.getHandler();
-			assertEquals(true, handle.isOkUp());
-			assertEquals(true, handle.isOkDown());
-			assertEquals(true, handle.isOkLeft());
-			assertEquals(true, handle.isOkRight());
-
-			//// サンプルデータ２での検証 ////
-			func.accept("1020020020");
-			// テストケース１：周囲にアイテムがあるかの判定
-			ClientData data2 = target.getClientData();
-			assertEquals(true, data2.isItem());
-			// テストケース２：周囲に相手プレーヤがいる化の判定
-			assertEquals(false, data2.isPlayer());
-			// テストケース３：行動できるスペースにブロックがあるかどうか
-			WalkHandler handle2 = data2.getHandler();
-			assertEquals(false, handle2.isOkUp());
-			assertEquals(false, handle2.isOkDown());
-			assertEquals(true, handle2.isOkLeft());
-			assertEquals(true, handle2.isOkRight());
-
-		} catch (SecurityException e) {
-			e.printStackTrace();
-			fail("セキュリティ違反です。");
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			fail("メソッドの引数違反です。");
-		}
-	}
-
-	@Test
-	public void testSetDirection() {
-		Map<Integer, Double> walkable = new HashMap<Integer, Double>();
-		walkable.put(1,  2.0);
-		walkable.put(3,  0.0);
-		walkable.put(5,  2.0);
-		walkable.put(7,  0.0);
-		target.getClientData().getHandler().setWalkable(walkable);
-		Method test = this.getPrivateMethod("setDirection", null);
-		try {
-			test.invoke(target);
+			// ポジション0-8の場合をテストする
+			String res = (String) test.invoke(target, 0);
+			assertEquals(true, ("u".equals(res) || "l".equals(res)));
+			res = (String) test.invoke(target, 2);
+			assertEquals(true, ("u".equals(res) || "r".equals(res)));
+			res = (String) test.invoke(target, 6);
+			assertEquals(true, ("d".equals(res) || "l".equals(res)));
+			res = (String) test.invoke(target, 8);
+			assertEquals(true, ("d".equals(res) || "r".equals(res)));
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -232,5 +239,42 @@ public class TestNd4j {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
+	}
+
+	@Test
+	public void testIsWalkAction() {
+		// 進行方向全てがブロックのものを作成
+		Double[] testData = new Double[] {0.0, 2.0, 0.0, 2.0, 0.0, 2.0, 0.0, 2.0, 0.0};
+		Method test = this.getPrivateMethod("isWalkAction", Integer.class);
+		try {
+			// 右
+			testData[ClientData.RIGHT_POS] = 0.0;
+			target.getClientData().setBufMap(testData);
+			String res = (String) test.invoke(target, 1);
+			System.out.println("WalkAction: " + res);
+			assertEquals(true, "wr".equals(res));
+			// 下
+			testData[ClientData.RIGHT_POS] = 2.0;
+			testData[ClientData.DOWN_POS] = 0.0;
+			target.getClientData().setBufMap(testData);
+			res = (String) test.invoke(target, 1);
+			assertEquals(true, "wd".equals(res));
+			// 左
+			testData[ClientData.DOWN_POS] = 2.0;
+			testData[ClientData.LEFT_POS] = 0.0;
+			target.getClientData().setBufMap(testData);
+			res = (String) test.invoke(target, 1);
+			assertEquals(true, "wl".equals(res));
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+
 	}
 }
