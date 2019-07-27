@@ -8,20 +8,24 @@ import java.util.Scanner;
  * 2019/07/25
  */
 public class Lv2HelloWorld {
-	public static void main(String[] args) {
-		Scanner input = new Scanner(System.in);
-
-		while(true) {
-			System.out.print("入力してください: ");
-			String inStr = input.nextLine();
-			if ("hello".equals(inStr)) {
-				System.out.println("Hello World!");
-			} else {
-				System.out.println("想定外の入力です");
-				break;
-			}
-			System.out.println("Next command ... ");
-		}
-		System.out.print("AP is fiinished. Bye!");
+public static void main(String[] args) {
+	System.out.println("プログラム引数のサイズ：" + args.length);
+	for (int i = 0; i < args.length; i++) {
+		System.out.println("プログラム引数：" + args[i]);
 	}
+	Scanner input = new Scanner(System.in);
+
+	while(true) {
+		System.out.print("入力してください: ");
+		String inStr = input.nextLine();
+		if ("hello".equals(inStr)) {
+			System.out.println("Hello World!");
+		} else {
+			System.out.println("想定外の入力です");
+			break;
+		}
+		System.out.println("Next command ... ");
+	}
+	System.out.print("AP is fiinished. Bye!");
+}
 }
