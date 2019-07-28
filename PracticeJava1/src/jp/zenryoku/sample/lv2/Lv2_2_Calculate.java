@@ -22,7 +22,7 @@ public class Lv2_2_Calculate {
 			if ("hello".equals(inStr)) {
 				System.out.println("Hello World!");
 			} else if (inStr.matches("[0-9].*[0-9]")) {
-				int answer = myClass.calculate(inStr);
+				String answer = myClass.calculate(inStr);
 				System.out.println("答えは：" + answer + "です。");
 			} else {
 				System.out.println("想定外の入力です");
@@ -38,7 +38,7 @@ public class Lv2_2_Calculate {
 	 * @param fomula 入力された計算式
 	 * @return 計算結果
 	 */
-	public int calculate(String fomula) {
+	public String calculate(String fomula) {
 		// 計算の記号を判定
 		/* 「ここもコメント」
 		 * 足し算：0 
@@ -66,10 +66,8 @@ public class Lv2_2_Calculate {
 			kigo = 3;
 		} else {
 			System.out.println("四則計算の式が不適切です。: " + fomula);
-			return 0;
+			return "想定外の例外(Exception)のため不明";
 		}
-		// 答えの変数を初期化
-		int answer = 0;
 		// 計算記号の文字列を初期化(NULLを設定する)
 		String calc = null;
 
@@ -92,7 +90,7 @@ public class Lv2_2_Calculate {
 		String[] fomulaArray = fomula.split(calc);
 		if (fomulaArray.length != 2) {
 			System.out.println("式が不適当です。「1 + 1」のように入力してください。");
-			return 0;
+			return "想定外の例外(Exception)のため不明";
 		}
 		// 左の値にあるスペースを削除する
 		String leftValue = fomulaArray[0].trim();
@@ -100,6 +98,10 @@ public class Lv2_2_Calculate {
 		// 右の値にあるスペースを削除する
 		String rightValue = fomulaArray[1].trim();
 		int uhen = Integer.parseInt(rightValue);
+		// 答えの変数を初期化
+		int answer = 0;
+		// 割り算用の変数
+		double ansDouble = 0.0;
 		// 計算をする
 		switch(kigo) {
 		case 0:
@@ -112,9 +114,13 @@ public class Lv2_2_Calculate {
 			answer = sahen * uhen;
 			break;
 		case 3:
-			answer = sahen / uhen;
+			// 割り算の場合
+			double sahenDouble = sahen;
+			double uhenDouble = uhen;
+			ansDouble = sahenDouble  / uhenDouble ;
 			break;
 		}
-		return answer;
+		// 三項演算子(記号が3ならばansDoubleを、そうでないならばanswerを文字列に変換
+		return kigo == 3 ? String.valueOf(ansDouble) : String.valueOf(answer);
 	}
 }
