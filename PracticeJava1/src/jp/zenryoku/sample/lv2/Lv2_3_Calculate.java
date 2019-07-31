@@ -60,14 +60,13 @@ public class Lv2_3_Calculate {
 		int kigo = -1;
 		// 計算記号の文字列を初期化(NULLを設定する)
 		String calc = null;
-		int keisanFlg = 0;
 		try {
-			keisanFlg = jadgeKigo(fomula);
+			kigo = jadgeKigo(fomula);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "不適切な計算式です。: " + fomula;
 		}
-
+		calc = getKigo(kigo);
 		// 数式から値を取得する
 		String[] fomulaArray = fomula.split(calc);
 		if (fomulaArray.length != 2) {
@@ -80,6 +79,7 @@ public class Lv2_3_Calculate {
 	/**
 	 * 入力された記号の部分を判定する
 	 * @param fomula 入力されたもじ(計算式の型になっている) 
+	 * @param calc 計算する記号、参照渡しなので値を変更できる
 	 * @return 判定結果のフラグ(int型)
 	 */
 	public int jadgeKigo(String fomula) throws Exception {
@@ -149,5 +149,30 @@ public class Lv2_3_Calculate {
 		}
 		// 三項演算子(記号が3ならばansDoubleを、そうでないならばanswerを文字列に変換
 		return kigo == 3 ? String.valueOf(anserDouble) : String.valueOf(answerInt);
+	}
+
+	/**
+	 * 計算フラグから対象の計算記号(文字)を取得する
+	 * @param kigo
+	 * @return 記号(+, -, *, /)
+	 */
+	public String getKigo(int kigo) {
+		String retKigo = null;
+		// 計算をする
+		switch(kigo) {
+		case TASHI_ZAN_FLG:
+			retKigo = "\\+";
+			break;
+		case HIKI_ZAN_FLG:
+			retKigo = "\\-";
+			break;
+		case KAKE_ZAN_FLG:
+			retKigo = "\\*";
+			break;
+		case WARI_ZAN_FLG:
+			retKigo = "\\/";
+			break;
+		}
+		return retKigo;
 	}
 }
