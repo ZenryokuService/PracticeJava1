@@ -15,7 +15,8 @@ import org.junit.Test;
  *
  * 2019/07/27
  */
-public class Lv2__1_Calculate {
+public class Lv2__1_CalculateTest {
+	/** Lv2__1_Calculate */
 	@Test
 	public void test01() {
 		String input = "1+1";
@@ -27,4 +28,5 @@ public class Lv2__1_Calculate {
 			System.out.println("ミスマッチ");
 		}
 	}
+
 }

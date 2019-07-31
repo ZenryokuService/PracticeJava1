@@ -7,7 +7,6 @@
  * Neither the name Math Kit JavaFX Library nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
  */
 package jp.zenryoku.sample.lv2;
-
 import org.junit.Test;
 
 /**

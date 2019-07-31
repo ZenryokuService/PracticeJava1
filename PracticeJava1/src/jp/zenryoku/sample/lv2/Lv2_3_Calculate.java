@@ -60,58 +60,21 @@ public class Lv2_3_Calculate {
 		int kigo = -1;
 		// 計算記号の文字列を初期化(NULLを設定する)
 		String calc = null;
-
-		// 入力された式を取り出す
-		switch(kigo) {
-		case 0:
-			calc = "\\+";
-			break;
-		case 1:
-			calc = "\\-";
-			break;
-		case 2:
-			calc = "\\*";
-			break;
-		case 3:
-			calc = "\\/";
-			break;
+		int keisanFlg = 0;
+		try {
+			keisanFlg = jadgeKigo(fomula);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "不適切な計算式です。: " + fomula;
 		}
+
 		// 数式から値を取得する
 		String[] fomulaArray = fomula.split(calc);
 		if (fomulaArray.length != 2) {
 			System.out.println("式が不適当です。「1 + 1」のように入力してください。");
 			return "想定外の例外(Exception)のため不明";
 		}
-		// 左の値にあるスペースを削除する
-		String leftValue = fomulaArray[0].trim();
-		int sahen = Integer.parseInt(leftValue);
-		// 右の値にあるスペースを削除する
-		String rightValue = fomulaArray[1].trim();
-		int uhen = Integer.parseInt(rightValue);
-		// 答えの変数を初期化
-		int answer = 0;
-		// 割り算用の変数
-		double ansDouble = 0.0;
-		// 計算をする
-		switch(kigo) {
-		case 0:
-			answer = sahen + uhen;
-			break;
-		case 1:
-			answer = sahen - uhen;
-			break;
-		case 2:
-			answer = sahen * uhen;
-			break;
-		case 3:
-			// 割り算の場合
-			double sahenDouble = sahen;
-			double uhenDouble = uhen;
-			ansDouble = sahenDouble  / uhenDouble ;
-			break;
-		}
-		// 三項演算子(記号が3ならばansDoubleを、そうでないならばanswerを文字列に変換
-		return kigo == 3 ? String.valueOf(ansDouble) : String.valueOf(answer);
+		return sisokuKeisan(kigo, fomulaArray);
 	}
 
 	/**
@@ -149,5 +112,42 @@ public class Lv2_3_Calculate {
 			throw new Exception("想定外の例外(Exception)のため不明");
 		}
 		return kigo;
+	}
+
+	/**
+	 * 
+	 * @param kigo 四則計算の記号
+	 * @param fomulaArray 計算式の右辺と左辺(配列)
+	 * @return 答え
+	 */
+	public String sisokuKeisan(int kigo, String[] fomulaArray) {
+		// 左の値にあるスペースを削除する
+		String leftValue = fomulaArray[0].trim();
+		int sahen = Integer.parseInt(leftValue);
+		// 右の値にあるスペースを削除する
+		String rightValue = fomulaArray[1].trim();
+		int uhen = Integer.parseInt(rightValue);
+		int answerInt = 0;
+		double anserDouble = 0.0;
+		// 計算をする
+		switch(kigo) {
+		case TASHI_ZAN_FLG:
+			answerInt = sahen + uhen;
+			break;
+		case HIKI_ZAN_FLG:
+			answerInt = sahen - uhen;
+			break;
+		case KAKE_ZAN_FLG:
+			answerInt = sahen * uhen;
+			break;
+		case WARI_ZAN_FLG:
+			// 割り算の場合
+			double sahenDouble = sahen;
+			double uhenDouble = uhen;
+			anserDouble = sahenDouble  / uhenDouble ;
+			break;
+		}
+		// 三項演算子(記号が3ならばansDoubleを、そうでないならばanswerを文字列に変換
+		return kigo == 3 ? String.valueOf(anserDouble) : String.valueOf(answerInt);
 	}
 }
