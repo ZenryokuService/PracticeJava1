@@ -1,7 +1,9 @@
 package jp.zenryoku.sample.lv2;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -10,7 +12,7 @@ import java.util.Scanner;
  * @see https://zenryokuservice.com/wp/2018/07/24/java-basic-level2-%E3%80%9Carithmetic-calculate%E3%80%9C/
  * 2019/07/26
  */
-public class Lv2_4_DirComannd {
+public class Lv2_5_CommandHistory {
 	/** 足し算のフラグ: フィールド変数1 */
 	public static final int TASHI_ZAN_FLG = 0;
 	/** 引き算のフラグ: フィールド変数2 */
@@ -28,9 +30,12 @@ public class Lv2_4_DirComannd {
 	/** わり算の記号: フィールド変数8 */
 	public static final String WARI_ZAN = "/";
 
+	/** コマンド履歴ようList */
+	private List<String> commandList;
+
 	public static void main(String[] args) {
 		// 今回は作成したこのクラスを使用します。
-		Lv2_4_DirComannd myClass = new Lv2_4_DirComannd();
+		Lv2_5_CommandHistory myClass = new Lv2_5_CommandHistory();
 		
 		Scanner input = new Scanner(System.in);
 
@@ -46,14 +51,38 @@ public class Lv2_4_DirComannd {
 				// Dirコマンドを実装する
 				myClass.dirCommand();
 			} else if ("bye".equals(inStr)) { 
-				
+				myClass.commandHistory();
+				break;
 			} else {
 				System.out.println("想定外の入力です");
 				break;
 			}
+			myClass.addCommand(inStr);
 			System.out.println("Next command ... ");
 		}
 		System.out.print("AP is fiinished. Bye!");
+	}
+
+	/** コンストラクタ */
+	public Lv2_5_CommandHistory() {
+		commandList = new ArrayList<String>();
+	}
+	
+	/**
+	 * コマンド履歴をコンソールに出力
+	 */
+	public void commandHistory() {
+		System.out.println("/** コマンド履歴 */");
+		for (String command : commandList) {
+			System.out.println("・" + command);
+		}
+		System.out.println("/***************/");
+		System.out.println("Good bye!");
+	}
+
+	/** コマンド履歴に追加する */
+	public void addCommand(String cmd) {
+		commandList.add(cmd);
 	}
 
 	/**
