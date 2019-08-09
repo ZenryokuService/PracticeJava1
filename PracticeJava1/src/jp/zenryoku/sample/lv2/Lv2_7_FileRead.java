@@ -19,7 +19,7 @@ import java.util.Scanner;
  * @see https://zenryokuservice.com/wp/2018/07/24/java-basic-level2-%E3%80%9Carithmetic-calculate%E3%80%9C/
  * 2019/07/26
  */
-public class Lv2_6_Properties {
+public class Lv2_7_FileRead {
 	/** 足し算のフラグ: フィールド変数1 */
 	public static final int TASHI_ZAN_FLG = 0;
 	/** 引き算のフラグ: フィールド変数2 */
@@ -44,7 +44,7 @@ public class Lv2_6_Properties {
 
 	public static void main(String[] args) {
 		// 今回は作成したこのクラスを使用します。
-		Lv2_6_Properties myClass = new Lv2_6_Properties();
+		Lv2_7_FileRead myClass = new Lv2_7_FileRead();
 		
 		Scanner input = new Scanner(System.in);
 
@@ -68,6 +68,8 @@ public class Lv2_6_Properties {
 			} else if ("dir".equals(inStr)) { 
 				// Dirコマンドを実装する
 				myClass.dirCommand();
+			} else if ("title".equals(inStr)) {
+				myClass.showTitle();
 			} else if ("bye".equals(inStr)) { 
 				myClass.commandHistory();
 				break;
@@ -82,7 +84,7 @@ public class Lv2_6_Properties {
 	}
 
 	/** コンストラクタ */
-	public Lv2_6_Properties() {
+	public Lv2_7_FileRead() {
 		commandList = new ArrayList<String>();
 		prop = new Properties();
 		try {
@@ -91,6 +93,26 @@ public class Lv2_6_Properties {
 		} catch (IOException e) {
 			e.printStackTrace();
 			// エラーコード-1をセットしてプログラム終了
+			System.exit(-1);
+		}
+	}
+
+	/**
+	 * テキストファイル"title.txt"を読み込みコンソールに出力します。
+	 */
+	public void showTitle() {
+		File file = new File("resources/title.txt");
+		BufferedReader buf = null;
+		try {
+			buf = Files.newBufferedReader(file.toPath(), StandardCharsets.UTF_8);
+			// テキストファイルを出力する
+			String line = null;
+			while((line = buf.readLine()) != null) {
+				System.out.println(line);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("ファイル読み込みエラーです、アプリケションを終了します。");
 			System.exit(-1);
 		}
 	}
