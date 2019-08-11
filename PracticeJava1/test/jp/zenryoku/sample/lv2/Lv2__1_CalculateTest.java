@@ -8,6 +8,8 @@
  */
 package jp.zenryoku.sample.lv2;
 
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
 
 /**
@@ -29,4 +31,25 @@ public class Lv2__1_CalculateTest {
 		}
 	}
 
+	@Test
+	public void test02() {
+		String input = "move 1";
+		String regrex = "move [0-9]";
+		if (input.matches(regrex)) {
+			System.out.println("OK");
+		} else {
+			fail("不適切な正規表現です: " + regrex);
+		}
+	}
+
+	@Test
+	public void test03() {
+		String input = "move 1";
+		String regrex = "move [0-9]";
+		if (input.startsWith("move")) {
+			System.out.println("OK");
+		} else {
+			fail("不適切な正規表現です: " + regrex);
+		}
+	}
 }
