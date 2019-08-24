@@ -17,4 +17,9 @@ public class ReadyCommand implements CommandIF {
 		// TODO Auto-generated method stub
 		System.out.println("Ready?");
 	}
+
+	@Override
+	public boolean equals(Object cls) {
+		return true;
+	}
 }

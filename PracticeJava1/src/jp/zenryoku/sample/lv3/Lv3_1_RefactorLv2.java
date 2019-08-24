@@ -16,9 +16,13 @@ import java.util.Scanner;
 import jp.zenryoku.sample.lv2.Lv2_8_Map;
 
 /**
- * Java Mid Basic リファクタリングLv2
+ * Java Mid Basic リファクタリングLv2 No1
+ * 元々作成していた、プログラムを整理する。
+ * 【実行したこと】
+ * ごちゃごちゃしたメインメソッドを整理する
+ * 
  * @author takunoji
- *
+ * @see 
  * 2019/08/12
  */
 public class Lv3_1_RefactorLv2 {

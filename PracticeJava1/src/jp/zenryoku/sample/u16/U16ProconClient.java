@@ -146,30 +146,26 @@ public class U16ProconClient {
 	 */
 	private void startLoop(OutputStream sendTo, InputStream response) throws IOException, Exception {
 		System.out.println("*** Loop Start ***");
-//		String[] arr = new String[] {"su", "sl", "sd", "sr", "pp"};
-//		int loop = 0;
+
 		while(true) {
 			// コマンドの送信[gr + "コマンド" + \r\n]
 			sendTo.write(("gr" + ClientData.ENTER).getBytes());
+
 			// GetReadyのレスポンスに対する処理
 			String cmd = manager.resGetRedy(response);
-			// レスポンスを受けコンソールに出力する
-//			showResponse(sendTo, response, "GetReady");
+
 			// 操作コマンドを送信する
 			if (manager.getClientData().isDebug) {
 				System.out.println("送信コマンド:" + cmd);
 			}
+
 			sendTo.write((cmd + ClientData.ENTER).getBytes());
 			waitASecond();
 			manager.afterCommand(response, cmd);
-//			// レスポンスを受けコンソールに出力する
-//			showResponse(sendTo, response, arr[loop]);
 			sendTo.write(("#" + ClientData.ENTER).getBytes());
 			waitASecond();
 			manager.terminatedTurn(response);			
-//			// レスポンスを受けコンソールに出力する
-//			showResponse(sendTo, response, "#");
-//			loop++;
+
 			if (manager.getClientData().getGameStep() <= 0) {
 				// 意味不明のコマンドを送信
 				sendTo.write("pp".getBytes());
@@ -182,91 +178,6 @@ public class U16ProconClient {
 		System.out.println("*** Finish ***");
 	}
 
-	/**
-	 * 実行したコマンドのレスポンスをコンソール出力する
-	 * @param sendTo 送信用の出力ストリーム
-	 * @param response 受信用の入力ストリーム
-	 * @param exeCommand　送信したコマンド
-	 * @return isDead 生きているか死んでいるか、死んでいるときは終了
-	 * @throws IOException 通信時の例外
-	 * @throws Exception 想定外の例外
-	 */
-	private boolean showResponse(
-			OutputStream sendTo, InputStream response, String exeCommand) throws IOException, Exception {
-		// 受信するデータのメモリ領域を確保
-		byte[] res = new byte[ClientManager.RESPONSE_SIZE];
-		boolean isDead = false;
-		// レスポンスを受ける
-		response.read(res);
-		String resCode = new String(res);
-		System.out.println( "[" + exeCommand + "] Response: " + resCode);
-		dumpResponseCode(resCode);
-		if ("0000000000".equals(resCode)) {
-			System.out.println("サーバーより終了の通知を受信しました。");
-			isDead = true;
-		}
-		return isDead;
-	}
-
-	/**
-	 * レスポンスを人間に見やすいよう編集してコンソールに出力する。
-	 * @param resCode サーバーからのレスポンス
-	 */
-	private void dumpResponseCode(String resCode) {
-		try {
-			String resVal = resCode.substring(0, 1);
-			if (ClientData.IS_ALIVE.equals(resVal)) {
-				System.out.println("生きています");
-			} else if (ClientData.END_TURN.equals(resVal) || ClientData.READY_CMD_RES.equals(resVal)) {
-				System.out.println("#コマンドです");
-				return;
-			} else {
-				System.out.println("死にました: " + resVal);
-			}
-			char[] mapData = resCode.substring(1, 10).toCharArray();
-			System.out.println("******************");
-			System.out.println("[" + mapData[0] + "]     ["+ mapData[1] + "]      ["+ mapData[2] +"]");
-			System.out.println("******************");
-			System.out.println("[" + mapData[3] + "]     [" + mapData[4] + "]      ["+ mapData[5] +"]");
-			System.out.println("******************");
-			System.out.println("[" + mapData[6] + "]     ["+ mapData[7] + "]      [" + mapData[8] +"]");
-			System.out.println("******************");
-		} catch (NumberFormatException e) {
-			if ("@".equals(resCode.substring(0, 1))) {
-				System.out.println("ターン終了");
-			} else {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	/**
-	 * 変換処理を行う(C＃のコードからパクってきた)
-	 * @param response サーバーレスポンス
-	 * @return int[]
-	 */
-	private int[] convert(byte[] response) {
-		System.out.println("*** ByteLength: " + response.length + " ***");
-		// 返却する値
-		int[] retInt = new int[response.length -2];
-		dump(response, retInt);
-		for (int i = 0; i < retInt.length; i++) {
-			// \rと\nの分を差し引く
-			retInt[i] = response[i] - '0';
-		}
-		System.out.println(retInt);
-		return retInt;
-	}
-
-	private void dump(byte[] response, int[] retInt) {
-		try {
-			System.out.println("Arrays.toString: " + Arrays.toString(response));
-			System.out.println("new String: " + new String(response, System.getProperty("file.encoding")));
-			System.out.println("Return: " + retInt);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-	}
 	/**
 	 * 1秒待つ
 	 */

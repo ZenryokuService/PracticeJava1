@@ -11,9 +11,14 @@ import jp.zenryoku.sample.lv3.refactor.cmd.HelloCommand;
 import jp.zenryoku.sample.lv3.refactor.cmd.ReadyCommand;
 
 /**
- * Java Mid Basic リファクタリングLv2
+ * Java Mid Basic リファクタリングLv2 No2
+ * オブジェクト指向的なプログラミングに直す
+ * 【インターフェースの使い方】
+ * コマンドを入力して、コマンドに対応した処理を行う
+ * ・CommandIFインターフェースの作成
+ * ・コマンドクラス(CommandIFを実装したクラス)を作成
+ * 
  * @author takunoji
- *
  * 2019/08/12
  */
 public class Lv3_1_RefactorLv2_Main {

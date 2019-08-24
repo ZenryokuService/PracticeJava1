@@ -124,7 +124,7 @@ public class ClientManager {
 			updateMap(res, ClientData.SEARCH_CMD, cmd);
 			data.setSearched(data.getWayToPos(cmd.substring(1,2)));
 		} else if (ClientData.PUT_CMD.equals(command)) {
-			
+			// TODO-[未実装: PUTコマンドの実行]
 		} else if (ClientData.LOOK_CMD.equals(command)) {
 			if (data.isLooked(data.getWayToPos(way))) {
 				cmd = exe + decideDirection(ClientData.LOOK_CMD);
@@ -132,6 +132,7 @@ public class ClientManager {
 			updateMap(res, ClientData.LOOK_CMD,  cmd);
 			data.setLooked(data.getWayToPos(cmd.substring(1,2)));
 		} else if (ClientData.WALK_CMD.equals(command)) {
+			// FIXME カレントポジションの変更
 		}
 		// 上記以外のコマンドは無視
 	}
@@ -283,7 +284,7 @@ public class ClientManager {
 	 */
 	private String isWalkAction(Integer direction) throws Exception {
 		if (data.isDebug) {
-			System.out.println("direction: " + direction + " / " );
+			System.out.println("IN: isWalkAction & direction: " + direction + " / " );
 		}
 		WalkHandler handler = data.getHandler();
 		// 自分の周囲の確認
@@ -323,7 +324,7 @@ public class ClientManager {
 			
 		}
 		// CurrentPosの更新
-		this.currentPos = setCurrentPos(direction);
+		currentPos = setCurrentPos(direction);
 		return cmd;
 	}
 
@@ -375,6 +376,8 @@ public class ClientManager {
 		case ClientData.DOWN_RIGHT_POS:
 			retWay = zeroOne == 1 ? ClientData.RIGHT : ClientData.DOWN;
 			break;
+		case ClientData.CENTER:
+			// 同じ場所にいるときは何もしない
 		default:
 			throw new Exception("指定するposが不適切です。: " + pos);
 		}
@@ -557,6 +560,7 @@ public class ClientManager {
 	 */
 	private String getString(InputStream inp) throws IOException {
 		byte[] b = new byte[RESPONSE_SIZE];
+		System.out.println("<<<< Read >>>>>");
 		inp.read(b);
 		String res = new String(b).replaceAll("\r", "").replaceAll("\n", "").trim();
 		if (res.contains("@")) {
@@ -572,12 +576,12 @@ public class ClientManager {
 	 * 周囲の確認状況をコンソール出力する。
 	 */
 	public void showBufMap() {
-		System.out.println("*** showBufMap ***");
+		System.out.println("*** showBufMap[CurrentPos=(" + currentPos[0] + "," + currentPos[1]  + ")] ***");
 		// 結局は３回ループする
 		Double[] bufMap = data.getBufMap();
 		for (int i = 0; i < bufMap.length; i = i + 3) {
 			System.out.println("* " + bufMap[i] + " * " + bufMap[i + 1] + " * " + bufMap[i + 2] + " *");
-			System.out.println("*************");
+			System.out.println("**************************");
 		}
 	}
 

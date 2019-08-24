@@ -91,6 +91,9 @@ public class ClientData {
 	public static final int DOWN_LEFT_POS = 6;
 	/** 自分の左上を示すレスポンスデータの位置 */
 	public static final int DOWN_RIGHT_POS = 8;
+	/** 自分と同じ場所を示すレスポンスデータの位置 */
+	public static final int CENTER = 4;
+	
 	/** 作成したMapの中心(19x19のマス) */
 	public static final int[] START_POS = {10, 10};
 	/** ポジションと方向の関連HashMap */
@@ -322,6 +325,7 @@ public class ClientData {
 	 * @param pos 現在のポジション
 	 */
 	public void loggingPos(int[] pos, INDArray map) {
+		// 現在位置が18以上の時、マップの台を拡張する
 		updateBigMap(pos);
 		// Loggin用リストに追加
 		this.posLogger.add(pos);
@@ -331,7 +335,7 @@ public class ClientData {
 		int rowCounter = 0;
 		for (int i = 0; i < bufMap.length; i++) {
 			if (isDebug) {
-//				System.out.println("mapX: " + matrixIndexes[i][0] + " / mapY: " + matrixIndexes[i][1]);
+				System.out.println("mapX: " + matrixIndexes[i][0] + " / mapY: " + matrixIndexes[i][1]);
 			}
 			map.putScalar(matrixIndexes[i], bufMap[i]);
 			if (i < 3 &&i % 2 == 0) {
@@ -587,7 +591,7 @@ public class ClientData {
 		int updateX = centerX + currentPos[1];
 		int updateY = centerY + currentPos[0];
 		int[][] matrixIndexes = null;
-
+System.out.println("サーチコマンドのマッピング：" + cmd);
 		if (ClientData.LEFT.equals(way)) {
 			matrixIndexes = createUpDownIndexes(updateX, updateY, -1);
 		} else if (ClientData.UP.equals(way)) {
