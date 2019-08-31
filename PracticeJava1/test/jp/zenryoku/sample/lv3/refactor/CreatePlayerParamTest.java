@@ -11,6 +11,7 @@ package jp.zenryoku.sample.lv3.refactor;
 import static org.junit.Assert.fail;
 
 import org.junit.After;
+import org.junit.Before;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,7 +20,7 @@ import org.junit.Test;
 
 /**
  * @author takunoji
- *
+ * @see https://github.com/ZenryokuService/PracticeJava1/blob/master/PracticeJava1/src/jp/zenryoku/sample/lv3/refactor/CreatePlayerParam.java
  * 2019/08/31
  */
 public class CreatePlayerParamTest {
@@ -28,7 +29,7 @@ public class CreatePlayerParamTest {
 	/**
 	 * クラスを起動するときに１回だけ動く
 	 */
-	@BeforeClass
+	@Before
 	public void init() {
 		System.out.println("テスト開始");
 		target = new CreatePlayerParam();
@@ -59,6 +60,7 @@ public class CreatePlayerParamTest {
 			e.printStackTrace();
 			fail();
 		}
-		assertEquals("aaio, Nnshn", result);
+		System.out.println("結果：" + result);
+		assertEquals("aaio,Nnshn", result);
 	}
 }
