@@ -2,6 +2,8 @@ package jp.zenryoku.apps.atm;
 
 import java.util.Scanner;
 
+import jp.zenryoku.apps.atm.check.InputChecker;
+
 /**
  * @author takunoji
  *
@@ -29,20 +31,24 @@ public class MainBank {
 		System.out.println("入金の時は「in」、引き出しの時は「out」を、終了する時は「bye」を入力してください。");
 
 		Scanner input = new Scanner(System.in);
-		while(true) {
-			String inStr = input.nextLine();
-			if ("in".equals(inStr)) {
-				System.out.println("入金処理を行います。");
-				cal.nyukin(input, true);
-			} else if ("out".equals(inStr)) {
-				System.out.println("引出し処理を行います。");
-				cal.nyukin(input, false);
-			} else if ("bye".equals(inStr)) {
-				break;
-			} else {
-				System.out.println("「in」か「out」を入力してください。");
-			}
+	while(true) {
+		String inStr = input.nextLine();
+		String errorMessage = InputChecker.validNyukinHikidashi(inStr);
+
+		if (errorMessage != null) {
+			System.out.println(errorMessage);
+			continue;
 		}
-		System.out.println("ATM処理を終了します。ご利用ありがとうございました。");
+		if ("in".equals(inStr)) {
+			System.out.println("入金処理を行います。");
+			cal.nyukin(input, true);
+		} else if ("out".equals(inStr)) {
+			System.out.println("引出し処理を行います。");
+			cal.nyukin(input, false);
+		} else if ("bye".equals(inStr)) {
+			break;
+		}
 	}
+	System.out.println("ATM処理を終了します。ご利用ありがとうございました。");
+}
 }

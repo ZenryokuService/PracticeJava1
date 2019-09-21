@@ -1,5 +1,7 @@
 package jp.zenryoku.sample;
 
+import java.util.Scanner;
+
 /**
  * @author takunoji
  *

@@ -42,7 +42,7 @@ public class Lv3_3_RefactorLv2 {
 				continue;
 			}
 			if ("bye".equals(inStr)) {
-				System.out.println("Good Byw");
+				System.out.println("Good Bye");
 				break;
 			} else {
 				System.out.println("対象のコマンドは登録されていません。: " + inStr);

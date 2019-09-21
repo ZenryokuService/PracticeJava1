@@ -21,6 +21,16 @@ public class CreatePlayerParam implements CommandIF {
 	public CreatePlayerParam() {
 		// 母音のリスト
 		boInList = new ArrayList<Character>();
+		boInList.add('A');
+		boInList.add('a');
+		boInList.add('I');
+		boInList.add('i');
+		boInList.add('U');
+		boInList.add('u');
+		boInList.add('E');
+		boInList.add('e');
+		boInList.add('O');
+		boInList.add('o');
 	}
 	/** 
 	 * CommandIFを実装する、コマンドクラス。
@@ -58,20 +68,22 @@ public class CreatePlayerParam implements CommandIF {
 	 * @return 母音のみを切り出して出力する
 	 */
 	public String cutOffBoin(String inStr) {
+		// 母音格納
 		StringBuilder charStr = new StringBuilder();
+		// 子音格納
+		StringBuilder shiInStr = new StringBuilder();
 		// 母音を切り出します
+		String dstString = "";
 		for (int i = 0; i < inStr.length(); i++) {
 			char ch = inStr.charAt(i);
 			if (boInList.contains(ch)) {
 				charStr.append(ch);
-				if (i != 0) {
-					// 切り取った文字を残す
-					inStr = inStr.substring(i-1, i);
-				}
+			} else {
+				shiInStr.append(ch);
 			}
 		}
 		// 最後に子音をお尻に追加する(カンマで区切る)
-		charStr.append(inStr);
+		charStr.append("," + shiInStr.toString());
 		return charStr.toString();
 	}
 

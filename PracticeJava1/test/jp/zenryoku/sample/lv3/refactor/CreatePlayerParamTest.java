@@ -18,6 +18,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import jp.zenryoku.sample.lv3.refactor.cmd.HelloCommand;
+import jp.zenryoku.sample.lv3.refactor.cmd.ReadyCommand;
+
 /**
  * @author takunoji
  * @see https://github.com/ZenryokuService/PracticeJava1/blob/master/PracticeJava1/src/jp/zenryoku/sample/lv3/refactor/CreatePlayerParam.java
@@ -62,5 +65,23 @@ public class CreatePlayerParamTest {
 		}
 		System.out.println("結果：" + result);
 		assertEquals("aaio,Nnshn", result);
+	}
+
+	public void test001() {
+		int test1 = 0;
+		int test2 = 2147483647;
+		// サイズオーバーでビルドエラーになる
+		char test3 = 65535;
+		long test4 = 2147483648L;
+		// 配列の初期化
+		double[] d = new double[] {1.0, 2.2, 0.1};
+		CommandIF[] cmds = new CommandIF[] {new HelloCommand(), new ReadyCommand()};	
+	}
+	@Test
+	public void test0002() {
+		
+		for(int i = 0; i < 10; i++) {
+			System.out.print(" ");
+		}
 	}
 }
