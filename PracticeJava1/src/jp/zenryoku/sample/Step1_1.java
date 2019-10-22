@@ -44,15 +44,7 @@ public class Step1_1 {
 		 * 複数行コメント部分
 		 * 処理の説明など複数行に渡りコメントを記述する
 		 */
-		int num = Integer.parseInt(aabb[0]);
-		String[] json = new String[] {"a", "bb", "ccc"};
-		try {
-			System.out.println(json[num]);
-		} catch(Exception e) {
-			e.printStackTrace();
-			// 
-		}
-//		System.out.println("Hello");
+		System.out.println("Hello World!");
 	}
 
 	/**
