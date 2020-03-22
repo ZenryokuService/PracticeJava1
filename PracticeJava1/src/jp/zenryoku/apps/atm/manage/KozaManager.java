@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import jp.zenryoku.apps.atm.data.Data;
 
@@ -82,11 +84,14 @@ public class KozaManager {
 		}
 		// おおよそのデータサイズを指定すると余計なメモリを使用しなくて済む
 		StringBuilder build = new StringBuilder(50);
-		// ヘッダー部分の出力
-		build.append(this.createCSVHeader());
-		// ファイル書き込み処理
-		write.write(build.toString());
-		write.newLine();
+		// ファイルそ新規で作成するとき
+		if (file.exists() == false) {
+			// ヘッダー部分の出力
+			build.append(this.createCSVHeader());
+			// ファイル書き込み処理
+			write.write(build.toString());
+			write.newLine();
+		}
 		// StringBuilderのクリア
 		build.setLength(0);
 		// データ部分の書き込み
@@ -95,5 +100,33 @@ public class KozaManager {
 		write.write(build.toString());
 		write.newLine();
 		write.close();
+	}
+
+	/**
+	 * ファイルを読み込みデータをリストにして返却する
+	 * @return List<Data> CSVファイルのデータリスト
+	 */
+	public List<Data> readFile() {
+		List<Data> list = new ArrayList<>();
+		String line = null;
+		try {
+			while((line = read.readLine()) != null) {
+				String[] lineData = line.split(",");
+				// lineData[0]: 名前, lineData[1]: パスワード
+				list.add(new Data(lineData[0], lineData[1]));
+			}
+		} catch(IOException ie) {
+			ie.printStackTrace();
+			System.exit(-1);
+		}
+		return list;
+	}
+
+	/**
+	 * フィールドのfileを返却する。
+	 * @return file
+	 */
+	public File getFile() {
+		return this.file;
 	}
 }

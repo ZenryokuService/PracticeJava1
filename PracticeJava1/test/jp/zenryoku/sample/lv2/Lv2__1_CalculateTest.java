@@ -8,6 +8,7 @@
  */
 package jp.zenryoku.sample.lv2;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
@@ -51,5 +52,10 @@ public class Lv2__1_CalculateTest {
 		} else {
 			fail("不適切な正規表現です: " + regrex);
 		}
+	}
+	
+	@Test
+	public void test04() {
+		assertEquals(true, "1.2".contains("."));
 	}
 }

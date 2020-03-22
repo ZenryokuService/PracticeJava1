@@ -9,11 +9,13 @@
 package jp.zenryoku.apps;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.jsoup.nodes.Node;
 
 import jp.zenryoku.sample.lv3.refactor.CommandIF;
 
@@ -29,7 +31,7 @@ public class JsoupHtmlReader implements CommandIF{
 	 */
 	@Override
 	public void execute() {
-		System.out.println("*** execute ***");
+		// System.out.println("*** execute ***");
 		String url = "https://ja.wikipedia.org/wiki/%E6%AD%A6%E5%99%A8";
 		Document doc = null;
 		try {
@@ -37,17 +39,56 @@ public class JsoupHtmlReader implements CommandIF{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("*** Get Content ***");
-		Element body = doc.body();
-		Elements eles = body.getElementsByTag("h2");
-		System.out.println("size: " + eles.size());
+		// System.out.println("*** Get Content ***");
+		Elements eles = doc.getElementById("toc").children();
 		for (int i = 0; i < eles.size(); i++) {
 			Element item = eles.get(i);
-			System.out.print("wholeText(): " + item.wholeText());
-			System.out.println(" / text(): " + item.text());
+			printIndex(item, i);
 		}
 	}
 
+	private void printIndex(Element row, int num) {
+//		System.out.println("index" + num + ": " + row.text());
+		if (row.childrenSize() != 0) {
+			printChild(row.children());
+		}
+	}
+	
+	private void printChild(Elements eles) {
+		for (Element ele: eles) {
+			if (ele.childrenSize() != 0) {
+				printChild(ele.children());
+			} else {
+				printElement(ele);
+			}
+		}
+	}
+	private void printElement(Element ele) {
+		if (ele.text().contains(".")) {
+			print(ele,"-   ", ": ");
+		} else if (ele.text().matches("[0-9]{1,2}")) {
+			print(ele,"", ": ");
+		} else {
+			if (ele.text().equals("")) {
+				return;
+			}
+			println(ele, "", "");
+		}
+	}
+	private void print(Element ele, String prefix, String safix) {
+		if (safix != "") {
+			System.out.print(ele.text() + safix);
+		} else {
+			System.out.print(prefix + ele.text());
+		}
+	}
+	private void println(Element ele, String prefix, String safix) {
+		if (safix != "") {
+			System.out.println(ele.text() + safix);
+		} else {
+			System.out.println(prefix + ele.text());
+		}
+	}
 	public static void main(String[] args) {
 		JsoupHtmlReader main = new JsoupHtmlReader();
 		main.execute();

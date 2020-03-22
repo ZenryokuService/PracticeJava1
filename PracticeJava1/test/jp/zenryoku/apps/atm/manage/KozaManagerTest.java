@@ -8,11 +8,16 @@
  */
 package jp.zenryoku.apps.atm.manage;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -34,7 +39,7 @@ public class KozaManagerTest {
 	 *  各テスト実行前に起動する
 	 */
 	@Before
-	public void initClass() {
+	public void initTest() {
 		target = new KozaManager();
 	}
 
@@ -52,6 +57,7 @@ public class KozaManagerTest {
 	 */
 	@Test
 	public void testIsFile() {
+		// コンストラクタでファイルが作成されることに注意
 		assertTrue(target.isFile());
 	}
 	
@@ -71,4 +77,20 @@ public class KozaManagerTest {
 			fail("想定外のエラーが起きました。");
 		}
 	}
+
+	@Test
+	public void testFileRead() {
+		if (target.isFile() == false) {
+			fail("ファイルが存在していません");
+		}
+		List<Data> dataList = target.readFile();
+		// データは0件ではない
+		assertNotEquals(0, dataList.size());
+		// ファイルにあるデータ
+		Data data = dataList.get(1);
+		assertEquals("test", data.getName());
+		assertEquals("passwd", data.getPassword());
+	}
+
+	
 }

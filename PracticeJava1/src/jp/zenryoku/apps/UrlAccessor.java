@@ -1,25 +1,17 @@
 package jp.zenryoku.apps;
 
-import javafx.scene.control.TextArea;
 import jp.zenryoku.game.gui.CommandIF;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -45,7 +37,7 @@ public class UrlAccessor implements CommandIF {
             urlCls.openConnection();
             InputStream inp = (InputStream) urlCls.getContent();
             Document html = builder.parse(inp);
-            NodeList nodes = html.getElementsByTagName("");
+            NodeList nodes = html.getElementsByTagName("ul");
             for (int i = 0; i < nodes.getLength(); i++) {
                 loopPrint(nodes.item(i).getChildNodes());
             }
@@ -61,14 +53,11 @@ public class UrlAccessor implements CommandIF {
         return "";
     }
     
-    private boolean hasChild(Node node) {
-    	return node.hasChildNodes();
-    }
     private void loopPrint(NodeList list) {
 		String emp = System.getProperty("separator") + "\t\t";
     	for (int i = 0; i < list.getLength(); i++) {
     		Node node = list.item(i);
-    		if (hasChild(node)) {
+    		if (node.hasChildNodes()) {
     			loopPrint(node.getChildNodes());
     		} else {
     			if ("#text".equals(node.getNodeName())) {

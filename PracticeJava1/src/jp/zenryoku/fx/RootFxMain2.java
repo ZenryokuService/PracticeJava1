@@ -37,7 +37,7 @@ public class RootFxMain2 extends Application {
 	private BorderPane baseLayout;
 
 	/**
-	 * OpenCV起動用ライビラリロード
+	 * OpenCV起動用ライブラリロード
 	 */
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
