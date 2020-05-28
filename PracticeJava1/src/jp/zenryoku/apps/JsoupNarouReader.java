@@ -21,30 +21,36 @@ import jp.zenryoku.sample.lv3.refactor.CommandIF;
 import jp.zenryoku.sample.lv3.refactor.CommandIfParam1;
 
 /**
+ * 小説家になろうリーダー
  * @author takunoji
  *
  * 2020/03/15
  */
-public class JsoupHtmlReader implements CommandIfParam1{
-	private String rootUrl;
+public class JsoupNarouReader implements CommandIfParam1 {
+
 	/* (non-Javadoc)
 	 * @see jp.zenryoku.sample.lv3.refactor.CommandIF#execute()
 	 */
 	@Override
 	public void execute(String url) {
-		rootUrl = url;
-		// System.out.println("*** execute ***");
 		Document doc = null;
 		try {
 			doc = Jsoup.connect(url).get();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// System.out.println("*** Get Content ***");
-		Elements eles = doc.getElementById("toc").children();
-		for (int i = 0; i < eles.size(); i++) {
-			Element item = eles.get(i);
-			printIndex(item, i);
+		Elements title = doc.select("div.contents1");
+		String[] head = title.text().split(" ");
+		System.out.println(head[0] + " " + head[1]);
+
+		Elements subTitle = doc.select("p.novel_subtitle");
+		System.out.println("<" + head[2] + " " + subTitle.text() + ">");
+		System.out.println("");
+		Element root = doc.getElementById("novel_honbun");
+		Elements sentences = root.children();
+		for (int i = 0; i < sentences.size(); i++) {
+			Element item = sentences.get(i);
+			System.out.println(item.text());
 		}
 	}
 
@@ -58,10 +64,6 @@ public class JsoupHtmlReader implements CommandIfParam1{
 	private void printChild(Elements eles) {
 		for (Element ele: eles) {
 			if (ele.childrenSize() != 0) {
-				if (ele.tagName().equals("a")) {
-					Elements link = ele.getElementsByTag("a");
-					System.out.println("Attr: " + link.attr("href"));
-				}
 				printChild(ele.children());
 			} else {
 				printElement(ele);
@@ -95,8 +97,8 @@ public class JsoupHtmlReader implements CommandIfParam1{
 		}
 	}
 	public static void main(String[] args) {
-		JsoupHtmlReader main = new JsoupHtmlReader();
-		String url = "https://ja.wikipedia.org/wiki/%E6%AD%A6%E5%99%A8";
+		JsoupNarouReader main = new JsoupNarouReader();
+		String url = "https://ncode.syosetu.com/n9105fz/2/";
 		main.execute(url);
 	}
 }

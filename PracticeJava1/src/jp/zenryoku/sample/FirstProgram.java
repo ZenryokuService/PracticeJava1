@@ -41,6 +41,10 @@ public class FirstProgram {
 		System.out.println("*************************");
 		System.out.println(honbun);
 		System.out.println("*************************");
-		
+
+		// プログラム引数を表示する
+		System.out.println("**** プログラム引数 ****");
+		System.out.println("引数１：" + args[0]);
+		System.out.println("引数２：" + args[1]);
 	}
 }
