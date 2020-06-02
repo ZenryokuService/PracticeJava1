@@ -8,29 +8,25 @@
  */
 package jp.zenryoku.sample.basic;
 
+import java.util.Scanner;
+
 /**
  * @author takunoji
  *
- * 2020/05/28
+ * 2020/06/02
  */
-public class FifthProgram {
+public class EighthProgram {
 	public static void main(String[] args) {
-		if (args.length == 0) {
-			System.out.println("プログラム引数を入力してください");
-			System.exit(0);
+		// ゲームループ(無限ループ)
+		Scanner scan = new Scanner(System.in);
+		while(true) {
+			System.out.println("*** コマンドを入力してください ***");
+			String val = scan.next();
+			if ("bye".equals(val)) {
+				System.out.println("*** ループ終了 ***");
+				break;
+			}
+			System.out.println("*** 入力コマンド: " + val + " ***");
 		}
-		if ("hello".equals(args[0])) {
-			System.out.println("Hello World!");
-		} else if ("world".equals(args[0])) {
-			System.out.println("ジョジョもびっくり！");
-		} else {
-			System.out.println("想定外の値です。");
-		}
-		try {
-			System.out.println("テスト: " + args[2]);
-		} catch (Exception e) {
-			System.out.println("プログラム引数は２以下でした。。。");
-		}
-		char aaa = 's';
 	}
 }

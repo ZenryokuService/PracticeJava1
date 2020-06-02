@@ -8,29 +8,26 @@
  */
 package jp.zenryoku.sample.basic;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
 /**
  * @author takunoji
  *
- * 2020/05/28
+ * 2020/05/30
  */
-public class FifthProgram {
+public class SeventhProgram {
 	public static void main(String[] args) {
-		if (args.length == 0) {
-			System.out.println("プログラム引数を入力してください");
-			System.exit(0);
+		   byte[] input = new byte[5]; // 5文字までの入力分
+		   try {
+			   System.out.println("入力してください");
+			   System.in.read(input);
+		   } catch (IOException e) {
+			   e.printStackTrace();
+			   System.exit(-1);
+		   }
+		   String out = new String(input, StandardCharsets.UTF_8);
+		   System.out.print("あなたが入力したはじめの５文字は");
+		   System.out.println(out); // コンソール出力
 		}
-		if ("hello".equals(args[0])) {
-			System.out.println("Hello World!");
-		} else if ("world".equals(args[0])) {
-			System.out.println("ジョジョもびっくり！");
-		} else {
-			System.out.println("想定外の値です。");
-		}
-		try {
-			System.out.println("テスト: " + args[2]);
-		} catch (Exception e) {
-			System.out.println("プログラム引数は２以下でした。。。");
-		}
-		char aaa = 's';
-	}
 }
