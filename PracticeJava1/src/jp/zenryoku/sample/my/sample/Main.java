@@ -23,7 +23,15 @@ public class Main {
 		String input = scan.next();
 
 		FirstCls first = new FirstCls();
-		first.handleInput(input);
+		if ("exe".equals(input)) {
+			first.execute(scan);
+		}
+		boolean isNumber = first.isNumberString(input);
+		if (isNumber) {
+			System.out.println(input + "は数字です。");
+		} else {
+			System.out.println(input + "は数字ではありません。");
+		}
 	}
 }
 
