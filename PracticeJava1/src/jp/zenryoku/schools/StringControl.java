@@ -15,7 +15,7 @@ public class StringControl {
 	 */
 	public static void main(String[] args) {
 		StringControl main = new StringControl();
-		main.substringTest();
+		main.sample1_1StringCheck();
 	}
 
 	/**
@@ -70,23 +70,111 @@ public class StringControl {
 	public void checkString() {
 		
 		String moji = "test";
+		String moji2 = "test";
+		if (moji == moji2) {
+			System.out.println("1.mojiは\"test\"です。");
+		} else {
+			System.out.println("1.mojiはStringクラスなのでequalsメソッドで等価判定を行う。");
+		}
 		// String#equals()
 		if (moji.equals("test")) {
-			System.out.println("mojiは\"test\"です。");
+			System.out.println("2.mojiは\"test\"です。");
 		} else {
-			System.out.println("mojiは\"test\"ではありません。");
+			System.out.println("2.mojiは\"test\"ではありません。");
 		}
 		// String#equalsIgnoreCase()
 		if (moji.equalsIgnoreCase("Test")) {
-			System.out.println("mojiは\"Test\" or \"Test\"です。");			
+			System.out.println("3.mojiは\"Test\" or \"Test\"です。");			
 		} else {
-			System.out.println("mojiは\"Test\" or \"Test\"ではありません。");			
+			System.out.println("3.mojiは\"Test\" or \"Test\"ではありません。");			
 		}
 		// String#isEmpty()
 		if (moji.isEmpty()) {
-			System.out.println("mojiは\"\"です。");
+			System.out.println("4.mojiは\"\"です。");
 		} else {
-			System.out.println("mojiは\"\"ではありません。");
+			System.out.println("4.mojiは\"\"ではありません。");
 		}
+	}
+
+	/**
+	 * 文字列調査(文字列が等しいか?)のサンプル。
+	 * 「リスト1-1 文字列調査メソッドを利用した例」
+	 */
+	public void sample1_1StringCheck() {
+		// 文字列を比較した場合
+		System.out.println("*** String#equals() Sample1 ****");
+		if ("test".equals("tezt")) {
+			System.out.println("\"test\"と\"tezt\"は等しいです。");
+		} else if ("test".equals("tezt") == false) {
+			System.out.println("\"test\"と\"tezt\"は等しくありません。");
+		} else {
+			// 実際は例外しか返ってこないので意味のないコード
+			// 想定外のケースも考慮に入れる
+			System.out.println("trueもfalseも帰ってこなかった場合。");
+		}
+		System.out.println("*** String#equals() Sample2 ****");
+		// 変数に入れた文字列を比較した場合
+		String str = "test";
+		String str2 = "tezt";
+		if (str.equals(str2)) {
+			System.out.println("\"test\"と\"tezt\"は等しいです。");
+		} else {
+			System.out.println("\"test\"と\"tezt\"は等しくありません。");
+		}
+
+		System.out.println("*** String#equalsIgnoreCase() Sample1 ****");
+		if ("test".equalsIgnoreCase("tezt")) {
+			System.out.println("\"test\"と\"tezt\"は等しいです。");
+		} else if ("test".equalsIgnoreCase("Test") == false) {
+			System.out.println("\"test\"と\"Test\"は等しくありません。");
+		} else if ("test".equalsIgnoreCase("Test")) {
+			System.out.println("\"test\"と\"Test\"は等しいです。");
+		} else {
+			// 実際は例外しか返ってこないので意味のないコード
+			// 想定外のケースも考慮に入れる
+			System.out.println("trueもfalseも帰ってこなかった場合。");
+		}
+
+		System.out.println("*** String#isEmpty() Sample1 ****");
+		if ("".isEmpty()) {
+			System.out.println("文字列は空です。");
+		}
+		String tmp = null;
+
+		System.out.println("*** String#isEmpty() Sample2 ****");
+		try {
+			if (tmp.isEmpty()) {
+				System.out.println("文字列はNULLです。");
+			}
+		} catch (NullPointerException e) {
+			System.out.println("実行するとNullPoineterExceptionで落ちる。");
+		}
+	}
+
+	/**
+	 * 文字列調査(文字列が等しいか?)のサンプル。
+	 * 「リスト1-1 文字列調査メソッドを利用した例」
+	 */
+	public void sample1_2StringSearch() {
+		String str = "0123456789ABCABC";
+		System.out.println("*** String#contains() Sample1 ****");
+		if (str.contains("012")) {
+			System.out.println(str + "は「012」を含んでいます。");
+		}
+		System.out.println("*** String#contains() Sample1 ****");
+		if (str.contains("014")) {
+			System.out.println(str + "は「014」を含んでいます。");
+		} else {
+			System.out.println(str + "は「014」を含んでいません。");
+		}
+
+		System.out.println("*** String#endsWith() Sample1 ****");
+		if (str.endsWith("ABC")) {
+			System.out.println(str + "は「ABC」を末尾にあります。");
+		}
+
+		System.out.println("*** String#endsWith() Sample1 ****");
+		System.out.println(str + "は「ABC」の文字列が" + str.indexOf("ABC") + "番目に出現します。");
+		System.out.println(str + "は「ABC」の文字列が最後に出現するのは" + str.lastIndexOf("ABC") + "番目に出現します。");
 	}
 }
