@@ -35,13 +35,16 @@ public class Lv3_1_RefactorLv2_Main {
 		while(true) {
 			System.out.println("入力してください: ");
 			String inStr = input.nextLine();
+			if ("bye".equals(inStr)) {
+				System.out.println("Good Bye");
+				break;
+			}
+
 			CommandIF cmd = cmdMap.get(inStr);
 			if (cmd != null) {
 				cmd.execute();
-			}
-			if ("bye".equals(inStr)) {
-				System.out.println("Good Byw");
-				break;
+			} else {
+				System.out.println("コマンドが登録されていません。: " + inStr);
 			}
 		}
 	}
