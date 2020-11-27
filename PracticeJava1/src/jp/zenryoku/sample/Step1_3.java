@@ -4,9 +4,9 @@ import jp.zenryoku.sample.annotation.Sample;
 
 /**
  * Step1-3:char配列の扱い<br/>
- * 
+ *
  * <br/>はJavaDoc用の改行タグです
- * 
+ *
  * @see http://takunoji.hatenablog.com/entry/2015/11/03/165638
  * @author ZenryokuService
  */
@@ -81,7 +81,7 @@ public class Step1_3 {
 	 * @return char[] ソートを完了した配列
 	 */
 	private char[] sortChar(char[] ch) {
-		
+
 		return ch;
 	}
 
