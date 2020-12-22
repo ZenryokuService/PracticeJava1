@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2019-present Coder All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
  * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class Calcuration {
 	/** 預金額 */
 	private int yokingaku;
-	
+
 	public Calcuration() {
 		// 預金額は1000円スタート
 		yokingaku = 1000;
@@ -38,7 +38,7 @@ public class Calcuration {
 		this.yokingaku = yokingaku;
 	}
 
-	/** 
+	/**
 	 * 入金処理 or 引出し
 	 * @param input 標準入力
 	 * @param isNyukin
@@ -84,7 +84,7 @@ public class Calcuration {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param in 数字文字
 	 * @param isNyukin ture: 入金処理 false: 引出し処理
 	 */
