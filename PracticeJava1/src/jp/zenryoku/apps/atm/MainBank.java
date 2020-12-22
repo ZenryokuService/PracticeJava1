@@ -39,7 +39,11 @@ public class MainBank {
 
 		Scanner input = new Scanner(System.in);
 		while(true) {
+<<<<<<< HEAD
 			System.out.println("入金の時は「in」、引き出しの時は「out」を、終了する時は「bye」を入力してください。");
+=======
+			System.out.println("Top画面です。");
+>>>>>>> 9bed8ac5aa52beb11cf6c03d56ae45845d24d6f1
 			String inStr = input.nextLine();
 
 			if ("bye".equals(inStr)) {
@@ -48,6 +52,13 @@ public class MainBank {
 
 			String errorMessage = InputChecker.validNyukinHikidashi(inStr);
 
+<<<<<<< HEAD
+=======
+			if ("bye".equals(inStr)) {
+				break;
+			}
+
+>>>>>>> 9bed8ac5aa52beb11cf6c03d56ae45845d24d6f1
 			if (errorMessage != null) {
 				System.out.println(errorMessage);
 				continue;
