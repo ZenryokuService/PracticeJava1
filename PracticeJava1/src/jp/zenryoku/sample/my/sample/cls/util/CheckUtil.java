@@ -35,7 +35,9 @@ public class CheckUtil {
 		if (numberStr.matches(range)) {
 			return true;
 		}
-		return false;	}
+		return false;
+	}
+
 	/**
 	 * 引数の１文字が数字かどうかの判定をする。。
 	 * 

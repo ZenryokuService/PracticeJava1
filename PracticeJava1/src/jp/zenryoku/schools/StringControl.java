@@ -153,7 +153,7 @@ public class StringControl {
 
 	/**
 	 * 文字列調査(文字列が等しいか?)のサンプル。
-	 * 「リスト1-1 文字列調査メソッドを利用した例」
+	 * 「リスト1-2 文字列検索メソッドを利用した例」
 	 */
 	public void sample1_2StringSearch() {
 		String str = "0123456789ABCABC";
