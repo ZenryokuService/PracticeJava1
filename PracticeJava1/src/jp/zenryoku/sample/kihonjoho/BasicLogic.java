@@ -150,4 +150,96 @@ public class BasicLogic {
 		}
 		return String.valueOf(answer);
 	}
+
+	/**
+	 * 10進数における、引数の値を補数に変換する。
+	 * 
+	 * @param num 元になる数値
+	 * @return numの補数(文字列)
+	 */
+	public String convertHosu(int num) {
+		// 10進数における、補数の算出
+		int hosu = 10 + (~num + 1);
+		return Integer.toString(hosu);
+	}
+
+	/**
+	 * 上のメソッドのオーバーロード。
+	 * R進数における、引数の値を補数に変換する。
+	 * 
+	 * @param num 元になる数値
+	 * @param sinsu ？進数
+	 * @return numの補数(文字列) / 想定外の入力はNULLを返す
+	 */
+	public String convertHosu(byte num, int sinsu) {
+		// 10進数における、補数の算出, int型が10進数なので想定と違う
+
+		// ステップ１：取得した値を文字列に変換
+		String bStr = null;
+		if (sinsu == 8) {
+			bStr = Integer.toOctalString(num);
+		} else if (sinsu == 2) {
+			bStr = Integer.toBinaryString(num);
+		} else {
+			return null;
+		}
+		System.out.println(sinsu + "進数: " + bStr);
+		char[] ch = bStr.toCharArray();
+		int ans = 0;
+		int keta = ch.length;
+		for (int i = 0; i < ch.length; i++) {
+			String st = String.valueOf(ch[i]);
+			Double bit = Double.parseDouble(st);
+			// Rの(i - 1)桁目の値で累乗
+			System.out.print("値: " + bit + " / 桁: " + ((keta - 1)- i));
+			Double val = bit * Math.pow(sinsu, ((keta - 1) - i));
+			System.out.println(" => 計算後: " + val);
+			ans += val;
+		}
+		System.out.println("合計: " + ans);
+		//int hosu = sinsu + (~num + 1);
+		return String.valueOf(ans);
+	}
+
+	/**
+	 * 16進数は、1バイトで治らないのでshortにする。
+	 * 
+	 * @param num 元になる数値
+	 * @param sinsu ？進数
+	 * @return numの補数(文字列) / 想定外の入力はNULLを返す
+	 */
+	public String convertHosu(short num, int sinsu) {
+		// ステップ１：取得した値を文字列に変換
+		String bStr = null;
+		if (sinsu == 16) {
+			bStr = Integer.toHexString(num);
+		} else if (sinsu == 8) {
+			bStr = Integer.toOctalString(num);
+		} else if (sinsu == 2) {
+			bStr = Integer.toBinaryString(num);
+		} else {
+			return null;
+		}
+		System.out.println(sinsu + "進数: " + bStr);
+		char[] ch = bStr.toCharArray();
+		int ans = 0;
+		int keta = ch.length;
+		for (int i = 0; i < ch.length; i++) {
+			String st = String.valueOf(ch[i]);
+			Double bit = null;
+			if (st.matches("[0-9]")) {
+				bit = Double.parseDouble(st);
+			} else if (st.matches("[a-fA-F]")) {
+				bit = (double) Integer.parseInt(st, 16);
+			}
+ 			// Rの(i - 1)桁目の値で累乗
+			System.out.print("値: " + bit + " / 桁: " + ((keta - 1)- i));
+			Double val = bit * Math.pow(sinsu, ((keta - 1) - i));
+			System.out.println(" => 計算後: " + val);
+			ans += val;
+		}
+		System.out.println("合計: " + ans);
+		//int hosu = sinsu + (~num + 1);
+		return String.valueOf(ans);
+	}
 }

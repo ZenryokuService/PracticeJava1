@@ -1,5 +1,7 @@
 package jp.zenryoku.sample.kihojoho;
 
+import static org.junit.Assert.assertEquals;
+
 import java.nio.ByteBuffer;
 import java.util.BitSet;
 
@@ -16,7 +18,7 @@ import jp.zenryoku.sample.kihonjoho.BasicLogic;
  */
 public class BasicLogicTest {
 	/** テスト対象クラス */
-	private static BasicLogic target;
+	private static BasicLogic target; // F3を謳歌するとその場所へ移動できる。
 
 	@BeforeClass
 	public static void initBasicLogic() {
@@ -118,10 +120,77 @@ public class BasicLogicTest {
 
 	}
 
-	@Test
+	// @Test
 	public void testRsinsuToInt() {
 		System.out.println("2進数で101 = " + target.convertRsinsuToInt("101", 2));
 		System.out.println("8進数で101 = " + target.convertRsinsuToInt("101", 8));
 		System.out.println("16進数で101 = " + target.convertRsinsuToInt("10F", 16));
+	}
+
+	//@Test
+	public void testHosu() {
+        int value1 = 0b0100;//[1]=4
+        int value2 = 0b0010;//[2]=2
+        System.out.println("value1 = " + Integer.toBinaryString(value1));
+        System.out.println("value2 = " + Integer.toBinaryString(value2));
+        // AND演算
+        System.out.println("value1 & value2 = " + (value1 & value2));
+        // OR演算
+        System.out.println("value1 | value2 = " + (value1 | value2));
+        // XOR演算
+        System.out.println("value1 ^ value2 = " + (value1 ^ value2));
+        // ビットを反転?
+        Byte b = 0b1010101;
+        System.out.println("~b = " + ( b + (~b)));
+        Byte b1 = 0b0001;
+        System.out.println("~b1 = " + ( b1 + (~b1)));
+        Byte b2 = 0b0101;
+        System.out.println("~b2 = " + ( b2 + (~b2)));
+        Byte b3 = 0b0110;
+        System.out.println("~b3 = " + ( (b3 + 1) + (~b3)));
+        
+        int hosu = 6;
+        System.out.println(hosu + " => 2進数表現: " + Integer.toBinaryString(hosu) + " / 10進数＝" + 	hosu);
+        System.out.println(hosu + " => ビット反転: " + Integer.toBinaryString(~hosu) + " / 10進数＝" + ~hosu);
+        System.out.println("10進数、６の補数は４: " + (10 + (~hosu + 1)));
+     }
+
+	/**
+	 * 補数の処理をメソッドに実装する。
+	 * 実行するテストをこのメソッドのみにするため他の「@Test」をコメントアウト
+	 */
+	//@Test
+	public void testHosu2() {
+		// 前提として、10進数(int型)で実装する
+		// テストケースとして、ビット反転した時に、値が「~X = -(X + 1)」になることを確認する。
+		// 2進数表現での6
+		int num = 0b0110;
+		assertEquals(-7, ~num);
+		// R進数における、ある値Xの補数を算出する
+		// 10進数における、6の補数は４
+		assertEquals("4", target.convertHosu(6)); // これからメソッドの実装をする
+	}
+
+	// @Test
+	public void testHosu3() {
+		// 前提として、10進数(int型)で実装する
+		// テストケースとして、ビット反転した時に、値が「~X = -(X + 1)」になることを確認する。
+		// 2進数表現での6
+		int num = 0b0110;
+		assertEquals(-7, ~num);
+		// R進数における、ある値Xの補数を算出する
+		// 10進数における、6の補数は４
+		assertEquals("4", target.convertHosu(6)); // これからメソッドの実装をする
+	}
+
+	@Test
+	public void testHosu4_Convert1() {
+		// R進数におけるXの補数Y
+
+		// 8進数「113」の補数を算出する
+		byte b8 = 0113;
+		assertEquals("75", target.convertHosu(b8, 8));
+		short b16 = 0x113;
+		assertEquals("275", target.convertHosu(b16, 16));
 	}
 }
