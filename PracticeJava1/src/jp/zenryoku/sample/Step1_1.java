@@ -1,6 +1,6 @@
 package jp.zenryoku.sample;
 /*
- * 7行目〜14行目までの部分を「JavaDocコメント」と呼びます。
+ * 10行目〜19行目までの部分を「JavaDocコメント」と呼びます。
  * クラス、メソッドの説明に記述されます。
  * そして「JavaDoc」を出力する時に記載される内容になります。
  */
@@ -38,9 +38,9 @@ public class Step1_1 {
 	 *  
 	 * @param args　メインメソッドの引数はプログラム引数を示す
 	 */
-	public static void main(String[] aabb) {
+	public static void main(String[] args) {
 		// 1行コメント部分
-		/*
+		/* 通常のコメント
 		 * 複数行コメント部分
 		 * 処理の説明など複数行に渡りコメントを記述する
 		 */

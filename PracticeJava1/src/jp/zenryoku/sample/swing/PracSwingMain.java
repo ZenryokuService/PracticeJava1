@@ -23,7 +23,5 @@ public class PracSwingMain extends JFrame {
         frame.setVisible(true);
         int i = 2147483647;
         short shor = 32767;
-
-
     }
 }

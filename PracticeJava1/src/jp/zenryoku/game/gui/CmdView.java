@@ -2,21 +2,16 @@ package jp.zenryoku.game.gui;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import javafx.scene.Group;
-import javafx.scene.control.TextArea;
 
-import java.io.*;
 import java.lang.reflect.Constructor;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.security.Key;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Properties;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -97,12 +92,13 @@ public class CmdView extends Application {
                 if (KeyCode.ENTER.equals(evt.getCode())) {
                     // テキストエリア内の文字列を全て取得
                     String allText = src.getText();
-                    formatText(allText);
-                    String command = getCommand(allText);
+                    String formatted = formatText(allText);
+                    //String command = getCommand(formatted);
                     // "Cmd $ "の文字列の位置を取得
-                    System.out.println("Command: " + command);
+                    System.out.println("Fprmated: " + formatted);
+                    //System.out.println("Command: " + command);
                     // コマンドの実行
-                    allText = allText + executeCmd(command) + LINE_SEPARETOR;
+                    allText = allText + LINE_SEPARETOR + executeCmd(formatted) + LINE_SEPARETOR;
 
                     // コマンド実行後
                     src.setText(allText + CMD_START);
@@ -184,6 +180,7 @@ public class CmdView extends Application {
      * @return 入力した文字列部分のみ
      */
     private String getCommand(String text) {
+        System.out.println(text);
         String[] lines = text.split(LINE_SEPARETOR);
         String target = lines[lines.length - 1];
         // コマンドが途切れていないかチェック
@@ -223,9 +220,7 @@ public class CmdView extends Application {
     }
 
     private String formatText(String areaTxt) {
-        String shaped = "";
-
-        return shaped;
+        return areaTxt.split(">")[1];
     }
     /** メインメソッド */
     public static void main(String[] args) {

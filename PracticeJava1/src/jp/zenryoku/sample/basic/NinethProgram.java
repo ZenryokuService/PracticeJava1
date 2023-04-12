@@ -21,37 +21,37 @@ import java.util.Scanner;
  * 2020/06/02
  */
 public class NinethProgram {
-	public static void main(String[] args) {
-		NinethProgram main = new NinethProgram();
-		Scanner scan = new Scanner(System.in);
-		
-		while(true) {
-			System.out.print("入力してください: ");
-			String in = scan.next();
+		public static void main(String[] args) {
+			jp.zenryoku.sample.basic.NinethProgram main = new jp.zenryoku.sample.basic.NinethProgram();
+			Scanner scan = new Scanner(System.in);
 
-			if("bye".equals(in)) {
-				System.out.println("アプリ終了");
-				break;
-			}
-			String[] tmp = new String[] {"aaa"};
-			try {
-				if (in.equals("test")) {
-					System.out.println("*** Testing now! ***");
-				} else if ("file".equals(in)) {
-					main.readFile("FirstStage.txt");
-				} else if (tmp.length == 1) {
-					System.out.println("*** Not Error! ***");
+			while(true) {
+				System.out.print("入力してください: ");
+				String in = scan.next();
+
+				if("bye".equals(in)) {
+					System.out.println("アプリ終了");
+					break;
 				}
-			} catch (FileNotFoundException e) {
-				System.out.println("*** No File! ***");
-			} catch (IOException e) {
-				System.out.println("*** What's up!? ***");
+				String[] tmp = new String[] {"aaa"};
+				try {
+					if (in.equals("test")) {
+						System.out.println("*** Testing now! ***");
+					} else if ("file".equals(in)) {
+						main.readFile("resources/FirstStage.txt");
+					} else if (tmp.length == 1) {
+						System.out.println("*** Not Error! ***");
+					}
+				} catch (FileNotFoundException e) {
+					System.out.println("*** No File! ***");
+				} catch (IOException e) {
+					System.out.println("*** What's up!? ***");
+				}
 			}
 		}
-	}
 
 	private void readFile(String fileName) throws FileNotFoundException, IOException {
-		File f = new File("/" + fileName);
+		File f = new File(fileName);
 		BufferedReader buf = new BufferedReader(new FileReader(f));
 		String line = null;
 		while((line = buf.readLine()) != null) {
