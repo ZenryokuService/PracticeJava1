@@ -2,7 +2,7 @@ package jp.zenryoku.sample.daily;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class StringSample {
     /** デフォルトコンストラクタ */
@@ -24,4 +24,19 @@ public class StringSample {
         System.out.println(ans);
         assertEquals("abcdef", ans);
     }
+
+    @Test
+    public void testIsString() {
+        String str = "abc";
+        assertTrue(str.contains("c"));
+        assertFalse(str.contains("d"));
+    }
+
+    @Test
+    public void testEndsWith() {
+        String str = "abcde";
+        assertTrue(str.endsWith("e"));
+        assertFalse(str.endsWith("a"));
+    }
+
 }

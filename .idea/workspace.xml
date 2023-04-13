@@ -15,106 +15,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8de8c9df-b2a2-4726-9669-f4cd20ed2489" name="Default" comment="プロパティファイルを参照してコマンドクラス追加">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/PracticeJava1_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_stephenc_findbugs_findbugs_annotations_1_3_9_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_findbugs_annotations_2_0_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_15_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__joda_time_joda_time_2_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_8_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_ericaro_neoitertools_1_0_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__opencv_opencv_4_0_0_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_3_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_math3_3_4_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apiguardian_apiguardian_api_1_1_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bytedeco_javacpp_1_3_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bytedeco_javacpp_presets_openblas_0_2_19_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bytedeco_javacpp_presets_openblas_android_arm_0_2_19_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bytedeco_javacpp_presets_openblas_android_x86_0_2_19_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bytedeco_javacpp_presets_openblas_linux_armhf_0_2_19_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bytedeco_javacpp_presets_openblas_linux_ppc64le_0_2_19_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bytedeco_javacpp_presets_openblas_linux_x86_0_2_19_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bytedeco_javacpp_presets_openblas_linux_x86_64_0_2_19_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bytedeco_javacpp_presets_openblas_macosx_x86_64_0_2_19_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bytedeco_javacpp_presets_openblas_platform_0_2_19_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bytedeco_javacpp_presets_openblas_windows_x86_0_2_19_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bytedeco_javacpp_presets_openblas_windows_x86_64_0_2_19_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_woodstox_stax2_api_3_1_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_javassist_javassist_3_19_0_GA.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_api_5_7_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_commons_1_7_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_nd4j_jackson_0_9_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_nd4j_nd4j_api_0_9_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_nd4j_nd4j_buffer_0_9_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_nd4j_nd4j_common_0_9_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_nd4j_nd4j_context_0_9_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_nd4j_nd4j_native_0_9_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_nd4j_nd4j_native_android_arm_0_9_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_nd4j_nd4j_native_android_x86_0_9_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_nd4j_nd4j_native_api_0_9_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_nd4j_nd4j_native_linux_ppc64le_0_9_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_nd4j_nd4j_native_linux_x86_64_0_9_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_nd4j_nd4j_native_macosx_x86_64_0_9_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_nd4j_nd4j_native_platform_0_9_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_nd4j_nd4j_native_windows_x86_64_0_9_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_opentest4j_opentest4j_1_2_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_projectlombok_lombok_1_16_16.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_reflections_reflections_0_9_10.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_10.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_12.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/basic/description/CalcDesc.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/basic/description/DoWhileDesc.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/basic/description/TryCatchDesc.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/basic/description/VariableDisc.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/basic/mondai/Mondai0.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/basic/mondai/Mondai1.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/sample/ClassDescription.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/sample/cls/ArgsTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/swing/GridBagLayoutPrac.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/swing/SwingHtml.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/swing/SwingMain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/StringSample.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/.classpath" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/.classpath" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/PracticeJava1.eml" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/PracticeJava1.eml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/PracticeJava1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/PracticeJava1.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PracticeJava1/jars/PracticeJava1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/jars/PracticeJava1.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/resources/koza.csv" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/resources/koza.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/apps/IText7Reader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/apps/JsoupHtmlReader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/apps/JsoupNarouReader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/fx/RootFxMain.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/fx/RootFxMain2.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/fx/parent/Graph1.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/fx/parent/JavaBasicParent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/fx/parent/WebLoaderParent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/fx/util/Utils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/game/gui/CmdView.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/game/gui/CmdView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/opencv/OpenCVTest1.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/opencv/OpenCVTest1_1.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/opencv/OpenCVTest2.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/opencv/OpenCVTest3.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/opencv/OpenCVTest4.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/opencv/OpenCVTest5.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/opencv/OpenCVTest6.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/opencv/OpenCVTest7.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/opencv/OpenCVTest8.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/opencv/OpenCVTest9_Add.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/opencv/OpenCVTest9_AddWeited.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/opencv/OpenCVTest9_Substract.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/opencv/OpenCVTestA10_subMat.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/opencv/lv2/OpenCVTest11.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/opencv/lv2/OpenCVTest12.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/opencv/lv2/OpenCVTest13.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/opencv/view/ViewFrame.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/sample/Step1_1.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/sample/Step1_1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/sample/basic/NinethProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/sample/basic/NinethProgram.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/sample/swing/PracSwingMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/sample/swing/PracSwingMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Untitled.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/StringSample.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/StringSample.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,35 +132,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;
   }
 }</component>
-  <component name="RunManager" selected="JUnit.StringSample.textConcat">
-    <configuration name="CmdView" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.game.gui.CmdView" />
-      <module name="PracticeJava1" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="jp.zenryoku.game.gui.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GridBagLayoutPrac" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.swing.GridBagLayoutPrac" />
-      <module name="PracticeJava1" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="jp.zenryoku.swing.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.StringSample.testEndsWith">
     <configuration name="SwingHtml" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="jp.zenryoku.swing.SwingHtml" />
       <module name="PracticeJava1" />
@@ -289,6 +164,40 @@
       <option name="PACKAGE_NAME" value="jp.zenryoku.sample.daily" />
       <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.StringSample" />
       <option name="METHOD_NAME" value="test01" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StringSample.testEndsWith" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="PracticeJava1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="jp.zenryoku.sample.daily.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="jp.zenryoku.sample.daily" />
+      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.StringSample" />
+      <option name="METHOD_NAME" value="testEndsWith" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StringSample.testIsString" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="PracticeJava1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="jp.zenryoku.sample.daily.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="jp.zenryoku.sample.daily" />
+      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.StringSample" />
+      <option name="METHOD_NAME" value="testIsString" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
@@ -330,18 +239,18 @@
     </configuration>
     <list>
       <item itemvalue="Application.SwingHtml" />
-      <item itemvalue="Application.GridBagLayoutPrac" />
-      <item itemvalue="Application.CmdView" />
+      <item itemvalue="JUnit.StringSample.testEndsWith" />
+      <item itemvalue="JUnit.StringSample.testIsString" />
       <item itemvalue="JUnit.StringSample.textConcat" />
       <item itemvalue="JUnit.StringSample.test01" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.StringSample.testEndsWith" />
+        <item itemvalue="JUnit.StringSample.testIsString" />
         <item itemvalue="JUnit.StringSample.textConcat" />
         <item itemvalue="JUnit.StringSample.test01" />
         <item itemvalue="Application.SwingHtml" />
-        <item itemvalue="Application.CmdView" />
-        <item itemvalue="Application.GridBagLayoutPrac" />
       </list>
     </recent_temporary>
   </component>
