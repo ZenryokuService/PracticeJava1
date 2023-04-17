@@ -15,6 +15,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8de8c9df-b2a2-4726-9669-f4cd20ed2489" name="Default" comment="プロパティファイルを参照してコマンドクラス追加">
+      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/StringBuilderSample.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PracticeJava1/jars/PracticeJava1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/jars/PracticeJava1.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/StringSample.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/StringSample.java" afterDir="false" />
@@ -132,28 +133,14 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;
   }
 }</component>
-  <component name="RunManager" selected="JUnit.StringSample.testEndsWith">
-    <configuration name="SwingHtml" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.swing.SwingHtml" />
-      <module name="PracticeJava1" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="jp.zenryoku.swing.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.StringBuilderSample.testGetChars">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StringSample.test01" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="StringBuilderSample.testAppend" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PracticeJava1" />
       <extension name="coverage">
         <pattern>
@@ -162,15 +149,15 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="jp.zenryoku.sample.daily" />
-      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.StringSample" />
-      <option name="METHOD_NAME" value="test01" />
+      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.StringBuilderSample" />
+      <option name="METHOD_NAME" value="testAppend" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StringSample.testEndsWith" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="StringBuilderSample.testDelete" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PracticeJava1" />
       <extension name="coverage">
         <pattern>
@@ -179,15 +166,15 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="jp.zenryoku.sample.daily" />
-      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.StringSample" />
-      <option name="METHOD_NAME" value="testEndsWith" />
+      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.StringBuilderSample" />
+      <option name="METHOD_NAME" value="testDelete" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StringSample.testIsString" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="StringBuilderSample.testDeleteCharAt" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PracticeJava1" />
       <extension name="coverage">
         <pattern>
@@ -196,15 +183,32 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="jp.zenryoku.sample.daily" />
-      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.StringSample" />
-      <option name="METHOD_NAME" value="testIsString" />
+      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.StringBuilderSample" />
+      <option name="METHOD_NAME" value="testDeleteCharAt" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StringSample.textConcat" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="StringBuilderSample.testGetChars" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="PracticeJava1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="jp.zenryoku.sample.daily.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="jp.zenryoku.sample.daily" />
+      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.StringBuilderSample" />
+      <option name="METHOD_NAME" value="testGetChars" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="StringSample.testValueOf" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PracticeJava1" />
       <extension name="coverage">
         <pattern>
@@ -214,7 +218,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="jp.zenryoku.sample.daily" />
       <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.StringSample" />
-      <option name="METHOD_NAME" value="textConcat" />
+      <option name="METHOD_NAME" value="testValueOf" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
@@ -238,19 +242,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.SwingHtml" />
-      <item itemvalue="JUnit.StringSample.testEndsWith" />
-      <item itemvalue="JUnit.StringSample.testIsString" />
-      <item itemvalue="JUnit.StringSample.textConcat" />
-      <item itemvalue="JUnit.StringSample.test01" />
+      <item itemvalue="JUnit.StringBuilderSample.testAppend" />
+      <item itemvalue="JUnit.StringBuilderSample.testDelete" />
+      <item itemvalue="JUnit.StringBuilderSample.testDeleteCharAt" />
+      <item itemvalue="JUnit.StringBuilderSample.testGetChars" />
+      <item itemvalue="JUnit.StringSample.testValueOf" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.StringSample.testEndsWith" />
-        <item itemvalue="JUnit.StringSample.testIsString" />
-        <item itemvalue="JUnit.StringSample.textConcat" />
-        <item itemvalue="JUnit.StringSample.test01" />
-        <item itemvalue="Application.SwingHtml" />
+        <item itemvalue="JUnit.StringBuilderSample.testGetChars" />
+        <item itemvalue="JUnit.StringBuilderSample.testDeleteCharAt" />
+        <item itemvalue="JUnit.StringBuilderSample.testDelete" />
+        <item itemvalue="JUnit.StringBuilderSample.testAppend" />
+        <item itemvalue="JUnit.StringSample.testValueOf" />
       </list>
     </recent_temporary>
   </component>
