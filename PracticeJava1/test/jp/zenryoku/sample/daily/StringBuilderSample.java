@@ -50,4 +50,18 @@ public class StringBuilderSample {
             System.out.print(d);
         }
     }
+
+    @Test
+    public void testInsert() {
+        StringBuilder build = new StringBuilder("012345");
+        build.insert(0, true);
+        build.insert(2, 'A');
+        System.out.println(build.toString());
+    }
+
+    @Test
+    public void testReverse() {
+        StringBuilder build = new StringBuilder("0123456789");
+        System.out.println(build.reverse().toString());
+    }
 }
