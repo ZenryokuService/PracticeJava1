@@ -1,15 +1,17 @@
 package jp.zenryoku.sample.kihojoho;
 
-import static org.junit.Assert.assertEquals;
-
-import java.nio.ByteBuffer;
-import java.util.BitSet;
-
-import org.junit.Before;
+import jp.zenryoku.sample.kihonjoho.BasicLogic;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import jp.zenryoku.sample.kihonjoho.BasicLogic;
+import java.nio.ByteBuffer;
+import java.util.BitSet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.function.BiConsumer;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author takunoji
@@ -192,5 +194,32 @@ public class BasicLogicTest {
 		assertEquals("75", target.convertHosu(b8, 8));
 		short b16 = 0x113;
 		assertEquals("275", target.convertHosu(b16, 16));
+	}
+
+	@Test
+	public void testMap() {
+		Map<String, Integer>
+
+		hashMap = new HashMap<String, Integer>();
+		hashMap.put("C", new Integer(3));
+		hashMap.put("B", new Integer(2));
+		hashMap.put("A", new Integer(1));
+		hashMap.forEach(new BiConsumer<String, Integer>() {
+				@Override
+				public void accept(String t, Integer u) {
+					System.out.println("Key: "+ t + " / Value: " + u);
+			}
+		});
+
+		Map<String, Integer> linkedMap = new TreeMap<String, Integer>();
+		linkedMap.put("C", new Integer(3));
+		linkedMap.put("B", new Integer(2));
+		linkedMap.put("A", new Integer(1));
+		linkedMap.forEach(new BiConsumer<String, Integer>() {
+			@Override
+			public void accept(String t, Integer u) {
+				System.out.println("Key: "+ t + " / Value: " + u);
+			}
+		});
 	}
 }
