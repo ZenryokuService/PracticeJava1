@@ -15,17 +15,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8de8c9df-b2a2-4726-9669-f4cd20ed2489" name="Default" comment="プロパティファイルを参照してコマンドクラス追加">
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/basic/javautil/TimerTaskImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/ConcurrentHashMapSample.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/FileSample.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/ListSample.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/StringTokenizerSample.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/observer/ChildOverver.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/observer/ObserverSample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/ArraysSample.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/HashSetSample.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PracticeJava1/jars/PracticeJava1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/jars/PracticeJava1.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/HashMapSample.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/HashMapSample.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/kihojoho/BasicLogicTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/kihojoho/BasicLogicTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/MathSample.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/MathSample.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,14 +134,14 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;
   }
 }</component>
-  <component name="RunManager" selected="JUnit.FileSample.testIsDir">
+  <component name="RunManager" selected="JUnit.HashSetSample.testRemove">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FileSample.testDelete" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ArraysSample.testStream" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PracticeJava1" />
       <extension name="coverage">
         <pattern>
@@ -156,15 +150,15 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="jp.zenryoku.sample.daily" />
-      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.FileSample" />
-      <option name="METHOD_NAME" value="testDelete" />
+      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.ArraysSample" />
+      <option name="METHOD_NAME" value="testStream" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FileSample.testExist" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="HashSetSample.testAdd" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PracticeJava1" />
       <extension name="coverage">
         <pattern>
@@ -173,15 +167,15 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="jp.zenryoku.sample.daily" />
-      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.FileSample" />
-      <option name="METHOD_NAME" value="testExist" />
+      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.HashSetSample" />
+      <option name="METHOD_NAME" value="testAdd" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FileSample.testIsDir" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="HashSetSample.testContains" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PracticeJava1" />
       <extension name="coverage">
         <pattern>
@@ -190,15 +184,15 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="jp.zenryoku.sample.daily" />
-      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.FileSample" />
-      <option name="METHOD_NAME" value="testIsDir" />
+      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.HashSetSample" />
+      <option name="METHOD_NAME" value="testContains" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FileSample.testIsFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="HashSetSample.testIsEpm" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PracticeJava1" />
       <extension name="coverage">
         <pattern>
@@ -207,15 +201,15 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="jp.zenryoku.sample.daily" />
-      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.FileSample" />
-      <option name="METHOD_NAME" value="testIsFile" />
+      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.HashSetSample" />
+      <option name="METHOD_NAME" value="testIsEpm" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FileSample.testMkdir" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="HashSetSample.testRemove" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PracticeJava1" />
       <extension name="coverage">
         <pattern>
@@ -224,8 +218,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="jp.zenryoku.sample.daily" />
-      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.FileSample" />
-      <option name="METHOD_NAME" value="testMkdir" />
+      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.HashSetSample" />
+      <option name="METHOD_NAME" value="testRemove" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
@@ -249,19 +243,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.FileSample.testDelete" />
-      <item itemvalue="JUnit.FileSample.testExist" />
-      <item itemvalue="JUnit.FileSample.testIsDir" />
-      <item itemvalue="JUnit.FileSample.testIsFile" />
-      <item itemvalue="JUnit.FileSample.testMkdir" />
+      <item itemvalue="JUnit.ArraysSample.testStream" />
+      <item itemvalue="JUnit.HashSetSample.testAdd" />
+      <item itemvalue="JUnit.HashSetSample.testContains" />
+      <item itemvalue="JUnit.HashSetSample.testIsEpm" />
+      <item itemvalue="JUnit.HashSetSample.testRemove" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.FileSample.testIsDir" />
-        <item itemvalue="JUnit.FileSample.testIsFile" />
-        <item itemvalue="JUnit.FileSample.testMkdir" />
-        <item itemvalue="JUnit.FileSample.testExist" />
-        <item itemvalue="JUnit.FileSample.testDelete" />
+        <item itemvalue="JUnit.HashSetSample.testRemove" />
+        <item itemvalue="JUnit.HashSetSample.testContains" />
+        <item itemvalue="JUnit.HashSetSample.testIsEpm" />
+        <item itemvalue="JUnit.HashSetSample.testAdd" />
+        <item itemvalue="JUnit.ArraysSample.testStream" />
       </list>
     </recent_temporary>
   </component>
