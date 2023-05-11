@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="derby">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/OneDrive/ドキュメント/Apps/java-libraries/db-derby-10.14.2.0-bin/db-derby-10.14.2.0-bin/lib/derby.jar!/" />
+      <root url="jar://$USER_HOME$/OneDrive/ドキュメント/Apps/java-libraries/db-derby-10.14.2.0-bin/db-derby-10.14.2.0-bin/lib/derbyoptionaltools.jar!/" />
+      <root url="jar://$USER_HOME$/OneDrive/ドキュメント/Apps/java-libraries/db-derby-10.14.2.0-bin/db-derby-10.14.2.0-bin/lib/derbytools.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

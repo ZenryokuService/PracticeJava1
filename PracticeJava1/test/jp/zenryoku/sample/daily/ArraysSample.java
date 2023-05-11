@@ -94,4 +94,13 @@ public class ArraysSample {
         Arrays.stream(TMP)
                 .forEach(System.out::println);
     }
+
+    @Test
+    public void testSort2() {
+        print(BARA);
+        System.out.println("******");
+        Arrays.sort(BARA, 2, 4);
+        print(BARA);
+
+    }
 }
