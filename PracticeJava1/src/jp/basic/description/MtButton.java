@@ -11,6 +11,7 @@ public class MtButton extends JButton
     public static final String MINUS = "-";
     public static final String MULTIPLE = "*";
     public static final String DIVIDE = "/";
+    public static final String AC = "AC";
     private MtLabel lbl;
     public MtButton(String mes) {
         setText(mes);
@@ -57,12 +58,23 @@ public class MtButton extends JButton
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Hello action");
         String tmp = getText();
         if (isNumber(tmp)) {
-            lbl.setText(tmp);
+            // 入力値が数字
+            if (lbl.exeCalc()) {
+                // 計算を行う
+                int ans = lbl.calc(tmp);
+                lbl.setText(ans, true);
+            } else {
+                // 入力値をラベルにセット
+                lbl.setText(tmp);
+            }
         } else if (isOpe(tmp)) {
+            // 演算子をセット
             lbl.setOpe(tmp);
+        }
+        if (AC.equals(tmp)) {
+            lbl.clear();
         }
     }
     

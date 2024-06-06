@@ -14,23 +14,21 @@
     <bookmark url="file://$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/apps/Hello.java" line="17" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8de8c9df-b2a2-4726-9669-f4cd20ed2489" name="Default" comment="プロパティファイルを参照してコマンドクラス追加">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/derby.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/SimpleApp.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/BasicBunpo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/CollectionsSample.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/sql/SqlSample.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/statics/BigDecimalSample.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/statics/DoubleSummayStaticsSample.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/swing/MyCheckBox.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/swing/MyLabel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/swing/SwingSample.java" afterDir="false" />
+    <list default="true" id="8de8c9df-b2a2-4726-9669-f4cd20ed2489" name="Default" comment="プロパティファイルを参照してコマンドクラス追加&#10;電卓アプリの作成中">
+      <change afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/CLassTrain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/.classpath" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/.classpath" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/PracticeJava1.eml" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/PracticeJava1.eml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PracticeJava1/jars/PracticeJava1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/jars/PracticeJava1.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/ArraysSample.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/ArraysSample.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/basic/description/MtButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/basic/description/MtButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/basic/description/MtLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/basic/description/MtLabel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/sample/my/sample/cls/FirstCls.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/sample/my/sample/cls/FirstCls.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PracticeJava1/test/jp/basic/description/MtLabelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/basic/description/MtLabelTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/ArrayListSample.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/ArrayListSample.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/BasicBunpo.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/BasicBunpo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/CollectionsSample.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/CollectionsSample.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/MathSample.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/MathSample.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/StringBuilderSample.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/StringBuilderSample.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/StringSample.java" beforeDir="false" afterPath="$PROJECT_DIR$/PracticeJava1/test/jp/zenryoku/sample/daily/StringSample.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +54,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/PracticeJava1/test/jp/basic/description/MtButtonTest.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -97,6 +98,9 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
     <option name="width" value="1280" />
@@ -134,27 +138,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "jdk.selected.JAVA_MODULE": "1.8",
-    "last_opened_file_path": "C:/Users/tak45/OneDrive/ドキュメント/Apps/java-libraries/db-derby-10.14.2.0-bin/db-derby-10.14.2.0-bin/lib/derbytools.jar",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2689655",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/tak45/IdeaProjects/PracticeJava1&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2689655&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="Application.BasicBunpo">
-    <configuration name="BasicBunpo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.BasicBunpo" />
+}</component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="jp.basic.description.Main" />
       <module name="PracticeJava1" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="jp.zenryoku.sample.daily.*" />
+          <option name="PATTERN" value="jp.basic.description.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -164,23 +168,6 @@
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ArraysSample.testSort2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="PracticeJava1" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="jp.zenryoku.sample.daily.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="jp.zenryoku.sample.daily" />
-      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.daily.ArraysSample" />
-      <option name="METHOD_NAME" value="testSort2" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -202,51 +189,85 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SqlSample.testSelect" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MtButtonTest.testIsOpe" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PracticeJava1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="jp.zenryoku.sample.sql.*" />
+          <option name="PATTERN" value="jp.basic.description.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="jp.zenryoku.sample.sql" />
-      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.sql.SqlSample" />
-      <option name="METHOD_NAME" value="testSelect" />
+      <option name="PACKAGE_NAME" value="jp.basic.description" />
+      <option name="MAIN_CLASS_NAME" value="jp.basic.description.MtButtonTest" />
+      <option name="METHOD_NAME" value="testIsOpe" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SqlSample.testSelect2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MtLabelTest.testCalc" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PracticeJava1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="jp.zenryoku.sample.sql.*" />
+          <option name="PATTERN" value="jp.basic.description.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="jp.zenryoku.sample.sql" />
-      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.sql.SqlSample" />
-      <option name="METHOD_NAME" value="testSelect2" />
+      <option name="PACKAGE_NAME" value="jp.basic.description" />
+      <option name="MAIN_CLASS_NAME" value="jp.basic.description.MtLabelTest" />
+      <option name="METHOD_NAME" value="testCalc" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SqlSample.testSelectCount" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="MtLabelTest.testExeCalc" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="PracticeJava1" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="jp.zenryoku.sample.sql.*" />
+          <option name="PATTERN" value="jp.basic.description.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="jp.zenryoku.sample.sql" />
-      <option name="MAIN_CLASS_NAME" value="jp.zenryoku.sample.sql.SqlSample" />
-      <option name="METHOD_NAME" value="testSelectCount" />
+      <option name="PACKAGE_NAME" value="jp.basic.description" />
+      <option name="MAIN_CLASS_NAME" value="jp.basic.description.MtLabelTest" />
+      <option name="METHOD_NAME" value="testExeCalc" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MtLabelTest.testToNumber" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="PracticeJava1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="jp.basic.description.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="jp.basic.description" />
+      <option name="MAIN_CLASS_NAME" value="jp.basic.description.MtLabelTest" />
+      <option name="METHOD_NAME" value="testToNumber" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SampleClassTest.test" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="PracticeJava1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="jp.basic.description.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="jp.basic.description" />
+      <option name="MAIN_CLASS_NAME" value="jp.basic.description.SampleClassTest" />
+      <option name="METHOD_NAME" value="test" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
       <method v="2">
@@ -270,20 +291,21 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.BasicBunpo" />
+      <item itemvalue="Application.Main" />
+      <item itemvalue="JUnit.SampleClassTest.test" />
       <item itemvalue="JUnit.BigDecimalSample.test01" />
-      <item itemvalue="JUnit.ArraysSample.testSort2" />
-      <item itemvalue="JUnit.SqlSample.testSelect" />
-      <item itemvalue="JUnit.SqlSample.testSelect2" />
-      <item itemvalue="JUnit.SqlSample.testSelectCount" />
+      <item itemvalue="JUnit.MtLabelTest.testCalc" />
+      <item itemvalue="JUnit.MtLabelTest.testExeCalc" />
+      <item itemvalue="JUnit.MtButtonTest.testIsOpe" />
+      <item itemvalue="JUnit.MtLabelTest.testToNumber" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.BasicBunpo" />
-        <item itemvalue="JUnit.ArraysSample.testSort2" />
-        <item itemvalue="JUnit.SqlSample.testSelectCount" />
-        <item itemvalue="JUnit.SqlSample.testSelect2" />
-        <item itemvalue="JUnit.SqlSample.testSelect" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.MtLabelTest.testExeCalc" />
+        <item itemvalue="JUnit.MtLabelTest.testCalc" />
+        <item itemvalue="JUnit.MtLabelTest.testToNumber" />
+        <item itemvalue="JUnit.MtButtonTest.testIsOpe" />
       </list>
     </recent_temporary>
   </component>
@@ -390,7 +412,14 @@
       <option name="project" value="LOCAL" />
       <updated>1539509098528</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="プロパティファイルを参照してコマンドクラス追加&#10;電卓アプリの作成中">
+      <created>1716618903712</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1716618903712</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -455,7 +484,8 @@
     <MESSAGE value="JARでコマンド画面の起動ができるようになった" />
     <MESSAGE value="プロパティファイルを参照してコマンドクラス追加" />
     <MESSAGE value="改てコミット 2018-10-14" />
-    <option name="LAST_COMMIT_MESSAGE" value="改てコミット 2018-10-14" />
+    <MESSAGE value="プロパティファイルを参照してコマンドクラス追加&#10;電卓アプリの作成中" />
+    <option name="LAST_COMMIT_MESSAGE" value="プロパティファイルを参照してコマンドクラス追加&#10;電卓アプリの作成中" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -466,6 +496,10 @@
         </breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/PracticeJava1/src/jp/zenryoku/game/rpg/RpgMain.java">

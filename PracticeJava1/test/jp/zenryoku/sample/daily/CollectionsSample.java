@@ -41,11 +41,26 @@ public class CollectionsSample {
             System.out.println(s);
         }
     }
+
+    private void print(Collection<String> c) {
+        for (String s : c) {
+            System.out.println(s);
+        }
+    }
     @BeforeEach
     public void init() {
         new CollectionsSample();
     }
 
+
+    @Test
+    public void testAddAll() {
+        List<String> list1 = new ArrayList<>();
+        list1.add("1235");
+        list1.addAll(list);
+
+        print(list1);
+    }
     @Test
     public void testMin() {
         String res = Collections.min(set);
@@ -70,11 +85,12 @@ public class CollectionsSample {
         list.forEach(System.out::println);
     }
 
+
     @Test
     public void testReverse() {
-        printList();;
+        print(list);
         Collections.reverse(list);
-        printList();
+        print(list);
     }
 
     @Test

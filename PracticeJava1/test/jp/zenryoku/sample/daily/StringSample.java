@@ -1,15 +1,136 @@
 package jp.zenryoku.sample.daily;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StringSample {
+    private final String[] YOBI = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
     /** デフォルトコンストラクタ */
     public void init() {
     }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("入力してください: ");
+        String st = sc.nextLine();
+        System.out.println(st);
+    }
+    @Test
+    public void testHashCode() {
+        System.out.println("aaa".hashCode());
+        System.out.println(new StringSample().hashCode());
+    }
+    private void printType(Object o) {
+        System.out.println(o.getClass().getSimpleName());
+    }
+
+
+    @Test
+    public void isInstance() {
+        System.out.println("aaa" instanceof String);
+        System.out.println("aaa" instanceof Object);
+    }
+
+    @Test
+    public void testSSS1() {
+        int i = 10;
+        printType(i);
+        printType("12");
+        printType(this);
+    }
+    @Test
+    public void testFormat1() {
+        System.out.println(String.format("[%10d]", 1234));
+        System.out.println(String.format("[%-10d]", 1234));
+    }
+    @Test
+    public void testEnss() {
+        String a = "Hello";
+        System.out.println(a.endsWith("o"));
+        System.out.println(a.endsWith("H"));
+    }
+    @Test
+    public void testStart() {
+        String a = "Hello";
+        String b = "Baster";
+        System.out.println(a.startsWith("H"));
+        System.out.println(b.startsWith("H"));
+    }
+
+    @Test
+    public void testSplit() {
+        String st = "a,b,c,d,e";
+        String[] a = st.split(",");
+
+        for (String s : a) {
+            System.out.println(s);
+        }
+    }
+
+    @Test
+    public void testParse() {
+        String a = String.valueOf(12);
+        System.out.println(a);
+    }
+    @Test
+    public void testJoin() {
+        String res = String.join("-", YOBI);
+        System.out.println(res);
+    }
+    @Test
+    public void testTrim1() {
+        String s = "    Hello   ";
+        System.out.println(s.trim());
+    }
+
+    @Test
+    public void testFormat2() {
+        System.out.println(
+                String.format("%tY年%d月%d日"
+                , new Date(), 10, 20)
+        );
+    }
+    @Test
+    public void testMatch() {
+        String st = "Hello World";
+        int count = StringUtils.countMatches(
+                st, "l");
+        System.out.println(count);
+    }
+
+    @Test
+    public void testIndex() {
+        String s = "Hello World";
+        System.out.println(s.indexOf("r"));
+        System.out.println(
+                s.indexOf("l", 5));
+        System.out.println(StringUtils.countMatches(s, "l"));
+    }
+    @Test
+    public void testStr2() {
+        StringBuilder b = new StringBuilder(
+                "Hello");
+        System.out.println(b.reverse());
+    }
+    @Test
+    public void testStrSub() {
+        String str = "Hello World";
+        System.out.println(str);
+    }
+
+    @Test
+    public void testStr1() {
+        String s = "Hello World";
+        String conv = StringUtils.swapCase(s);
+        System.out.println(s);
+        System.out.println(conv);
+    }
+
 
     @Test
     public void test01() {
@@ -87,7 +208,7 @@ public class StringSample {
     }
 
     @Test
-    public void testSplit() {
+    public void testSplit2() {
         String str = "aaaa:bbb";
         // ：コロンで分割する
         String[] hako = str.split(":");

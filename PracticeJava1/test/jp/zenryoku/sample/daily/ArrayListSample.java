@@ -4,10 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,6 +15,10 @@ public class ArrayListSample {
     @BeforeEach
     public void init() {
         list = new ArrayList<>();
+        list.add("aaa");
+        list.add("bbb");
+        list.add("ccc");
+        list.add("ddd");
     }
 
     @AfterEach
@@ -29,6 +30,42 @@ public class ArrayListSample {
         }
     }
 
+    @Test
+    public void testRem1() {
+        print();
+        System.out.println("******");
+        list.remove(1);
+        list.remove(2);
+        print();
+    }
+    @Test
+    public void testSet1() {
+        print();
+        list.set(0, "MMMM");
+        print();
+    }
+    @Test
+    public void testGet1() {
+        System.out.println(list.get(0));
+        System.out.println(list.get(1));
+        System.out.println(list.get(3));
+    }
+
+    @Test
+    public void testLen() {
+        ArrayList<String> s = new ArrayList<>();
+        s.add("aaa");
+        s.add("bbb");
+        s.add("ccc");
+
+        System.out.println(s.size());
+    }
+
+    @Test
+    public void testTmpArr() {
+        System.out.println(
+                new ArrayList<String>(3));
+    }
 
     @Test
     public void testAdd() {
@@ -62,6 +99,7 @@ public class ArrayListSample {
         list.add("aaa");
         list.add("bbb");
         list.add("ccc");
+        list.add("ddd");
         System.out.println("first: " + list.size());
 
         list.clear();
@@ -153,6 +191,13 @@ public class ArrayListSample {
         }
     }
 
+    @Test
+    public void testSubLIst1() {
+        List<String> res = list.subList(2,4);
+        for (String s : res) {
+            System.out.println(s);
+        }
+    }
     @Test
     public void testRemove() {
         list.add("aaa");

@@ -12,9 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
-
 import jp.zenryoku.sample.my.sample.cls.util.CheckUtil;
-
 
 /**
  * @author takunoji
@@ -115,7 +113,7 @@ public class FirstCls {
 	 * @param cpu コンピュータの出した手
 	 * @return true: プレーヤの勝ち false: プレーヤーの負け
 	 */
-	private boolean judge(String player, String cpu, Map<String, String> map) {
+		private boolean judge(String player, String cpu, Map<String, String> map) {
 		boolean isWin = false;
 		System.out.println("あなた：" + map.get(player) + " CPU：" + map.get(cpu));
 		int res = (Integer.parseInt(player) + Integer.parseInt(cpu)) % 2;
