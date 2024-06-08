@@ -48,7 +48,7 @@ public class SampleClass extends JFrame {
     private String[] buttonNames() {
         return new String[] {"AC", "7", "8", "9", "/"
                 , "%", "4", "5", "6", "*"
-                , "^", "1", "2", "3", "-"
-                , "√", "0", ".", "=", "+"};
+                , "(", "1", "2", "3", "-"
+                , ")", "0", ".", "=", "+"};
     }
 }

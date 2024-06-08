@@ -65,6 +65,7 @@ public class MtButton extends JButton
                 // 計算を行う
                 int ans = lbl.calc(tmp);
                 lbl.setText(ans, true);
+                lbl.setOpe(" ");
             } else {
                 // 入力値をラベルにセット
                 lbl.setText(tmp);
